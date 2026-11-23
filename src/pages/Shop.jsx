@@ -12,6 +12,7 @@ export default function Shop() {
   const cat = sp.get('cat') || 'all';
   const sort = sp.get('sort') || 'rec';
   const q = sp.get('q') || '';
+  const line = sp.get('line') || '';
   const [input, setInput] = useState(q);
   const [ai, setAi] = useState(null); // { productIds, summary, by }
   const [loading, setLoading] = useState(false);
@@ -38,16 +39,17 @@ export default function Shop() {
   const ids = useMemo(() => {
     let list = ai ? ai.productIds.map((id) => products.find((p) => p.id === id)) : [...products];
     if (cat !== 'all') list = list.filter((p) => GROUP[p.cat] === cat);
+    if (line) list = list.filter((p) => p.line === line);
     const by = { new: (a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0), rank: (a, b) => a.rank - b.rank, low: (a, b) => a.price - b.price, high: (a, b) => b.price - a.price };
     if (by[sort]) list.sort(by[sort]);
     return list.map((p) => p.id);
-  }, [ai, cat, sort]);
+  }, [ai, cat, sort, line]);
 
   return (
     <div className="wrap page">
       <header className="page-head">
         <p className="kicker">SHOP</p>
-        <h1>{q ? `"${q}"` : sort === 'new' ? '신상품' : sort === 'rank' ? '랭킹' : '전체 상품'}</h1>
+        <h1>{q ? `"${q}"` : line ? (line === 'LOOP' ? 'LOOP — 스트릿 라인' : '02 — 컨템포러리 라인') : sort === 'new' ? '신상품' : sort === 'rank' ? '랭킹' : '전체 상품'}</h1>
       </header>
 
       <form className="aisearch" onSubmit={(e) => { e.preventDefault(); set('q', input.trim()); }}>
@@ -64,6 +66,11 @@ export default function Shop() {
         {ai && !loading && <p className="ai-note"><b>{ai.by === 'ai' ? 'AI가 고른 결과' : '키워드로 고른 결과'}</b> {ai.summary}</p>}
       </form>
 
+      <div className="tabs lines-tabs" role="tablist" aria-label="라인">
+        {[['', '전체 라인'], ['LOOP', 'LOOP'], ['02', '02']].map(([k, l]) => (
+          <button key={l} role="tab" aria-selected={line === k} className={line === k ? 'on' : ''} onClick={() => set('line', k)}>{l}</button>
+        ))}
+      </div>
       <div className="toolbar">
         <div className="tabs" role="tablist" aria-label="카테고리">
           {SHOP_FILTERS.map(([k, l]) => (

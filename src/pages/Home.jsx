@@ -111,25 +111,23 @@ export default function Home() {
 
         <Reveal as="section" className="statement">
           <p className="kicker">About UNION</p>
-          <p className="statement-text">2호선은 서울에서 유일하게 끝이 없는 노선이에요. 서로 모르는 동네 사람들이 같은 칸에 서 있죠. UNION은 그 원 위의 장면들을 옷으로 옮겨요.</p>
-          <ol className="route" aria-label="2호선 노선">
-            {STOPS.map((s) => <li key={s}><span>{s}</span></li>)}
-          </ol>
-          <Link to="/magazine/why-line2" className="more">브랜드 이야기</Link>
+          <p className="statement-text">서울에서 시작한 두 개의 라인. 로고가 주인공인 LOOP과, 원단과 실루엣으로 말하는 02. UNION은 이 둘을 섞어 입는 사람을 위해 옷을 만들어요.</p>
+          <Link to="/magazine/why-02" className="more">왜 서울인가</Link>
         </Reveal>
 
-        <section className="story">
-          <SectionHead kicker="The graphics" title="옷을 몰라도 읽히는 그림" />
-          <ul className="story-tiles">
-            {[['u03', 'N26', '새벽 1시의 심야버스'], ['u04', 'CVS', '한강 편의점 영수증'], ['u02', '02', '서울 지역번호'], ['u12', 'MARKET', '망원시장 봉투']].map(([id, k, cap]) => (
-              <Reveal as="li" key={id}>
-                <Link to={`/product/${id}`}>
-                  <div className="st-img"><Garment product={byId[id]} c={0} view="detail" /></div>
-                  <span><b>{k}</b>{cap}</span>
-                </Link>
-              </Reveal>
-            ))}
-          </ul>
+        <section className="lines">
+          {[['LOOP', 'u02', '스트릿 라인', '링 로고와 루프 카모. 시즌마다 적게 만들고 다시 만들지 않아요.'],
+            ['02', 'u13', '컨템포러리 라인', '심지를 뺀 블레이저, 플리츠 트라우저, 메리노 니트. 로고 대신 원단으로.']].map(([line, id, t, d]) => (
+            <Reveal key={line} as={Link} to={`/shop?line=${line}`} className="line-tile">
+              <div className="line-img"><ProductImage p={byId[id]} /></div>
+              <div className="line-copy">
+                <p className="line-name">{line}</p>
+                <p className="kicker">{t}</p>
+                <p>{d}</p>
+                <span className="more">{line} 보기</span>
+              </div>
+            </Reveal>
+          ))}
         </section>
 
         <Weather />

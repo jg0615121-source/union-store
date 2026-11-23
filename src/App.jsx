@@ -130,7 +130,7 @@ function Footer() {
       <div className="ftr-in">
         <div className="ftr-brand">
           <Logo height={34} ring="#00A84D" />
-          <p>서울 2호선처럼, 서로 다른 동네를 한 바퀴로 잇는 옷.</p>
+          <p>서울에서 시작한 두 개의 라인, LOOP과 02.</p>
         </div>
         <nav aria-label="쇼핑">
           <h3>SHOP</h3>

@@ -4,25 +4,27 @@ import { mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { products, looks, byId } from '../src/data.js';
 
 const TAB = 'a small green woven tab (Pantone 354 green, 1 cm wide) sewn into the left side seam at the hem';
+const RING = 'the letter O drawn as a ring with one small dot at its upper right';
 const SPEC = {
-  u01: 'boxy heavyweight 280gsm garment-dyed cotton t-shirt, dropped shoulders, thick 2.5 cm ribbed collar. Tiny tonal embroidered circle logo (a ring with one dot, like a subway loop line) on the left chest. On the back, a fine single-line circular subway route map with 51 small station ticks, printed in a soft cracked water-based ink, about 25 cm wide',
-  u02: 'heavyweight 500gsm brushed-back cotton hoodie, garment-dyed, double-layer hood without drawcord aglets, kangaroo pocket, wide ribbed cuffs. Small tonal puff-print "02" on the left chest, 6 cm tall, in a wide grotesque typeface',
-  u03: 'heavyweight loopback cotton crewneck sweatshirt, raglan sleeves, ribbed hem and cuffs. Small embroidered night-bus route sign on the left chest: a rounded rectangle reading "N26" in a wide grotesque, tone-on-tone thread',
-  u04: 'boxy heavyweight cotton t-shirt. Small tonal embroidered convenience-store receipt icon on the left chest; on the back, a realistic thermal receipt from "HAN RIVER CVS" printed at 20 cm tall in faded black ink, items in Korean: 즉석라면 3,800 / 삼각김밥 1,500 / 바나나우유 1,700, TOTAL 7,000',
-  u05: 'heavyweight cotton t-shirt with a slightly cropped boxy fit. Small tonal embroidered wordmark "UNION" on the left chest, 7 cm wide, where the letter O is a ring with a small dot',
-  u06: 'washed cotton twill six-panel baseball cap with a pre-curved brim and brass slide closure. Low-profile tonal embroidered wordmark "UNION" on the front, the O drawn as a ring with a small dot',
-  u07: 'heavyweight long-sleeve cotton t-shirt. Thin tonal print running vertically down the left sleeve reading "SEOUL STATIC 98.1 MHz" in a small monospace typeface',
-  u08: 'relaxed nylon track pants with elastic waistband, zip ankle cuffs, and a single thin green piping line down each outer seam',
-  u09: 'lightweight water-resistant nylon coach jacket, snap front, corduroy-free plain collar, drawcord hem. Small tonal "UNION" embroidery on the left chest; large tonal reflective "UNION" arched across the upper back',
-  u10: 'wide-leg cotton twill chino trousers with a clean front, deep slant pockets and a long break at the hem',
-  u11: 'chunky ribbed merino-blend beanie with a deep fold-over cuff and the small green woven tab on the cuff',
-  u12: 'heavy 16oz natural canvas tote bag with long shoulder handles. Small screen-printed round market stamp reading "MANGWON MARKET · UNION 02" in one color',
-  u13: 'heavyweight 280gsm plain cotton t-shirt, no logo, boxy fit, thick ribbed collar',
-  u14: 'heavyweight cotton fleece sweat shorts, above-knee length, deep pockets, flat drawcord',
-  u15: 'wool melton varsity jacket with faux-leather sleeves in bone, ribbed collar, cuffs and hem with a thin green stripe, snap front. Chenille ring-with-a-dot patch on the left chest',
-  u16: 'pair of ribbed cotton crew socks with two thin green stripes at the top and a tiny knitted ring logo',
+  u01: `boxy heavyweight 280gsm garment-dyed cotton t-shirt, dropped shoulders, thick ribbed collar. Bold wordmark "UNION" across the chest, 24 cm wide, in a wide heavy grotesque typeface with ${RING}, printed in slightly cracked water-based ink`,
+  u02: 'heavyweight 500gsm cotton hoodie made entirely from an original camouflage fabric whose shapes are hundreds of overlapping rings in three tones of olive, double-layer hood, kangaroo pocket, wide ribbed cuffs. No other graphics',
+  u03: 'heavyweight 500gsm garment-dyed cotton hoodie, double-layer hood, kangaroo pocket. Small tonal puff-print "02" on the left chest, 6 cm tall, in a wide grotesque typeface',
+  u04: 'six-panel cotton baseball cap made from an olive ring-pattern camouflage fabric, pre-curved brim, brass slide closure, tiny tonal embroidered ring logo on the front',
+  u05: 'wool melton varsity jacket in deep green with bone faux-leather sleeves, ribbed collar, cuffs and hem with thin bone stripes, snap front. Large chenille patch of a ring with one dot on the left chest',
+  u06: 'relaxed nylon track pants with elastic waistband, zip ankle cuffs, and a single thin green piping line down each outer seam',
+  u07: 'heavyweight loopback cotton crewneck sweatshirt, raglan sleeves. Small tone-on-tone embroidered night-bus route sign on the left chest reading "N26" in a wide grotesque',
+  u08: 'heavyweight 280gsm plain cotton t-shirt, boxy fit, thick ribbed collar, no logo',
+  u09: 'lightweight water-resistant nylon coach jacket, snap front, drawcord hem. Small tonal "UNION" embroidery on the left chest',
+  u10: 'chunky ribbed merino-blend beanie in deep green with a deep fold-over cuff',
+  u11: 'heavy 16oz natural canvas tote bag with long handles and a small one-color round stamp print reading "UNION 02"',
+  u12: 'heavyweight cotton fleece sweat shorts, above-knee length, deep pockets, flat drawcord, tiny tonal "UNION" print on the left leg',
+  u13: 'unstructured single-breasted wool blazer with no padding or canvas, soft natural shoulders, two buttons, patch pockets, slightly relaxed fit, in the style of refined Korean contemporary menswear',
+  u14: 'wide-leg wool-blend trousers with double forward pleats, high rise, clean front, long full break at the hem',
+  u15: 'extra-fine merino wool crewneck sweater, fine gauge, ribbed collar, cuffs and hem, no logo',
+  u16: 'long balmacaan overcoat in wool-cashmere, raglan sleeves, small stand-fall collar, hidden button placket, falls below the knee',
 };
 const FLAT = new Set(['pants', 'shorts', 'cap', 'beanie', 'tote', 'socks']);
+const TAILORED = new Set(['blazer', 'coat']);
 const STUDIO = 'Seamless warm light-grey paper backdrop, soft diffused window light from the upper left, gentle contact shadow, true-to-life fabric texture, natural folds. No model, no hands, no text overlays, no watermark, no other brand logos. Centered with generous margin. 4:5 vertical. Quiet luxury e-commerce photography in the style of high-end Seoul and Tokyo menswear shops.';
 
 const out = 'assets/gemini';
@@ -36,14 +38,14 @@ const job = (name, text) => {
 
 for (const p of products) {
   const c = p.colors[0];
-  job(`${p.id}-0`, `Product photo of a ${SPEC[p.id]}, in ${c.name.toLowerCase()} (${c.hex}), with ${TAB}. ${FLAT.has(p.cat) ? 'Laid flat, shot from directly above.' : 'Ghost mannequin (invisible mannequin) front view.'} ${STUDIO}`);
+  job(`${p.id}-0`, `Product photo of a ${SPEC[p.id]}, in ${c.name.toLowerCase()} (${c.hex}), with ${TAB}. ${FLAT.has(p.cat) ? 'Laid flat, shot from directly above.' : TAILORED.has(p.cat) ? 'On a ghost mannequin, front view, buttoned.' : 'Ghost mannequin (invisible mannequin) front view.'} ${STUDIO}`);
 }
 
 const SCENES = {
-  l03: ['hero', 'Seoul at 1:30 a.m., a Sinchon intersection bus stop, the green N26 night bus arriving with soft headlights, wet asphalt, blue night tones, the model waiting with hands in pockets'],
-  l01: ['', 'Seoul subway Line 2 platform at Euljiro 1-ga during morning rush, green line signage softly blurred, cool fluorescent light'],
-  l02: ['', 'Yeouido Hangang Park at golden hour, a picnic mat with instant ramyeon cups, the river and bridges behind'],
-  l09: ['', 'a narrow Euljiro alley at night, old print shops and neon signs, warm street light'],
+  l03: ['hero', 'Seoul after 1 a.m., an empty Sinchon intersection bus stop, a night bus arriving with soft headlights, wet asphalt, deep blue night'],
+  l01: ['', 'a quiet Seongsu side street at 8 a.m., red-brick warehouse walls, soft morning light'],
+  l02: ['', 'the Han River park in late afternoon, wind, the river and a bridge softly behind'],
+  l09: ['', 'a narrow Euljiro alley at night, old print shops with shutters half down, warm street light'],
 };
 for (const [id, [, scene]] of Object.entries(SCENES)) {
   const l = looks.find((x) => x.id === id);

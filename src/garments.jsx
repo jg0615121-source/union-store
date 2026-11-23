@@ -124,9 +124,9 @@ const PRINTS = {
         <circle r="82" fill="none" stroke={ink} strokeWidth="4" />
         <circle r="70" fill="none" stroke={ink} strokeWidth="1.5" />
         <defs><path id={id} d="M-58 0a58 58 0 1 1 116 0a58 58 0 1 1-116 0" /></defs>
-        <text fontFamily={MONO} fontSize="11" letterSpacing="4"><textPath href={`#${id}`}>MANGWON MARKET · SINCE 1970 · </textPath></text>
-        <text y="6" textAnchor="middle" fontFamily={KR} fontWeight="800" fontSize="30">망원</text>
-        <text y="28" textAnchor="middle" fontFamily={MONO} fontSize="10" letterSpacing="3">UNION 02</text>
+        <text fontFamily={MONO} fontSize="11" letterSpacing="4"><textPath href={`#${id}`}>UNION · SEOUL · FW26 · LOOP · </textPath></text>
+        <text y="12" textAnchor="middle" fontFamily={DISPLAY} fontWeight="900" fontSize="40" style={{ fontStretch: '125%' }}>02</text>
+        
       </g>
     );
   },
@@ -147,6 +147,7 @@ function Print({ kind, ink, base, x, y, s }) {
 
 const TEE = 'M150 58C170 80 230 80 250 58L302 72L362 122L326 168L296 146L299 402Q200 410 101 402L104 146L74 168L38 122L98 72Z';
 const LONG = 'M150 58C170 80 230 80 250 58L302 72Q340 96 352 150L378 330L342 340L304 176L299 402Q200 410 101 402L96 176L58 340L22 330L48 150Q60 96 98 72Z';
+const COAT = 'M150 58C170 80 230 80 250 58L302 72Q340 96 352 150L378 330L342 340L304 176L306 432Q200 438 94 432L96 176L58 340L22 330L48 150Q60 96 98 72Z';
 const PANTS = 'M118 40H282L304 408H214L200 150L186 408H96Z';
 const SHORTS = 'M118 90H282L300 300H212L200 190L188 300H100Z';
 
@@ -163,15 +164,31 @@ const PLACE = {
 // Line 2 tab: the small green woven tab every UNION piece carries at the hem.
 const Tab = ({ x, y }) => <rect x={x} y={y} width="9" height="20" rx="1" fill={GREEN} />;
 
-function Body({ product, base, ink, tone, seam, view, gid }) {
+function Body({ product, base, ink, tone, seam, view, gid, paint }) {
   const { cat, print } = product;
   const place = PLACE[cat];
-  const shape = cat === 'tee' ? TEE : LONG;
+  const shape = cat === 'tee' ? TEE : cat === 'coat' ? COAT : LONG;
+  const hem = cat === 'coat' ? 410 : 368;
   const contrast = isLight(base) ? '#1A1B1D' : '#F2F2EF';
   return (
     <g>
       {cat === 'hoodie' && <path d="M138 70C116 6 284 6 262 70C246 52 154 52 138 70Z" fill={base} stroke={seam} strokeWidth="2" />}
-      <path d={shape} fill={base} stroke={seam} strokeWidth="2" strokeLinejoin="round" />
+      <path d={shape} fill={paint} stroke={seam} strokeWidth="2" strokeLinejoin="round" />
+      {(cat === 'blazer' || cat === 'coat') && view === 'front' && (
+        <g fill="none" stroke={seam} strokeWidth="2">
+          <path d={cat === 'blazer' ? 'M150 58L176 150L200 214L224 150L250 58' : 'M150 58L184 120L200 104L216 120L250 58'} />
+          <path d={cat === 'blazer' ? 'M200 214V404' : 'M200 104V432'} />
+          {(cat === 'blazer' ? [250, 300] : [160, 220, 280]).map((y) => <circle key={y} cx="208" cy={y} r="4.5" fill={seam} />)}
+          {cat === 'blazer' && <path d="M126 300H170M230 300H274M236 168H270" />}
+          {cat === 'coat' && <path d="M150 58L104 150M250 58L296 150M124 290L130 340M276 290L270 340" />}
+        </g>
+      )}
+      {cat === 'knit' && (
+        <g fill="none" stroke={seam} strokeWidth="1.5">
+          <path d="M103 378Q200 386 299 378M104 388Q200 396 298 388" />
+          <path d="M24 318L60 328M376 318L340 328" />
+        </g>
+      )}
       {cat === 'varsity' && (
         <g fill={contrast}>
           <path d="M302 72Q340 96 352 150L378 330L342 340L304 176Z" />
@@ -200,11 +217,12 @@ function Body({ product, base, ink, tone, seam, view, gid }) {
           {[140, 200, 260, 320, 380].map((y) => <circle key={y} cx="200" cy={y} r="4" fill={seam} />)}
         </g>
       )}
-      <Tab x={view === 'front' ? 290 : 101} y={368} />
+      <Tab x={view === 'front' ? (cat === 'coat' ? 294 : 290) : 101} y={hem} />
       <g fill="none" stroke={seam} strokeWidth="1" opacity="0.4">
         <path d="M104 146Q150 170 140 260" />
         <path d="M296 146Q250 172 262 270" />
       </g>
+      {print === 'wordmark-big' && view === 'front' && <Print kind="wordmark" ink={ink} base={base} x={200} y={196} s={0.6} />}
       {place && view !== 'front' && <Print kind={print} ink={ink} base={base} x={place.back[0]} y={place.back[1]} s={place.back[2]} />}
       {place && view === 'front' && print !== 'none' && (
         <Print kind={['jacket', 'varsity'].includes(cat) && print !== 'line2' ? 'blank' : print} ink={tone} base={base}
@@ -237,17 +255,17 @@ function Bottom({ product, base, ink, seam, gid, view }) {
   );
 }
 
-function Accessory({ product, base, ink, seam, gid }) {
+function Accessory({ product, base, ink, seam, gid, paint }) {
   switch (product.cat) {
     case 'cap':
       return (
         <g>
-          <path d="M86 268C80 120 320 120 314 268Z" fill={base} stroke={seam} strokeWidth="2" />
+          <path d="M86 268C80 120 320 120 314 268Z" fill={paint} stroke={seam} strokeWidth="2" />
           <path d="M86 268C80 120 320 120 314 268Z" fill={`url(#${gid})`} />
           <path d="M200 160V268M150 166Q126 210 130 268M250 166Q274 210 270 268" fill="none" stroke={seam} strokeWidth="1.5" />
           <circle cx="200" cy="160" r="7" fill={base} stroke={seam} strokeWidth="2" />
-          <path d="M64 266Q200 352 336 266Q200 300 64 266Z" fill={base} stroke={seam} strokeWidth="2" />
-          <Print kind={product.print} ink={ink} base={base} x={200} y={214} s={0.42} />
+          <path d="M64 266Q200 352 336 266Q200 300 64 266Z" fill={paint} stroke={seam} strokeWidth="2" />
+          <Print kind={product.print === 'camo' ? 'blank' : product.print} ink={ink} base={base} x={200} y={214} s={0.42} />
         </g>
       );
     case 'beanie':
@@ -288,7 +306,22 @@ function Accessory({ product, base, ink, seam, gid }) {
   }
 }
 
-const TOPS = new Set(['tee', 'longsleeve', 'hoodie', 'crew', 'jacket', 'varsity']);
+// Loop camo: overlapping rings in three tones of the base. Fixed seed so it never shifts between renders.
+function CamoPattern({ id, base, tone }) {
+  let seed = 7;
+  const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+  const shades = [tone, 'rgba(0,0,0,.22)', 'rgba(255,255,255,.14)'];
+  return (
+    <pattern id={id} width="160" height="160" patternUnits="userSpaceOnUse">
+      <rect width="160" height="160" fill={base} />
+      {Array.from({ length: 22 }, (_, i) => (
+        <circle key={i} cx={rnd() * 160} cy={rnd() * 160} r={10 + rnd() * 22} fill="none" stroke={shades[i % 3]} strokeWidth={6 + rnd() * 8} />
+      ))}
+    </pattern>
+  );
+}
+
+const TOPS = new Set(['tee', 'longsleeve', 'hoodie', 'crew', 'jacket', 'varsity', 'blazer', 'coat', 'knit']);
 
 // A garment as a flat-lay illustration. view: 'front' | 'back' | 'detail'.
 export function Garment({ product, c = 0, view = 'front', bg = 'transparent', className, title }) {
@@ -300,16 +333,20 @@ export function Garment({ product, c = 0, view = 'front', bg = 'transparent', cl
   const seam = isLight(base) ? 'rgba(20,21,22,.13)' : 'rgba(255,255,255,.1)';
   const label = title ?? `${product.name} ${color.name}`;
 
+  const camo = product.print === 'camo';
+  const paint = camo ? `url(#${gid}cm)` : base;
+
   if (view === 'detail') {
-    const kind = product.print === 'none' || product.print === 'crosswalk' ? 'blank' : product.print;
+    const kind = ['none', 'crosswalk', 'camo'].includes(product.print) ? 'blank' : product.print === 'wordmark-big' ? 'wordmark' : product.print;
     return (
       <svg viewBox="0 0 400 440" className={className} role="img" aria-label={`${label} 프린트 확대`}>
         <defs>
           <pattern id={gid} width="4" height="4" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" fill={seam} /></pattern>
+          {camo && <CamoPattern id={`${gid}cm`} base={base} tone={tone} />}
         </defs>
-        <rect width="400" height="440" fill={base} />
+        <rect width="400" height="440" fill={paint} />
         <rect width="400" height="440" fill={`url(#${gid})`} />
-        <Print kind={kind} ink={ink} base={base} x={200} y={220} s={kind === 'blank' ? 6 : kind === 'n26' ? 1.32 : 1.65} />
+        <Print kind={kind} ink={ink} base={base} x={200} y={220} s={kind === 'blank' ? 6 : kind === 'n26' ? 1.32 : kind === 'wordmark' ? 1.4 : 1.65} />
       </svg>
     );
   }
@@ -322,10 +359,11 @@ export function Garment({ product, c = 0, view = 'front', bg = 'transparent', cl
           <stop offset="0.55" stopColor="#fff" stopOpacity="0" />
           <stop offset="1" stopColor="#000" stopOpacity="0.1" />
         </linearGradient>
+        {camo && <CamoPattern id={`${gid}cm`} base={base} tone={tone} />}
       </defs>
-      {TOPS.has(product.cat) ? <Body {...{ product, base, ink, tone, seam, view, gid }} />
+      {TOPS.has(product.cat) ? <Body {...{ product, base, ink, tone, seam, view, gid, paint }} />
         : ['pants', 'shorts'].includes(product.cat) ? <Bottom {...{ product, base, ink, seam, gid, view }} />
-          : <Accessory {...{ product, base, ink, seam, gid }} />}
+          : <Accessory {...{ product, base, ink, seam, gid, paint }} />}
     </svg>
   );
 }
