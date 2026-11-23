@@ -1,19 +1,20 @@
 // Plain JS (no JSX): the serverless function imports this too.
 
+// Garment-dyed palette. ink = contrast print, tone = tonal embroidery a shade off the base.
 const C = {
-  white: { name: 'White', hex: '#F7F7F5', ink: '#141516' },
-  black: { name: 'Black', hex: '#1A1B1D', ink: '#F2F2EF' },
-  ash: { name: 'Ash', hex: '#C9CBCD', ink: '#141516' },
-  grey: { name: 'Heather Grey', hex: '#A9ACAF', ink: '#141516' },
-  navy: { name: 'Navy', hex: '#1F2A44', ink: '#EDEDE8' },
-  forest: { name: 'Forest', hex: '#24402F', ink: '#EDEDE8' },
-  oat: { name: 'Oatmeal', hex: '#D8D0C2', ink: '#1F2A44' },
-  butter: { name: 'Butter', hex: '#EBDD9F', ink: '#141516' },
-  stone: { name: 'Stone', hex: '#BDB5A6', ink: '#141516' },
-  olive: { name: 'Olive', hex: '#4E5338', ink: '#EDEDE8' },
-  charcoal: { name: 'Charcoal', hex: '#3A3C40', ink: '#EDEDE8' },
-  green: { name: 'Line Green', hex: '#00A84D', ink: '#F7F7F5' },
-  natural: { name: 'Natural', hex: '#E6DFD0', ink: '#141516' },
+  white: { name: 'Bone', hex: '#E6E1D6', ink: '#2E2E2D', tone: '#C4BCAC' },
+  black: { name: 'Washed Black', hex: '#2E2E2D', ink: '#E6E3DC', tone: '#4D4D4A' },
+  ash: { name: 'Concrete', hex: '#ACACA6', ink: '#2E2E2D', tone: '#8E8E88' },
+  grey: { name: 'Concrete', hex: '#ACACA6', ink: '#2E2E2D', tone: '#8E8E88' },
+  navy: { name: 'Washed Navy', hex: '#2B3243', ink: '#E6E3DC', tone: '#434B5E' },
+  forest: { name: 'Deep Olive', hex: '#4A4C3A', ink: '#E6E3DC', tone: '#626450' },
+  oat: { name: 'Oat', hex: '#D6CDBB', ink: '#2B3243', tone: '#B9AE97' },
+  butter: { name: 'Sand', hex: '#D3C6A6', ink: '#2E2E2D', tone: '#B8AA87' },
+  stone: { name: 'Stone', hex: '#BDB6A7', ink: '#2E2E2D', tone: '#A0988A' },
+  olive: { name: 'Deep Olive', hex: '#4A4C3A', ink: '#E6E3DC', tone: '#626450' },
+  charcoal: { name: 'Charcoal', hex: '#454643', ink: '#E6E3DC', tone: '#5C5D5A' },
+  green: { name: 'Station Green', hex: '#2D5E45', ink: '#E6E3DC', tone: '#437559' },
+  natural: { name: 'Natural', hex: '#E3DCCB', ink: '#2E2E2D', tone: '#C6BCA5' },
 };
 
 export const SIZES = ['S', 'M', 'L', 'XL'];

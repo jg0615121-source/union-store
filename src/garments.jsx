@@ -152,15 +152,18 @@ const SHORTS = 'M118 90H282L300 300H212L200 190L188 300H100Z';
 
 // Where the chest print and the big back print go, per category.
 const PLACE = {
-  tee: { front: [200, 180, 0.62], back: [200, 220, 1.05] },
-  longsleeve: { front: [200, 180, 0.62], back: [200, 220, 1.05] },
-  crew: { front: [200, 182, 0.66], back: [200, 220, 1.05] },
-  hoodie: { front: [200, 178, 0.66], back: [200, 210, 1.05] },
+  tee: { front: [254, 146, 0.2], back: [200, 214, 0.86] },
+  longsleeve: { front: [254, 146, 0.2], back: [200, 214, 0.86] },
+  crew: { front: [254, 148, 0.2], back: [200, 214, 0.86] },
+  hoodie: { front: [254, 150, 0.2], back: [200, 206, 0.86] },
   jacket: { front: [252, 146, 0.24], back: [200, 200, 1.0] },
   varsity: { front: [250, 150, 0.32], back: [200, 205, 0.95] },
 };
 
-function Body({ product, base, ink, seam, view, gid }) {
+// Line 2 tab: the small green woven tab every UNION piece carries at the hem.
+const Tab = ({ x, y }) => <rect x={x} y={y} width="9" height="20" rx="1" fill={GREEN} />;
+
+function Body({ product, base, ink, tone, seam, view, gid }) {
   const { cat, print } = product;
   const place = PLACE[cat];
   const shape = cat === 'tee' ? TEE : LONG;
@@ -176,7 +179,7 @@ function Body({ product, base, ink, seam, view, gid }) {
         </g>
       )}
       <path d={shape} fill={`url(#${gid})`} />
-      <path d="M150 58C170 80 230 80 250 58" fill="none" stroke={seam} strokeWidth="7" />
+      <path d="M150 58C170 80 230 80 250 58" fill="none" stroke={seam} strokeWidth="4" />
       {(cat === 'crew' || cat === 'varsity') && (
         <g fill="none" stroke={seam} strokeWidth="1.5">
           <path d="M103 380Q200 388 299 380" />
@@ -197,13 +200,14 @@ function Body({ product, base, ink, seam, view, gid }) {
           {[140, 200, 260, 320, 380].map((y) => <circle key={y} cx="200" cy={y} r="4" fill={seam} />)}
         </g>
       )}
-      <g fill="none" stroke={seam} strokeWidth="1.2" opacity="0.6">
+      <Tab x={view === 'front' ? 290 : 101} y={368} />
+      <g fill="none" stroke={seam} strokeWidth="1" opacity="0.4">
         <path d="M104 146Q150 170 140 260" />
         <path d="M296 146Q250 172 262 270" />
       </g>
       {place && view !== 'front' && <Print kind={print} ink={ink} base={base} x={place.back[0]} y={place.back[1]} s={place.back[2]} />}
       {place && view === 'front' && print !== 'none' && (
-        <Print kind={['jacket', 'varsity'].includes(cat) && print !== 'line2' ? 'blank' : print} ink={ink} base={base}
+        <Print kind={['jacket', 'varsity'].includes(cat) && print !== 'line2' ? 'blank' : print} ink={tone} base={base}
           x={place.front[0]} y={place.front[1]} s={['jacket'].includes(cat) ? 1 : place.front[2]} />
       )}
     </g>
@@ -222,19 +226,12 @@ function Bottom({ product, base, ink, seam, gid, view }) {
       <path d={`M200 ${top + 26}V${top + 96}`} stroke={seam} strokeWidth="2" />
       <path d={`M130 ${top + 30}Q150 ${top + 70} 136 ${top + 92}M270 ${top + 30}Q250 ${top + 70} 264 ${top + 92}`} fill="none" stroke={seam} strokeWidth="1.5" />
       {product.print === 'crosswalk' && (
-        <g fill={ink}>
-          {Array.from({ length: 11 }, (_, i) => {
-            const t = i / 10;
-            const y = 82 + t * 300;
-            return (
-              <g key={i}>
-                <rect x={110 + t * -14} y={y} width="10" height="16" transform={`rotate(-3 ${110 - t * 14} ${y})`} />
-                <rect x={282 + t * 14} y={y} width="10" height="16" transform={`rotate(3 ${282 + t * 14} ${y})`} />
-              </g>
-            );
-          })}
+        <g stroke={GREEN} strokeWidth="3" fill="none">
+          <path d={`M118 ${top + 26}L96 408`} />
+          <path d={`M282 ${top + 26}L304 408`} />
         </g>
       )}
+      <Tab x={262} y={top + 26} />
       {product.print === 'wordmark' && view === 'front' && <Print kind="wordmark" ink={ink} base={base} x={244} y={shorts ? 250 : 360} s={0.3} />}
     </g>
   );
@@ -299,7 +296,8 @@ export function Garment({ product, c = 0, view = 'front', bg = 'transparent', cl
   const color = product.colors[c] || product.colors[0];
   const base = color.hex;
   const ink = color.ink;
-  const seam = isLight(base) ? 'rgba(20,21,22,.22)' : 'rgba(255,255,255,.14)';
+  const tone = color.tone ?? ink;
+  const seam = isLight(base) ? 'rgba(20,21,22,.13)' : 'rgba(255,255,255,.1)';
   const label = title ?? `${product.name} ${color.name}`;
 
   if (view === 'detail') {
@@ -325,7 +323,7 @@ export function Garment({ product, c = 0, view = 'front', bg = 'transparent', cl
           <stop offset="1" stopColor="#000" stopOpacity="0.1" />
         </linearGradient>
       </defs>
-      {TOPS.has(product.cat) ? <Body {...{ product, base, ink, seam, view, gid }} />
+      {TOPS.has(product.cat) ? <Body {...{ product, base, ink, tone, seam, view, gid }} />
         : ['pants', 'shorts'].includes(product.cat) ? <Bottom {...{ product, base, ink, seam, gid, view }} />
           : <Accessory {...{ product, base, ink, seam, gid }} />}
     </svg>

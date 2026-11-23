@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { articles, byId, looks, products } from '../data.js';
-import { Garment, Logo } from '../garments.jsx';
+import { Garment } from '../garments.jsx';
 import { Grid, LookArt, Rail, SectionHead } from '../components.jsx';
 import { Photo, ProductImage, Reveal } from '../media.jsx';
+import { photo } from '../photos.js';
 import { useStore } from '../store.jsx';
 import { forYou } from '../recommend.js';
 
@@ -61,8 +62,15 @@ export default function Home() {
       <section className="hero">
         <Photo name="look-l03" alt="새벽 1시 신촌오거리 정류장, N26 맨투맨을 입은 모델" className="hero-photo" eager fallback={
           <div className="hero-fallback" aria-hidden="true">
-            <div className="hf-logo"><Logo ink="#EDEDE8" ring="#00A84D" height="100%" /></div>
-            <Garment product={byId.u03} c={0} className="hf-g" />
+            <svg viewBox="-300 -300 600 600" className="hf-ring">
+              <circle r="236" className="hf-track" />
+              <circle r="236" className="hf-line" pathLength="1" />
+              {Array.from({ length: 51 }, (_, i) => {
+                const a = (i / 51) * Math.PI * 2 - Math.PI / 2;
+                return <circle key={i} cx={Math.cos(a) * 236} cy={Math.sin(a) * 236} r={i % 10 ? 3 : 7} className="hf-stop" style={{ animationDelay: `${0.4 + i * 0.03}s` }} />;
+              })}
+            </svg>
+            <div className="hf-meta"><span>LINE 2</span><span>51 STATIONS</span><span>48.8 KM</span><span>SEOUL 02</span></div>
           </div>
         } />
         <div className="hero-shade" />
@@ -74,7 +82,7 @@ export default function Home() {
             <Link to="/lookbook">룩북 보기</Link>
           </div>
         </div>
-        <p className="hero-cap">01:26 · N26 신촌오거리</p>
+        {photo['look-l03'] && <p className="hero-cap">01:26 · N26 신촌오거리</p>}
       </section>
 
       <div className="marquee" aria-hidden="true">
