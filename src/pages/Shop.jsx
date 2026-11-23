@@ -4,7 +4,7 @@ import { GROUP, SHOP_FILTERS, products } from '../data.js';
 import { Grid } from '../components.jsx';
 import { askAI, localSearch } from '../ai.js';
 
-const SORTS = [['rec', '추천순'], ['new', '신상품'], ['rank', '판매순'], ['low', '낮은 가격'], ['high', '높은 가격']];
+const SORTS = [['rec', '추천순'], ['new', '최신순'], ['rank', '판매순'], ['low', '낮은 가격'], ['high', '높은 가격']];
 const EXAMPLES = ['비 오는 날 데이트', '면접 끝나고 친구 만나는 날', '주말 피크닉', '추위 많이 타는 사람 선물'];
 
 export default function Shop() {
@@ -47,7 +47,7 @@ export default function Shop() {
     <div className="wrap page">
       <header className="page-head">
         <p className="kicker">SHOP</p>
-        <h1>{q ? `"${q}"` : sort === 'new' ? '신상품' : sort === 'rank' ? '랭킹' : '전체 상품'}</h1>
+        <h1>{q ? `"${q}"` : sort === 'new' ? '최신순' : sort === 'rank' ? '랭킹' : '전체 상품'}</h1>
       </header>
 
       <form className="aisearch" onSubmit={(e) => { e.preventDefault(); set('q', input.trim()); }}>

@@ -11,29 +11,68 @@ export const isLight = (hex) => {
 };
 
 // UNION wordmark drawn from geometry so it never depends on a font loading. 482 x 100.
-export function LogoMark({ ink = 'currentColor', ring = ink, dot = GREEN }) {
+export function LogoMark({ ink = 'currentColor', ring = ink }) {
   return (
     <g>
       <path fill={ink} d="M0 0h26v62a24 24 0 0 0 48 0V0h26v62a50 50 0 0 1-100 0Z" />
       <path fill={ink} transform="translate(114 0)" d="M0 100V0h26l48 58V0h26v100H74L26 42v58Z" />
       <rect fill={ink} x="228" y="0" width="26" height="100" />
-      <circle cx="318" cy="50" r="37" fill="none" stroke={ring} strokeWidth="26" />
-      <circle cx="344" cy="24" r="7" fill={dot} />
+      <ellipse cx="318" cy="50" rx="37" ry="37" fill="none" stroke={ring} strokeWidth="26" />
       <path fill={ink} transform="translate(382 0)" d="M0 100V0h26l48 58V0h26v100H74L26 42v58Z" />
     </g>
   );
 }
 
-export function Logo({ height = 22, ink = 'currentColor', ring, title = 'UNION' }) {
+// Label logo: the wordmark on a dark woven label with the green tab at its end. 640 x 160.
+export function LabelMark({ ink = '#1B1B1A', paper = '#F4F4F2' }) {
   return (
-    <svg viewBox="0 0 482 100" height={height} role="img" aria-label={title} style={{ display: 'block' }}>
-      <LogoMark ink={ink} ring={ring ?? ink} />
+    <g>
+      <rect width="640" height="160" rx="12" fill={ink} />
+      <path d="M560 0h68a12 12 0 0 1 12 12v136a12 12 0 0 1-12 12h-68Z" fill={GREEN} />
+      <g transform="translate(50 38) scale(0.84)"><LogoMark ink={paper} /></g>
+    </g>
+  );
+}
+
+export function Logo({ height = 22, ink = '#1B1B1A', paper = '#F4F4F2', title = 'UNION' }) {
+  return (
+    <svg viewBox="0 0 640 160" height={height} role="img" aria-label={title} style={{ display: 'block' }}>
+      <LabelMark ink={ink} paper={paper} />
     </svg>
   );
 }
 
+// U monogram: the small mark. 100 x 100.
+export function UMark({ ink = 'currentColor', dot = GREEN }) {
+  return (
+    <g>
+      <path fill={ink} d="M10 6h26v46a14 14 0 0 0 28 0V6h26v46a40 40 0 0 1-80 0Z" />
+      <circle cx="50" cy="22" r="8" fill={dot} />
+    </g>
+  );
+}
+
+// Collegiate crest: the main mark. Centred on (0,0), about 200 wide.
+export function Crest({ ink = 'currentColor', dot = GREEN, id = 'crest-arc' }) {
+  return (
+    <g>
+      <defs><path id={id} d="M-70 12a70 70 0 0 1 140 0" /></defs>
+      <text fill={ink} fontFamily={DISPLAY} fontWeight="900" fontSize="30" letterSpacing="2" style={{ fontStretch: '125%' }}>
+        <textPath href={`#${id}`} startOffset="50%" textAnchor="middle">UNION</textPath>
+      </text>
+      <circle cx="0" cy="-26" r="5" fill={dot} />
+      <path d="M-38 -10h76v44c0 26-38 44-38 44s-38-18-38-44Z" fill="none" stroke={ink} strokeWidth="6" />
+      <g transform="translate(-22 2) scale(0.44)"><path fill={ink} d="M10 6h26v46a14 14 0 0 0 28 0V6h26v46a40 40 0 0 1-80 0Z" /></g>
+      <text y="98" textAnchor="middle" fill={ink} fontFamily={MONO} fontSize="11" letterSpacing="3">EST. 2026</text>
+    </g>
+  );
+}
+
+export function CrestLogo({ height = 80, ink = 'currentColor' }) {
+  return <svg viewBox="-100 -80 200 186" height={height} role="img" aria-label="UNION" style={{ display: 'block' }}><Crest ink={ink} id="crest-logo" /></svg>;
+}
+
 // Each print sits in a ~200 x 200 box centred on (0,0).
-const STATIONS = 20;
 const PRINTS = {
   wordmark: ({ ink }) => (
     <g transform="translate(-96 -20) scale(0.4)">
@@ -66,12 +105,10 @@ const PRINTS = {
       </g>
     );
   },
-  blank: ({ ink }) => (
-    <g transform="translate(-14 -14)">
-      <circle cx="14" cy="14" r="10" fill="none" stroke={ink} strokeWidth="5" />
-      <circle cx="21" cy="7" r="2.6" fill={GREEN} />
-    </g>
+  blank: ({ ink, base }) => (
+    <g transform="translate(-35 -9) scale(0.11)"><LabelMark ink={ink} paper={base} /></g>
   ),
+  crest: ({ ink, base }) => <g transform="translate(-96 -24) scale(0.3)"><LabelMark ink={ink} paper={base} /></g>,
 };
 PRINTS.none = () => null;
 PRINTS.crosswalk = PRINTS.wordmark;
@@ -159,7 +196,7 @@ function Body({ product, base, ink, tone, seam, view, gid, paint }) {
         <path d="M296 146Q250 172 262 270" />
       </g>
       {print === 'wordmark-big' && view === 'front' && <Print kind="wordmark" ink={ink} base={base} x={200} y={196} s={0.6} />}
-      {place && view !== 'front' && <Print kind={print} ink={ink} base={base} x={place.back[0]} y={place.back[1]} s={place.back[2]} />}
+      {place && view !== 'front' && <Print kind={['blank', 'arch'].includes(print) ? 'crest' : print} ink={ink} base={base} x={place.back[0]} y={place.back[1]} s={place.back[2]} />}
       {place && view === 'front' && print !== 'none' && (
         <Print kind={['jacket', 'varsity'].includes(cat) && print !== 'line2' ? 'blank' : print} ink={tone} base={base}
           x={place.front[0]} y={place.front[1]} s={['jacket'].includes(cat) ? 1 : place.front[2]} />
@@ -282,7 +319,7 @@ export function Garment({ product, c = 0, view = 'front', bg = 'transparent', cl
         </defs>
         <rect width="400" height="440" fill={paint} />
         <rect width="400" height="440" fill={`url(#${gid})`} />
-        <Print kind={kind} ink={ink} base={base} x={200} y={220} s={kind === 'blank' ? 6 : kind === 'n26' ? 1.32 : kind === 'wordmark' ? 1.4 : 1.65} />
+        <Print kind={kind} ink={ink} base={base} x={200} y={220} s={kind === 'blank' ? 7 : kind === 'n26' ? 1.32 : kind === 'wordmark' ? 1.4 : 1.65} />
       </svg>
     );
   }

@@ -52,4 +52,13 @@ for (const [id, [, scene]] of Object.entries(SCENES)) {
   const wear = l.items.map(([pid, ci]) => `a ${byId[pid].colors[ci].name.toLowerCase()} ${SPEC[pid].split('.')[0]}`).join('; ');
   job(`look-${id}`, `Attach the product photos ${l.items.map(([pid, ci]) => `${pid}-${ci}`).join(', ')} from the 결과 folder if they exist. Editorial fashion photograph on 35mm film, natural grain, candid not posed. Two Korean models in their early 20s, one man and one woman, both wearing: ${wear}. Setting: ${scene}. No visible logos other than the garments' own small marks, no text overlays. ${id === 'l03' ? '16:9 horizontal, subject on the left third, lots of negative space on the right.' : '4:5 vertical.'}`);
 }
+// Signature graphic concepts: generated as artwork, not photos. Ask for 4 variations each.
+const ART = 'Signature graphic for a casual unisex label, drawn by a skilled illustrator: confident hand-drawn ink line with slight wobble, vintage screen-print texture with tiny ink breaks, two-color print (off-black #1B1B1A and green #00A84D) on off-white cotton, timeless rather than trendy, the kind of motif a brand repeats on tees, caps and tote bags for years. Simple enough to read at 3 cm, charming at 25 cm. No gradients, no 3D, no clip-art look. Show 4 variations side by side, square.';
+const SIGS = {
+  'sig-emblem': 'A vintage emblem: a simple hand-drawn rope knot in green, with the slogan "TIED TOGETHER" in retro 1950s American lettering arched around it and "UNION" in small bold caps beneath, the feel of an old souvenir patch or diner sign.',
+  'sig-signature': 'The word "Union" written as a loose, fast brush-pen signature by hand, confident and slightly messy like an artist signing their work, with a small green dot after the n. One single word, no other text.',
+  'sig-animal': 'A small cat face icon: a calm, slightly unimpressed street cat seen from the front, drawn with very few bold lines, one ear with a tiny green notch, iconic enough to be recognised as a silhouette at 3 cm and to repeat as an all-over pattern.',
+  'sig-character': 'A small mascot character based on a green woven clothing tab (a small rounded rectangle), with simple dot eyes, tiny arms and legs, friendly and slightly cheeky expression, in poses: waving, walking, sitting, peeking from behind a label. Like a mascot a beloved independent apparel brand would have: few lines, big personality.',
+};
+for (const [name, brief] of Object.entries(SIGS)) job(name, `${brief} ${ART}`);
 console.log(n, 'jobs');

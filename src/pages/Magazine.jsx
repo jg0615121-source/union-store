@@ -24,7 +24,6 @@ export default function Magazine() {
         <div className="mag-lead-copy">
           <p className="kicker">{lead.kicker} · {lead.minutes}분</p>
           <h2>{lead.title}</h2>
-          <p>{lead.lede}</p>
           <span className="more">읽기</span>
         </div>
       </Link>
@@ -34,7 +33,6 @@ export default function Magazine() {
             <Cover a={a} />
             <p className="kicker">{a.kicker} · {a.minutes}분</p>
             <h3>{a.title}</h3>
-            <p>{a.lede}</p>
           </Reveal>
         ))}
       </div>

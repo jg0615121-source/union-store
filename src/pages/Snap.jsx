@@ -24,7 +24,6 @@ export default function Snap() {
       <header className="page-head">
         <p className="kicker">SNAP</p>
         <h1>이렇게들 입어요</h1>
-        <p className="muted">UNION을 입은 코디. 마음에 들면 세트로 한 번에 담아요. (예시 스냅)</p>
       </header>
       <div className="tabs" role="tablist" aria-label="스타일">
         {FILTERS.map(([k, l]) => <button key={k} role="tab" aria-selected={f === k} className={f === k ? 'on' : ''} onClick={() => setF(k)}>{l}</button>)}

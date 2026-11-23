@@ -15,7 +15,6 @@ export default function Checkout() {
     <div className="wrap page narrow">
       <p className="kicker">주문 번호 {done}</p>
       <h1>주문이 접수됐어요</h1>
-      <p className="muted">포트폴리오용 사이트라 실제 결제나 배송은 되지 않아요.</p>
       <Link to="/" className="btn">홈으로</Link>
     </div>
   );

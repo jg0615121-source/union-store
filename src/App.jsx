@@ -16,9 +16,10 @@ import Mbti from './pages/Mbti.jsx';
 import Worldcup from './pages/Worldcup.jsx';
 import Me from './pages/Me.jsx';
 import Checkout from './pages/Checkout.jsx';
+import Play from './pages/Play.jsx';
 
-const NAV = [['/shop', 'Shop'], ['/lookbook', 'Lookbook'], ['/snap', 'Snap'], ['/magazine', 'Journal']];
-const PLAY = [['/stylist', 'AI Stylist'], ['/fit-check', 'Fit Check'], ['/mbti', 'Style MBTI'], ['/worldcup', 'Worldcup']];
+const NAV = [['/shop', 'Shop'], ['/lookbook', 'Lookbook'], ['/snap', 'Snap'], ['/magazine', 'Journal'], ['/play', 'Play']];
+const PLAY = [['/stylist', 'AI 스타일리스트'], ['/fit-check', 'AI 코디 체크'], ['/mbti', '패션 MBTI'], ['/worldcup', '코디 월드컵']];
 
 function Header() {
   const { cart, wish, setCartOpen } = useStore();
@@ -39,7 +40,7 @@ function Header() {
 
   return (
     <>
-      <div className="notice"><div className="notice-track">{Array.from({ length: 2 }, (_, i) => <span key={i} aria-hidden={i > 0}>5만원 이상 무료배송 · 평일 14시 전 주문 당일 출고 · FW26 COLLECTION 발매 · 첫 구매 10% 할인 ·&nbsp;</span>)}</div></div>
+      <div className="notice">5만원 이상 무료배송 · 첫 구매 10% 할인</div>
       <header className={`hdr ${over ? 'over' : ''}`}>
         <div className="hdr-in">
           <button className="menu-btn" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="메뉴">
@@ -49,11 +50,8 @@ function Header() {
             <div className="nav-main">
               {NAV.map(([to, l]) => <NavLink key={l} to={to} end>{l}</NavLink>)}
             </div>
-            <div className="nav-play">
-              {PLAY.map(([to, l]) => <NavLink key={to} to={to}>{l}</NavLink>)}
-            </div>
           </nav>
-          <Link to="/" className="brand" aria-label="UNION 홈"><Logo height={19} ring="#00A84D" /></Link>
+          <Link to="/" className="brand" aria-label="UNION 홈"><Logo height={24} ink={over ? '#F4F4F2' : 'currentColor'} paper={over ? '#1B1B1A' : 'var(--bg)'} /></Link>
           <div className="hdr-right">
             <form className="hsearch" role="search" onSubmit={(e) => { e.preventDefault(); if (q.trim()) nav(`/shop?q=${encodeURIComponent(q.trim())}`); }}>
               <label htmlFor="hq" className="sr">상품 검색</label>
@@ -129,12 +127,11 @@ function Footer() {
     <footer className="ftr">
       <div className="ftr-in">
         <div className="ftr-brand">
-          <Logo height={34} ring="#00A84D" />
-          <p>매일 입는 옷에 심볼 하나.</p>
+          <Logo height={40} ink="var(--bg)" paper="var(--fg)" />
         </div>
         <nav aria-label="쇼핑">
           <h3>SHOP</h3>
-          <Link to="/shop">전체 상품</Link><Link to="/shop?sort=new">신상품</Link><Link to="/shop?sort=rank">랭킹</Link><Link to="/lookbook">룩북</Link>
+          <Link to="/shop">전체 상품</Link><Link to="/shop?sort=new">최신순</Link><Link to="/shop?sort=rank">랭킹</Link><Link to="/lookbook">룩북</Link>
         </nav>
         <nav aria-label="놀이">
           <h3>PLAY</h3>
@@ -145,7 +142,6 @@ function Footer() {
           <p>평일 10:00 — 17:00<br />점심 12:30 — 13:30</p>
         </div>
       </div>
-      <p className="ftr-legal">UNION · 포트폴리오용 사이트예요. 실제 판매와 결제는 하지 않아요.</p>
     </footer>
   );
 }
@@ -165,6 +161,7 @@ export default function App() {
           <Route path="/snap" element={<Snap />} />
           <Route path="/magazine" element={<Magazine />} />
           <Route path="/magazine/:id" element={<Article />} />
+          <Route path="/play" element={<Play />} />
           <Route path="/stylist" element={<Stylist />} />
           <Route path="/fit-check" element={<FitCheck />} />
           <Route path="/mbti" element={<Mbti />} />
@@ -174,7 +171,6 @@ export default function App() {
           <Route path="*" element={<div className="wrap page"><h1>페이지를 찾을 수 없어요</h1><Link to="/" className="btn">홈으로</Link></div>} />
         </Routes>
       </main>
-      {pathname !== '/stylist' && <Link to="/stylist" className="fab">AI 스타일리스트</Link>}
       <CartDrawer />
       <Footer />
     </>

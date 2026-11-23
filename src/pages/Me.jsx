@@ -12,12 +12,12 @@ export default function Me() {
       <section className="me-profile">
         {profile ? (
           <>
-            <div><p className="kicker">내 취향</p><h2>{profile.name}</h2><p className="muted">{profile.code === 'CUP' ? '코디 월드컵 결과' : `패션 MBTI ${profile.code}`}로 저장됐어요.</p></div>
+            <div><p className="kicker">내 취향</p><h2>{profile.name}</h2></div>
             <button className="btn ghost small" onClick={() => setProfile(null)}>취향 지우기</button>
           </>
         ) : (
           <>
-            <div><p className="kicker">내 취향</p><h2>아직 몰라요</h2><p className="muted">2분 테스트로 취향을 저장하면 추천이 정확해져요.</p></div>
+            <div><p className="kicker">내 취향</p><h2>아직 몰라요</h2></div>
             <div className="hero-cta"><Link to="/mbti" className="btn small">패션 MBTI</Link><Link to="/worldcup" className="btn ghost small">코디 월드컵</Link></div>
           </>
         )}

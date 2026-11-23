@@ -16,7 +16,6 @@ export default function Lookbook() {
       <header className="wrap page-head">
         <p className="kicker">LOOKBOOK · FW26</p>
         <h1>FW26 — 하루, 네 벌</h1>
-        <p className="muted">아침 7시부터 새벽 1시까지. 두 라인을 섞어 입는 하루.</p>
       </header>
       {CHAPTERS.map((ch) => {
         const look = looks.find((l) => l.id === ch.look);

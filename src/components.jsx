@@ -42,7 +42,6 @@ export function ProductCard({ p, c = 0, rank }) {
       <Link to={`/product/${p.id}`} className="pcard-meta">
         <span className="pcard-name">{p.name}</span>
         <span className="pcard-row">
-          <span className="pcard-ko">{p.ko}</span>
           <span className="price">{won(p.price)}</span>
         </span>
         <span className="swatches" aria-label={`${p.colors.length}가지 색상`}>
