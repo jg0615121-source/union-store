@@ -55,9 +55,10 @@ for (const [id, [, scene]] of Object.entries(SCENES)) {
 // Signature graphic concepts: generated as artwork, not photos. Ask for 4 variations each.
 const ART = 'Signature graphic for a casual unisex label, drawn by a skilled illustrator: confident hand-drawn ink line with slight wobble, vintage screen-print texture with tiny ink breaks, two-color print (off-black #1B1B1A and green #00A84D) on off-white cotton, timeless rather than trendy, the kind of motif a brand repeats on tees, caps and tote bags for years. Simple enough to read at 3 cm, charming at 25 cm. No gradients, no 3D, no clip-art look. Show 4 variations side by side, square.';
 const SIGS = {
+  'sig-emblem': 'A vintage emblem: a simple hand-drawn rope knot in green, with the slogan "TIED TOGETHER" in retro 1950s American lettering arched around it and "UNION" in small bold caps beneath, the feel of an old souvenir patch or diner sign.',
+  'sig-signature': 'The word "Union" written as a loose, fast brush-pen signature by hand, confident and slightly messy like an artist signing their work, with a small green dot after the n. One single word, no other text.',
+  'sig-animal': 'A small cat face icon: a calm, slightly unimpressed street cat seen from the front, drawn with very few bold lines, one ear with a tiny green notch, iconic enough to be recognised as a silhouette at 3 cm and to repeat as an all-over pattern.',
   'sig-character': 'A small mascot character based on a green woven clothing tab (a small rounded rectangle), with simple dot eyes, tiny arms and legs, friendly and slightly cheeky expression, in poses: waving, walking, sitting, peeking from behind a label. Like a mascot a beloved independent apparel brand would have: few lines, big personality.',
-  'sig-knot': 'A single continuous hand-drawn rope knot symbol meaning "tied together", elegant and minimal, one end finishing in a small green dot, like an emblem a heritage casual brand would embroider on a chest.',
-  'sig-hands': 'Two hands hooking little fingers in a pinky promise, drawn as a bold simplified icon, one hand off-black and one green, readable at 3 cm as an embroidered chest logo.',
 };
 for (const [name, brief] of Object.entries(SIGS)) job(name, `${brief} ${ART}`);
 console.log(n, 'jobs');
