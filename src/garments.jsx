@@ -311,7 +311,7 @@ export function Garment({ product, c = 0, view = 'front', bg = 'transparent', cl
         </defs>
         <rect width="400" height="440" fill={base} />
         <rect width="400" height="440" fill={`url(#${gid})`} />
-        <Print kind={kind} ink={ink} base={base} x={200} y={220} s={kind === 'blank' ? 6 : 1.65} />
+        <Print kind={kind} ink={ink} base={base} x={200} y={220} s={kind === 'blank' ? 6 : kind === 'n26' ? 1.32 : 1.65} />
       </svg>
     );
   }

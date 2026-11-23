@@ -37,7 +37,7 @@ AI 기능까지 로컬에서 시험하려면 `vercel dev`나 `netlify dev`로 �
 | 환경 변수 | Settings → Environment Variables | Site configuration → Environment variables |
 
 - 환경 변수에 `GEMINI_API_KEY`를 넣어요. 키는 https://aistudio.google.com/apikey 에서 받아요.
-- 모델을 바꾸려면 `GEMINI_MODEL`을 넣어요. 기본값은 `gemini-2.5-flash`예요.
+- 모델을 바꾸려면 `GEMINI_MODEL`을 넣어요. 기본값은 `gemini-3.5-flash`예요.
 
 ## 구조
 

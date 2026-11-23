@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { articles, byId, looks, products, won } from '../data.js';
-import { Garment } from '../garments.jsx';
-import { Grid, LookArt, SectionHead } from '../components.jsx';
+import { articles, byId, looks, products } from '../data.js';
+import { Garment, Logo } from '../garments.jsx';
+import { Grid, LookArt, Rail, SectionHead } from '../components.jsx';
+import { Photo, ProductImage, Reveal } from '../media.jsx';
 import { useStore } from '../store.jsx';
 import { forYou } from '../recommend.js';
 
 const STOPS = ['홍대입구', '신촌', '시청', '을지로입구', '성수', '잠실', '강남', '신림'];
+const MARQUEE = ['LINE 2 LOOP', 'SEOUL 02', 'N26 NIGHT ROUTE', 'HAN RIVER CVS', 'MANGWON MARKET', '98.1 STATIC'];
 
-function Weather() {
+function useSeoulWeather() {
   const [w, setW] = useState(null);
   useEffect(() => {
     fetch('https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.978&current=temperature_2m,precipitation,weather_code&timezone=Asia%2FSeoul')
@@ -16,7 +18,12 @@ function Weather() {
       .then((d) => { if (!d.current) throw new Error('no data'); setW(d.current); })
       .catch(() => setW({ temperature_2m: 12, precipitation: 0, offline: true }));
   }, []);
-  if (!w) return <div className="weather"><p className="muted">서울 날씨 불러오는 중…</p></div>;
+  return w;
+}
+
+function Weather() {
+  const w = useSeoulWeather();
+  if (!w) return null;
   const t = Math.round(w.temperature_2m);
   const rain = w.precipitation > 0 || [61, 63, 65, 80, 81, 82].includes(w.weather_code);
   const scene = rain ? '비' : t <= 5 ? '겨울' : t <= 16 ? '가을' : t <= 23 ? '봄' : '여름';
@@ -27,129 +34,140 @@ function Weather() {
           : '두꺼운 반팔에 쇼츠. 땀이 비치지 않는 짙은 색이 편해요.';
   const picks = products.filter((p) => p.scenes.includes(scene)).slice(0, 3);
   return (
-    <div className="weather">
+    <Reveal className="weather">
       <div className="weather-now">
-        <p className="kicker">TODAY IN SEOUL{w.offline && ' · 예시'}</p>
-        <p className="temp">{t}°<span>{rain ? '비' : '맑음/흐림'}</span></p>
-        <p>{tip}</p>
+        <p className="kicker">Today in Seoul{w.offline && ' · 예시'}</p>
+        <p className="temp">{t}°C</p>
+        <p className="weather-tip">{tip}</p>
       </div>
       <div className="weather-picks">
         {picks.map((p) => (
           <Link key={p.id} to={`/product/${p.id}`}>
-            <Garment product={p} />
-            <span>{p.ko}</span>
+            <div className="wp-img"><ProductImage p={p} /></div>
+            <span>{p.name}</span>
           </Link>
         ))}
       </div>
-    </div>
+    </Reveal>
   );
 }
 
 export default function Home() {
   const { viewed, profile } = useStore();
   const mine = forYou({ viewed, profile });
+  const editorial = [looks.find((l) => l.id === 'l01'), looks.find((l) => l.id === 'l02')];
   return (
     <>
       <section className="hero">
-        <div className="hero-in">
-          <div className="hero-copy">
-            <p className="kicker">FW26 · LOOP COLLECTION</p>
-            <h1>서울을<br />한 바퀴<br />입다</h1>
-            <p className="hero-sub">지역번호 02, 심야버스 N26, 한강 편의점 영수증. 서울 사람이면 다 아는 장면을 그래픽으로 옮겼어요.</p>
-            <div className="hero-cta">
-              <Link to="/shop" className="btn">컬렉션 보기</Link>
-              <Link to="/mbti" className="btn ghost">내 패션 MBTI 찾기</Link>
-            </div>
+        <Photo name="look-l03" alt="새벽 1시 신촌오거리 정류장, N26 맨투맨을 입은 모델" className="hero-photo" eager fallback={
+          <div className="hero-fallback" aria-hidden="true">
+            <div className="hf-logo"><Logo ink="#EDEDE8" ring="#00A84D" height="100%" /></div>
+            <Garment product={byId.u03} c={0} className="hf-g" />
           </div>
-          <div className="hero-art">
-            <Garment product={byId.u01} c={0} view="back" className="hero-g1" />
-            <Garment product={byId.u02} c={1} className="hero-g2" />
+        } />
+        <div className="hero-shade" />
+        <div className="hero-copy">
+          <p className="kicker">FW26 — Loop Collection</p>
+          <h1>서울을 한 바퀴 입다</h1>
+          <div className="hero-links">
+            <Link to="/shop">컬렉션 보기</Link>
+            <Link to="/lookbook">룩북 보기</Link>
           </div>
         </div>
-        <ol className="route" aria-label="2호선 노선">
-          {STOPS.map((s) => <li key={s}><span>{s}</span></li>)}
-        </ol>
+        <p className="hero-cap">01:26 · N26 신촌오거리</p>
+      </section>
+
+      <div className="marquee" aria-hidden="true">
+        <div className="marquee-track">
+          {[0, 1].map((k) => <span key={k}>{MARQUEE.map((m) => <em key={m}>{m}</em>)}</span>)}
+        </div>
+      </div>
+
+      <section className="edit2">
+        {editorial.map((l) => (
+          <Reveal key={l.id} as={Link} to={`/snap#${l.id}`} className="edit-tile">
+            <LookArt look={l} />
+            <div className="edit-cap">
+              <span>{l.name}</span>
+              <span className="u">이 룩 쇼핑하기</span>
+            </div>
+          </Reveal>
+        ))}
       </section>
 
       <div className="wrap stack">
-        <Weather />
-
         <section>
-          <SectionHead kicker="NEW IN" title="이번 주에 나온 옷" to="/shop?sort=new" />
-          <Grid ids={products.filter((p) => p.isNew).slice(0, 4).map((p) => p.id)} />
+          <SectionHead kicker="New in" title="이번 주 새로 나온 옷" to="/shop?sort=new" />
+          <Rail ids={products.filter((p) => p.isNew).concat(products.filter((p) => !p.isNew).slice(0, 3)).map((p) => p.id)} />
         </section>
 
+        <Reveal as="section" className="statement">
+          <p className="kicker">About UNION</p>
+          <p className="statement-text">2호선은 서울에서 유일하게 끝이 없는 노선이에요. 서로 모르는 동네 사람들이 같은 칸에 서 있죠. UNION은 그 원 위의 장면들을 옷으로 옮겨요.</p>
+          <ol className="route" aria-label="2호선 노선">
+            {STOPS.map((s) => <li key={s}><span>{s}</span></li>)}
+          </ol>
+          <Link to="/magazine/why-line2" className="more">브랜드 이야기</Link>
+        </Reveal>
+
         <section className="story">
-          <div className="story-copy">
-            <p className="kicker">WHY UNION</p>
-            <h2>옷을 몰라도<br />읽히는 그래픽</h2>
-            <p>핏이나 원단은 몰라도 괜찮아요. 막차 놓친 새벽, 한강에서 먹던 라면은 다 알잖아요. UNION의 그래픽은 전부 서울의 장면에서 왔어요.</p>
-            <Link to="/magazine/why-line2" className="more">브랜드 이야기 →</Link>
-          </div>
+          <SectionHead kicker="The graphics" title="옷을 몰라도 읽히는 그림" />
           <ul className="story-tiles">
-            {[['u03', 0, 'N26', '새벽 1시의 심야버스'], ['u04', 0, 'CVS', '한강 편의점 영수증'], ['u02', 0, '02', '서울 지역번호'], ['u12', 0, 'MARKET', '망원시장 봉투']].map(([id, c, k, cap]) => (
-              <li key={id}>
+            {[['u03', 'N26', '새벽 1시의 심야버스'], ['u04', 'CVS', '한강 편의점 영수증'], ['u02', '02', '서울 지역번호'], ['u12', 'MARKET', '망원시장 봉투']].map(([id, k, cap]) => (
+              <Reveal as="li" key={id}>
                 <Link to={`/product/${id}`}>
-                  <Garment product={byId[id]} c={c} view="detail" />
+                  <div className="st-img"><Garment product={byId[id]} c={0} view="detail" /></div>
                   <span><b>{k}</b>{cap}</span>
                 </Link>
-              </li>
+              </Reveal>
             ))}
           </ul>
         </section>
 
+        <Weather />
+
         <section>
-          <SectionHead kicker="RANKING" title="지금 제일 많이 담긴 옷" to="/shop?sort=rank" />
+          <SectionHead kicker="Ranking" title="지금 가장 많이 담긴 옷" to="/shop?sort=rank" />
           <Grid ids={[...products].sort((a, b) => a.rank - b.rank).slice(0, 4).map((p) => p.id)} ranked />
-        </section>
-
-        <section>
-          <SectionHead kicker="THREE-PIECE" title="이것만 입으면 끝" to="/snap" more="코디 더 보기" />
-          <div className="looks3">
-            {[looks[0], looks[2], looks[5]].map((l) => (
-              <Link key={l.id} to={`/snap#${l.id}`} className="look">
-                <LookArt look={l} />
-                <strong>{l.name}</strong>
-                <span>{l.items.map(([id]) => byId[id].ko).join(' + ')} · {won(l.items.reduce((a, [id]) => a + byId[id].price, 0))}</span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section className="play">
-          <Link to="/mbti" className="play-card">
-            <p className="kicker">2 MIN TEST</p>
-            <h3>패션 MBTI</h3>
-            <p>12문항으로 알아보는 내 옷 성향. 16가지 유형 중 하나가 나와요.</p>
-          </Link>
-          <Link to="/worldcup" className="play-card">
-            <p className="kicker">16 → 1</p>
-            <h3>코디 이상형 월드컵</h3>
-            <p>둘 중 더 끌리는 코디를 고르다 보면 내 취향이 남아요.</p>
-          </Link>
-          <Link to="/fit-check" className="play-card dark">
-            <p className="kicker">AI FIT CHECK</p>
-            <h3>오늘 코디, 몇 점?</h3>
-            <p>사진 한 장 올리면 조합을 보고 바꿀 점과 어울리는 옷을 알려줘요.</p>
-          </Link>
         </section>
 
         {mine.length > 0 && (
           <section>
-            <SectionHead kicker="FOR YOU" title={profile ? `'${profile.name}' 취향으로 골랐어요` : '최근 본 옷과 비슷한 것들'} />
+            <SectionHead kicker="For you" title={profile ? `'${profile.name}' 취향으로 골랐어요` : '최근 본 옷과 비슷한 것들'} />
             <Grid ids={mine.slice(0, 4)} />
           </section>
         )}
+      </div>
 
+      <section className="play">
+        <div className="play-in">
+          <div className="play-head">
+            <p className="kicker">Play</p>
+            <h2>옷 고르기가 어렵다면,<br />놀면서 찾아요</h2>
+          </div>
+          {[['/mbti', '패션 MBTI', '12문항으로 알아보는 내 옷 성향. 16가지 유형 중 하나가 나와요.'],
+            ['/worldcup', '코디 이상형 월드컵', '둘 중 더 끌리는 코디를 고르다 보면 내 취향이 남아요.'],
+            ['/fit-check', 'AI 코디 체크', '사진 한 장으로 조합을 보고 바꿀 점과 어울리는 옷을 알려줘요.'],
+            ['/stylist', 'AI 스타일리스트', '어디 가는지만 말하면 세 벌을 골라드려요.']].map(([to, t, d]) => (
+            <Link key={to} to={to} className="play-row">
+              <span className="play-t">{t}</span>
+              <span className="play-d">{d}</span>
+              <span className="play-go" aria-hidden="true">→</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <div className="wrap stack">
         <section>
-          <SectionHead kicker="MAGAZINE" title="읽을거리" to="/magazine" />
+          <SectionHead kicker="Journal" title="읽을거리" to="/magazine" />
           <div className="mag-row">
             {articles.slice(0, 3).map((a) => (
-              <Link key={a.id} to={`/magazine/${a.id}`} className="mag-card">
+              <Reveal key={a.id} as={Link} to={`/magazine/${a.id}`} className="mag-card">
                 <p className="kicker">{a.kicker} · {a.minutes}분</p>
                 <h3>{a.title}</h3>
                 <p>{a.lede}</p>
-              </Link>
+              </Reveal>
             ))}
           </div>
         </section>

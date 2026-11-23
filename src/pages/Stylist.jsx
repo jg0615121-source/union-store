@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { byId, won } from '../data.js';
-import { Garment } from '../garments.jsx';
+import { ProductImage } from '../media.jsx';
 import { askAI, localChat } from '../ai.js';
 import { useStore } from '../store.jsx';
 
@@ -45,7 +45,7 @@ export default function Stylist() {
               <div className="chat-products">
                 {m.ids.map((id) => (
                   <Link key={id} to={`/product/${id}`} className="mini">
-                    <Garment product={byId[id]} />
+                    <ProductImage p={byId[id]} />
                     <span>{byId[id].ko}</span>
                     <b>{won(byId[id].price)}</b>
                   </Link>

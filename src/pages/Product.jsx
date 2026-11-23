@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { CATS, GROUP, SIZES, byId, looks, reviewsFor, won } from '../data.js';
-import { Garment } from '../garments.jsx';
+import { ProductImage } from '../media.jsx';
 import { Grid, Heart, LookArt } from '../components.jsx';
 import { useStore } from '../store.jsx';
 import { recommendSize } from '../sizing.js';
@@ -81,16 +81,22 @@ export default function Product() {
   const p = byId[id];
   const { addToCart, wish, toggleWish, markViewed, viewed } = useStore();
   const [c, setC] = useState(0);
-  const [view, setView] = useState('front');
+  const [zoom, setZoom] = useState(null);
   const [size, setSize] = useState(GROUP[p?.cat] === 'acc' ? 'FREE' : '');
   const [warn, setWarn] = useState(false);
 
   useEffect(() => {
     if (!p) return;
     markViewed(p.id);
-    setC(0); setView('front'); setWarn(false);
+    setC(0); setZoom(null); setWarn(false);
     setSize(GROUP[p.cat] === 'acc' ? 'FREE' : '');
   }, [id]);
+
+  useEffect(() => {
+    const k = (e) => e.key === 'Escape' && setZoom(null);
+    window.addEventListener('keydown', k);
+    return () => window.removeEventListener('keydown', k);
+  }, []);
 
   if (!p) return <div className="wrap page"><h1>없는 상품이에요</h1><Link to="/shop" className="btn">상품 보기</Link></div>;
 
@@ -105,14 +111,12 @@ export default function Product() {
       <nav className="crumbs" aria-label="위치"><Link to="/shop">SHOP</Link> / <Link to={`/shop?cat=${GROUP[p.cat]}`}>{CATS[p.cat]}</Link></nav>
       <div className="pdp">
         <div className="gallery">
-          <div className="gallery-main"><Garment product={p} c={c} view={view} /></div>
-          <div className="thumbs">
-            {views.map((v) => (
-              <button key={v} className={view === v ? 'on' : ''} onClick={() => setView(v)} aria-label={{ front: '앞면', back: '뒷면', detail: '프린트 확대' }[v]}>
-                <Garment product={p} c={c} view={v} />
-              </button>
-            ))}
-          </div>
+          {views.map((v) => (
+            <button key={v} className="shot" onClick={() => setZoom(v)} aria-label={`${{ front: '앞면', back: '뒷면', detail: '프린트' }[v]} 크게 보기`}>
+              <ProductImage p={p} c={c} view={v} eager={v === 'front'} />
+            </button>
+          ))}
+          {look && <div className="shot look-shot"><LookArt look={look} /></div>}
         </div>
 
         <div className="pinfo">
@@ -157,6 +161,14 @@ export default function Product() {
           </dl>
         </div>
       </div>
+
+      {zoom && (
+        <div className="zoom" role="dialog" aria-label="크게 보기" onClick={() => setZoom(null)}
+          onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--zx', `${((e.clientX - r.left) / r.width) * 100}%`); e.currentTarget.style.setProperty('--zy', `${((e.clientY - r.top) / r.height) * 100}%`); }}>
+          <ProductImage p={p} c={c} view={zoom} eager />
+          <button className="zoom-x" onClick={() => setZoom(null)}>닫기</button>
+        </div>
+      )}
 
       {look && (
         <section className="complete">

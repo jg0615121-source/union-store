@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { byId, won } from './data.js';
-import { Garment, Logo } from './garments.jsx';
+import { Logo } from './garments.jsx';
+import { ProductImage } from './media.jsx';
 import { useStore } from './store.jsx';
 import Home from './pages/Home.jsx';
 import Shop from './pages/Shop.jsx';
@@ -17,31 +18,34 @@ import Me from './pages/Me.jsx';
 import Checkout from './pages/Checkout.jsx';
 import Refs from './pages/Refs.jsx';
 
-const NAV = [
-  ['/shop', 'SHOP'], ['/shop?sort=new', 'NEW'], ['/lookbook', 'LOOKBOOK'], ['/snap', 'SNAP'], ['/magazine', 'MAGAZINE'],
-];
-const PLAY = [['/stylist', 'AI 스타일리스트'], ['/fit-check', 'AI 코디 체크'], ['/mbti', '패션 MBTI'], ['/worldcup', '코디 월드컵']];
+const NAV = [['/shop', 'Shop'], ['/lookbook', 'Lookbook'], ['/snap', 'Snap'], ['/magazine', 'Journal']];
+const PLAY = [['/stylist', 'AI Stylist'], ['/fit-check', 'Fit Check'], ['/mbti', 'Style MBTI'], ['/worldcup', 'Worldcup']];
 
 function Header() {
   const { cart, wish, setCartOpen } = useStore();
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
+  const [top, setTop] = useState(true);
   const nav = useNavigate();
   const loc = useLocation();
   useEffect(() => { setOpen(false); }, [loc.pathname, loc.search]);
+  useEffect(() => {
+    const on = () => setTop(window.scrollY < 40);
+    on();
+    window.addEventListener('scroll', on, { passive: true });
+    return () => window.removeEventListener('scroll', on);
+  }, []);
   const count = cart.reduce((a, x) => a + x.qty, 0);
+  const over = loc.pathname === '/' && top && !open;
 
   return (
     <>
-      <div className="notice">
-        <span>지금 가입하면 첫 주문 10% · 5만원 이상 무료배송</span>
-      </div>
-      <header className="hdr">
+      <div className="notice"><div className="notice-track">{Array.from({ length: 2 }, (_, i) => <span key={i} aria-hidden={i > 0}>5만원 이상 무료배송 · 평일 14시 전 주문 당일 출고 · FW26 LOOP COLLECTION 발매 · 서울 전 지역 내일 도착 ·&nbsp;</span>)}</div></div>
+      <header className={`hdr ${over ? 'over' : ''}`}>
         <div className="hdr-in">
           <button className="menu-btn" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="메뉴">
             <span /><span />
           </button>
-          <Link to="/" className="brand" aria-label="UNION 홈"><Logo height={20} ring="#00A84D" /></Link>
           <nav className={`nav ${open ? 'open' : ''}`} aria-label="주요 메뉴">
             <div className="nav-main">
               {NAV.map(([to, l]) => <NavLink key={l} to={to} end>{l}</NavLink>)}
@@ -50,13 +54,14 @@ function Header() {
               {PLAY.map(([to, l]) => <NavLink key={to} to={to}>{l}</NavLink>)}
             </div>
           </nav>
-          <form className="hsearch" role="search" onSubmit={(e) => { e.preventDefault(); if (q.trim()) nav(`/shop?q=${encodeURIComponent(q.trim())}`); }}>
-            <label htmlFor="hq" className="sr">상품 검색</label>
-            <input id="hq" value={q} onChange={(e) => setQ(e.target.value)} placeholder="비 오는 날 데이트룩" />
-          </form>
-          <div className="hdr-icons">
-            <Link to="/me" aria-label={`찜 ${wish.length}개`}>찜 {wish.length > 0 && <b>{wish.length}</b>}</Link>
-            <button onClick={() => setCartOpen(true)} aria-label={`장바구니 ${count}개`}>BAG {count > 0 && <b>{count}</b>}</button>
+          <Link to="/" className="brand" aria-label="UNION 홈"><Logo height={19} ring="#00A84D" /></Link>
+          <div className="hdr-right">
+            <form className="hsearch" role="search" onSubmit={(e) => { e.preventDefault(); if (q.trim()) nav(`/shop?q=${encodeURIComponent(q.trim())}`); }}>
+              <label htmlFor="hq" className="sr">상품 검색</label>
+              <input id="hq" value={q} onChange={(e) => setQ(e.target.value)} placeholder="검색" />
+            </form>
+            <Link to="/me" className="hdr-link" aria-label={`찜 ${wish.length}개`}>WISHLIST{wish.length > 0 && <sup>{wish.length}</sup>}</Link>
+            <button className="hdr-link" onClick={() => setCartOpen(true)} aria-label={`장바구니 ${count}개`}>BAG{count > 0 && <sup>{count}</sup>}</button>
           </div>
         </div>
       </header>
@@ -91,7 +96,7 @@ function CartDrawer() {
                 const p = byId[x.id];
                 return (
                   <li key={`${x.id}-${x.c}-${x.size}`}>
-                    <Garment product={p} c={x.c} className="cart-thumb" />
+                    <div className="cart-thumb"><ProductImage p={p} c={x.c} /></div>
                     <div>
                       <strong>{p.name}</strong>
                       <span>{p.colors[x.c].name} · {x.size}</span>
@@ -148,11 +153,11 @@ function Footer() {
 
 export default function App() {
   const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  useEffect(() => { window.__lenis ? window.__lenis.scrollTo(0, { immediate: true }) : window.scrollTo(0, 0); }, [pathname]);
   return (
     <>
       <Header />
-      <main id="main">
+      <main id="main" key={pathname} className="page-route">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
@@ -171,7 +176,7 @@ export default function App() {
           <Route path="*" element={<div className="wrap page"><h1>페이지를 찾을 수 없어요</h1><Link to="/" className="btn">홈으로</Link></div>} />
         </Routes>
       </main>
-      {pathname !== '/stylist' && <Link to="/stylist" className="fab">스타일리스트에게 묻기</Link>}
+      {pathname !== '/stylist' && <Link to="/stylist" className="fab">AI 스타일리스트</Link>}
       <CartDrawer />
       <Footer />
     </>
