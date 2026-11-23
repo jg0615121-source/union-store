@@ -23,10 +23,21 @@ export function LogoMark({ ink = 'currentColor', ring = ink }) {
   );
 }
 
-export function Logo({ height = 22, ink = 'currentColor', ring, title = 'UNION' }) {
+// Label logo: the wordmark on a dark woven label with the green tab at its end. 640 x 160.
+export function LabelMark({ ink = '#1B1B1A', paper = '#F4F4F2' }) {
   return (
-    <svg viewBox="0 0 482 100" height={height} role="img" aria-label={title} style={{ display: 'block' }}>
-      <LogoMark ink={ink} ring={ring ?? ink} />
+    <g>
+      <rect width="640" height="160" rx="12" fill={ink} />
+      <path d="M560 0h68a12 12 0 0 1 12 12v136a12 12 0 0 1-12 12h-68Z" fill={GREEN} />
+      <g transform="translate(50 38) scale(0.84)"><LogoMark ink={paper} /></g>
+    </g>
+  );
+}
+
+export function Logo({ height = 22, ink = '#1B1B1A', paper = '#F4F4F2', title = 'UNION' }) {
+  return (
+    <svg viewBox="0 0 640 160" height={height} role="img" aria-label={title} style={{ display: 'block' }}>
+      <LabelMark ink={ink} paper={paper} />
     </svg>
   );
 }
@@ -94,10 +105,10 @@ const PRINTS = {
       </g>
     );
   },
-  blank: ({ ink }) => (
-    <g transform="translate(-14 -14) scale(0.28)"><UMark ink={ink} /></g>
+  blank: ({ ink, base }) => (
+    <g transform="translate(-35 -9) scale(0.11)"><LabelMark ink={ink} paper={base} /></g>
   ),
-  crest: ({ ink }) => <Crest ink={ink} />,
+  crest: ({ ink, base }) => <g transform="translate(-96 -24) scale(0.3)"><LabelMark ink={ink} paper={base} /></g>,
 };
 PRINTS.none = () => null;
 PRINTS.crosswalk = PRINTS.wordmark;
