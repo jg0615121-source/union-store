@@ -35,7 +35,7 @@ function SizeFinder({ p, onPick }) {
       </div>
       {s ? (
         <p className="sf-out">추천 사이즈 <b>{s}</b>{p.tags.includes('oversize') && fit <= 0 && ' · 원래 크게 나온 옷이라 한 치수 내렸어요'} <button className="link" onClick={() => onPick(s)}>이 사이즈로 선택</button></p>
-      ) : <p className="muted">키와 몸무게를 넣으면 사이즈를 골라드려요.</p>}
+      ) : null}
     </div>
   );
 }
@@ -184,7 +184,6 @@ export default function Product() {
             <button className="btn" onClick={() => look.items.forEach(([x, ci]) => addToCart(x, ci, GROUP[byId[x].cat] === 'acc' ? 'FREE' : size || 'M'))}>
               세트 한 번에 담기 · {won(look.items.reduce((a, [x]) => a + byId[x].price, 0))}
             </button>
-            {!size && !isAcc && <p className="muted">위에서 사이즈를 먼저 고르면 그 사이즈로 담겨요. 안 고르면 M으로 담겨요.</p>}
           </div>
         </section>
       )}

@@ -128,7 +128,6 @@ function Footer() {
       <div className="ftr-in">
         <div className="ftr-brand">
           <Logo height={40} ink="var(--bg)" paper="var(--fg)" />
-          <p>매일 입는 옷에 심볼 하나.</p>
         </div>
         <nav aria-label="쇼핑">
           <h3>SHOP</h3>
@@ -143,7 +142,6 @@ function Footer() {
           <p>평일 10:00 — 17:00<br />점심 12:30 — 13:30</p>
         </div>
       </div>
-      <p className="ftr-legal">UNION · 포트폴리오용 사이트예요. 실제 판매와 결제는 하지 않아요.</p>
     </footer>
   );
 }

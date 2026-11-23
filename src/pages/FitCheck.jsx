@@ -69,7 +69,6 @@ export default function FitCheck() {
       <header className="page-head">
         <p className="kicker">AI FIT CHECK</p>
         <h1>오늘 코디, 몇 점?</h1>
-        <p className="muted">전신 거울 사진 한 장이면 돼요. 얼굴이나 체형은 보지 않고 옷 조합만 봐요. 사진은 분석에만 쓰고 저장하지 않아요.</p>
       </header>
       <div className="fit">
         <label className={`drop ${img ? 'has' : ''}`} onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); pick(e.dataTransfer.files[0]); }}>

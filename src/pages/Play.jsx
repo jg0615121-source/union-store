@@ -56,14 +56,12 @@ export default function Play() {
   return (
     <div className="wrap page">
       <header className="page-head">
-        <p className="kicker">Play</p>
-        <h1>옷 고르기가 어렵다면</h1>
+        <h1>Play</h1>
       </header>
       <div className="play-list">
         {ITEMS.map(([to, t, d]) => (
           <Link key={to} to={to} className="play-row">
             <span className="play-t">{t}</span>
-            <span className="play-d">{d}</span>
             <span className="play-go" aria-hidden="true">→</span>
           </Link>
         ))}

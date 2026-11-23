@@ -16,8 +16,8 @@ export default function Home() {
         } />
         <div className="hero-shade" />
         <div className="hero-copy">
-          <p className="kicker">FW26 Collection</p>
-          <h1>매일 입는 옷</h1>
+          <p className="kicker">Collection</p>
+          <h1>FW26</h1>
           <div className="hero-links">
             <Link to="/shop">컬렉션 보기</Link>
             <Link to="/lookbook">룩북 보기</Link>
