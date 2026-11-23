@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { articles, byId, looks, products } from '../data.js';
-import { Garment } from '../garments.jsx';
+import { CrestLogo, Garment } from '../garments.jsx';
 import { Grid, LookArt, Rail, SectionHead } from '../components.jsx';
 import { Photo, ProductImage, Reveal } from '../media.jsx';
 import { useStore } from '../store.jsx';
@@ -60,11 +60,7 @@ export default function Home() {
       <section className="hero">
         <Photo name="look-l03" alt="UNION FW26 캠페인" className="hero-photo" eager fallback={
           <div className="hero-fallback" aria-hidden="true">
-            <svg viewBox="-300 -300 600 600" className="hf-ring">
-              <circle r="236" className="hf-track" />
-              <circle r="236" className="hf-line" pathLength="1" />
-              <circle cx="167" cy="-167" r="22" className="hf-dot" />
-            </svg>
+            <div className="hf-crest"><CrestLogo ink="#ECECEA" height="100%" /></div>
           </div>
         } />
         <div className="hero-shade" />
@@ -98,7 +94,7 @@ export default function Home() {
 
       <div className="wrap stack">
         <section>
-          <SectionHead kicker="New in" title="이번 주 새로 나온 옷" to="/shop?sort=new" />
+          <SectionHead kicker="FW26" title="이번 시즌 컬렉션" to="/shop" />
           <Rail ids={products.filter((p) => p.isNew).concat(products.filter((p) => !p.isNew).slice(0, 3)).map((p) => p.id)} />
         </section>
 

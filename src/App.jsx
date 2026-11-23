@@ -53,7 +53,7 @@ function Header() {
               {PLAY.map(([to, l]) => <NavLink key={to} to={to}>{l}</NavLink>)}
             </div>
           </nav>
-          <Link to="/" className="brand" aria-label="UNION 홈"><Logo height={19} ring="#00A84D" /></Link>
+          <Link to="/" className="brand" aria-label="UNION 홈"><Logo height={19} /></Link>
           <div className="hdr-right">
             <form className="hsearch" role="search" onSubmit={(e) => { e.preventDefault(); if (q.trim()) nav(`/shop?q=${encodeURIComponent(q.trim())}`); }}>
               <label htmlFor="hq" className="sr">상품 검색</label>
@@ -129,12 +129,12 @@ function Footer() {
     <footer className="ftr">
       <div className="ftr-in">
         <div className="ftr-brand">
-          <Logo height={34} ring="#00A84D" />
+          <Logo height={34} />
           <p>매일 입는 옷에 심볼 하나.</p>
         </div>
         <nav aria-label="쇼핑">
           <h3>SHOP</h3>
-          <Link to="/shop">전체 상품</Link><Link to="/shop?sort=new">신상품</Link><Link to="/shop?sort=rank">랭킹</Link><Link to="/lookbook">룩북</Link>
+          <Link to="/shop">전체 상품</Link><Link to="/shop?sort=new">최신순</Link><Link to="/shop?sort=rank">랭킹</Link><Link to="/lookbook">룩북</Link>
         </nav>
         <nav aria-label="놀이">
           <h3>PLAY</h3>
