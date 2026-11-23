@@ -52,4 +52,12 @@ for (const [id, [, scene]] of Object.entries(SCENES)) {
   const wear = l.items.map(([pid, ci]) => `a ${byId[pid].colors[ci].name.toLowerCase()} ${SPEC[pid].split('.')[0]}`).join('; ');
   job(`look-${id}`, `Attach the product photos ${l.items.map(([pid, ci]) => `${pid}-${ci}`).join(', ')} from the 결과 folder if they exist. Editorial fashion photograph on 35mm film, natural grain, candid not posed. Two Korean models in their early 20s, one man and one woman, both wearing: ${wear}. Setting: ${scene}. No visible logos other than the garments' own small marks, no text overlays. ${id === 'l03' ? '16:9 horizontal, subject on the left third, lots of negative space on the right.' : '4:5 vertical.'}`);
 }
+// Signature graphic concepts: generated as artwork, not photos. Ask for 4 variations each.
+const ART = 'Professional brand illustration for a casual unisex streetwear label, flat vector style, clean confident linework, limited palette of off-black (#1B1B1A) and one green (#00A84D) on an off-white background, screen-print ready, no gradients, no text unless specified, centered, square. Show 4 variations side by side.';
+const SIGS = {
+  'sig-character': 'A small mascot character based on a green woven clothing tab (a small rounded rectangle), with simple dot eyes, tiny arms and legs, friendly and slightly cheeky expression, in poses: waving, walking, sitting, peeking from behind a label. Character design quality of contemporary Korean and Japanese street brands.',
+  'sig-knot': 'A single continuous hand-drawn rope knot symbol meaning "tied together", elegant and minimal, one end finishing in a small green dot, like an emblem a heritage casual brand would embroider on a chest.',
+  'sig-hands': 'Two hands hooking little fingers in a pinky promise, drawn as a bold simplified icon, one hand off-black and one green, readable at 3 cm as an embroidered chest logo.',
+};
+for (const [name, brief] of Object.entries(SIGS)) job(name, `${brief} ${ART}`);
 console.log(n, 'jobs');
