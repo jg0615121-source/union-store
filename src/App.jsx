@@ -15,6 +15,7 @@ import Mbti from './pages/Mbti.jsx';
 import Worldcup from './pages/Worldcup.jsx';
 import Me from './pages/Me.jsx';
 import Checkout from './pages/Checkout.jsx';
+import Refs from './pages/Refs.jsx';
 
 const NAV = [
   ['/shop', 'SHOP'], ['/shop?sort=new', 'NEW'], ['/lookbook', 'LOOKBOOK'], ['/snap', 'SNAP'], ['/magazine', 'MAGAZINE'],
@@ -166,6 +167,7 @@ export default function App() {
           <Route path="/worldcup" element={<Worldcup />} />
           <Route path="/me" element={<Me />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/refs" element={<Refs />} />
           <Route path="*" element={<div className="wrap page"><h1>페이지를 찾을 수 없어요</h1><Link to="/" className="btn">홈으로</Link></div>} />
         </Routes>
       </main>
