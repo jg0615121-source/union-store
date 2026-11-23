@@ -4,28 +4,28 @@ import { mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { products, looks, byId } from '../src/data.js';
 
 const TAB = 'a small green woven tab (Pantone 354 green, 1 cm wide) sewn into the left side seam at the hem';
-const RING = 'the letter O drawn as a ring with one small dot at its upper right';
+const SYMBOL = 'the brand symbol (attach the chosen symbol image as a reference)';
 const SPEC = {
-  u01: `boxy heavyweight 280gsm garment-dyed cotton t-shirt, dropped shoulders, thick ribbed collar. Bold wordmark "UNION" across the chest, 24 cm wide, in a wide heavy grotesque typeface with ${RING}, printed in slightly cracked water-based ink`,
-  u02: 'heavyweight 500gsm cotton hoodie made entirely from an original camouflage fabric whose shapes are hundreds of overlapping rings in three tones of olive, double-layer hood, kangaroo pocket, wide ribbed cuffs. No other graphics',
-  u03: 'heavyweight 500gsm garment-dyed cotton hoodie, double-layer hood, kangaroo pocket. Small tonal puff-print "02" on the left chest, 6 cm tall, in a wide grotesque typeface',
-  u04: 'six-panel cotton baseball cap made from an olive ring-pattern camouflage fabric, pre-curved brim, brass slide closure, tiny tonal embroidered ring logo on the front',
-  u05: 'wool melton varsity jacket in deep green with bone faux-leather sleeves, ribbed collar, cuffs and hem with thin bone stripes, snap front. Large chenille patch of a ring with one dot on the left chest',
-  u06: 'relaxed nylon track pants with elastic waistband, zip ankle cuffs, and a single thin green piping line down each outer seam',
-  u07: 'heavyweight loopback cotton crewneck sweatshirt, raglan sleeves. Small tone-on-tone embroidered night-bus route sign on the left chest reading "N26" in a wide grotesque',
-  u08: 'heavyweight 280gsm plain cotton t-shirt, boxy fit, thick ribbed collar, no logo',
-  u09: 'lightweight water-resistant nylon coach jacket, snap front, drawcord hem. Small tonal "UNION" embroidery on the left chest',
-  u10: 'chunky ribbed merino-blend beanie in deep green with a deep fold-over cuff',
-  u11: 'heavy 16oz natural canvas tote bag with long handles and a small one-color round stamp print reading "UNION 02"',
-  u12: 'heavyweight cotton fleece sweat shorts, above-knee length, deep pockets, flat drawcord, tiny tonal "UNION" print on the left leg',
-  u13: 'unstructured single-breasted wool blazer with no padding or canvas, soft natural shoulders, two buttons, patch pockets, slightly relaxed fit, in the style of refined Korean contemporary menswear',
-  u14: 'wide-leg wool-blend trousers with double forward pleats, high rise, clean front, long full break at the hem',
-  u15: 'extra-fine merino wool crewneck sweater, fine gauge, ribbed collar, cuffs and hem, no logo',
-  u16: 'long balmacaan overcoat in wool-cashmere, raglan sleeves, small stand-fall collar, hidden button placket, falls below the knee',
+  u01: `boxy 230gsm cotton t-shirt, thick ribbed collar, small embroidered ${SYMBOL} on the left chest, 4 cm wide`,
+  u02: 'oversized 230gsm cotton t-shirt with a bold "UNION" wordmark across the chest, 24 cm wide, printed in slightly cracked water-based ink',
+  u03: `heavyweight cotton hoodie, kangaroo pocket, small embroidered ${SYMBOL} on the left chest`,
+  u04: 'heavyweight cotton hoodie, kangaroo pocket, large "UNION" wordmark printed across the chest',
+  u05: `cotton crewneck sweatshirt with raglan sleeves, small embroidered ${SYMBOL} on the left chest`,
+  u06: 'cotton long-sleeve t-shirt with a small "UNION" wordmark printed on the left chest',
+  u07: `lightweight nylon coach jacket, snap front, small ${SYMBOL} on the left chest, large arched "UNION" print across the upper back`,
+  u08: `varsity jacket with wool body and faux-leather sleeves, ribbed collar, cuffs and hem with a thin green stripe, chenille ${SYMBOL} patch on the left chest`,
+  u09: 'relaxed nylon track pants with elastic waistband, zip ankle cuffs, a single thin green piping line down each outer seam',
+  u10: 'wide-leg cotton fleece sweatpants with elastic waistband, falling to the floor',
+  u11: 'cotton fleece sweat shorts, above-knee length, small "UNION" print on the left leg',
+  u12: `six-panel cotton baseball cap, curved brim, embroidered ${SYMBOL} on the front`,
+  u13: `ribbed knit beanie with fold-over cuff and a small woven ${SYMBOL} label`,
+  u14: 'heavy natural canvas tote bag with long handles and a small round "UNION" stamp print',
+  u15: 'three pairs of ribbed cotton crew socks with a small knitted "UNION" logo',
+  u16: 'heavyweight 230gsm plain cotton t-shirt, no logo, thick ribbed collar',
 };
 const FLAT = new Set(['pants', 'shorts', 'cap', 'beanie', 'tote', 'socks']);
 const TAILORED = new Set(['blazer', 'coat']);
-const STUDIO = 'Seamless warm light-grey paper backdrop, soft diffused window light from the upper left, gentle contact shadow, true-to-life fabric texture, natural folds. No model, no hands, no text overlays, no watermark, no other brand logos. Centered with generous margin. 4:5 vertical. Quiet luxury e-commerce photography in the style of high-end Seoul and Tokyo menswear shops.';
+const STUDIO = 'Seamless warm light-grey paper backdrop, soft diffused window light from the upper left, gentle contact shadow, true-to-life fabric texture, natural folds. No model, no hands, no text overlays, no watermark, no other brand logos. Centered with generous margin. 4:5 vertical. Quiet luxury e-commerce photography for a casual unisex fashion brand.';
 
 const out = 'assets/gemini';
 rmSync(out, { recursive: true, force: true });
@@ -42,14 +42,14 @@ for (const p of products) {
 }
 
 const SCENES = {
-  l03: ['hero', 'Seoul after 1 a.m., an empty Sinchon intersection bus stop, a night bus arriving with soft headlights, wet asphalt, deep blue night'],
-  l01: ['', 'a quiet Seongsu side street at 8 a.m., red-brick warehouse walls, soft morning light'],
-  l02: ['', 'the Han River park in late afternoon, wind, the river and a bridge softly behind'],
-  l09: ['', 'a narrow Euljiro alley at night, old print shops with shutters half down, warm street light'],
+  l03: ['hero', 'a city street at night, an empty bus stop, soft street lights, wet asphalt'],
+  l01: ['', 'a quiet street in the morning, soft sunlight, brick walls'],
+  l02: ['', 'a park lawn in the afternoon, a picnic mat, relaxed mood'],
+  l09: ['', 'a narrow alley at night, warm street lights'],
 };
 for (const [id, [, scene]] of Object.entries(SCENES)) {
   const l = looks.find((x) => x.id === id);
   const wear = l.items.map(([pid, ci]) => `a ${byId[pid].colors[ci].name.toLowerCase()} ${SPEC[pid].split('.')[0]}`).join('; ');
-  job(`look-${id}`, `Attach the product photos ${l.items.map(([pid, ci]) => `${pid}-${ci}`).join(', ')} from the 결과 folder if they exist. Editorial fashion photograph on 35mm film, natural grain, candid not posed. A Korean model in their early 20s wearing: ${wear}. Setting: ${scene}. No visible logos other than the garments' own small marks, no text overlays. ${id === 'l03' ? '16:9 horizontal, subject on the left third, lots of negative space on the right.' : '4:5 vertical.'}`);
+  job(`look-${id}`, `Attach the product photos ${l.items.map(([pid, ci]) => `${pid}-${ci}`).join(', ')} from the 결과 folder if they exist. Editorial fashion photograph on 35mm film, natural grain, candid not posed. Two Korean models in their early 20s, one man and one woman, both wearing: ${wear}. Setting: ${scene}. No visible logos other than the garments' own small marks, no text overlays. ${id === 'l03' ? '16:9 horizontal, subject on the left third, lots of negative space on the right.' : '4:5 vertical.'}`);
 }
 console.log(n, 'jobs');

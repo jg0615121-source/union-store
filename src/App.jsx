@@ -39,7 +39,7 @@ function Header() {
 
   return (
     <>
-      <div className="notice"><div className="notice-track">{Array.from({ length: 2 }, (_, i) => <span key={i} aria-hidden={i > 0}>5만원 이상 무료배송 · 평일 14시 전 주문 당일 출고 · FW26 LOOP COLLECTION 발매 · 서울 전 지역 내일 도착 ·&nbsp;</span>)}</div></div>
+      <div className="notice"><div className="notice-track">{Array.from({ length: 2 }, (_, i) => <span key={i} aria-hidden={i > 0}>5만원 이상 무료배송 · 평일 14시 전 주문 당일 출고 · FW26 COLLECTION 발매 · 첫 구매 10% 할인 ·&nbsp;</span>)}</div></div>
       <header className={`hdr ${over ? 'over' : ''}`}>
         <div className="hdr-in">
           <button className="menu-btn" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="메뉴">
@@ -130,7 +130,7 @@ function Footer() {
       <div className="ftr-in">
         <div className="ftr-brand">
           <Logo height={34} ring="#00A84D" />
-          <p>서울에서 시작한 두 개의 라인, LOOP과 02.</p>
+          <p>매일 입는 옷에 심볼 하나.</p>
         </div>
         <nav aria-label="쇼핑">
           <h3>SHOP</h3>
@@ -145,7 +145,7 @@ function Footer() {
           <p>평일 10:00 — 17:00<br />점심 12:30 — 13:30</p>
         </div>
       </div>
-      <p className="ftr-legal">UNION 02 · 포트폴리오용 사이트예요. 실제 판매와 결제는 하지 않아요.</p>
+      <p className="ftr-legal">UNION · 포트폴리오용 사이트예요. 실제 판매와 결제는 하지 않아요.</p>
     </footer>
   );
 }

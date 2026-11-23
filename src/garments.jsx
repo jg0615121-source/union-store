@@ -35,60 +35,6 @@ export function Logo({ height = 22, ink = 'currentColor', ring, title = 'UNION' 
 // Each print sits in a ~200 x 200 box centred on (0,0).
 const STATIONS = 20;
 const PRINTS = {
-  line2: ({ ink, base }) => {
-    const ring = base.toUpperCase() === GREEN ? ink : GREEN;
-    return (
-      <g>
-        <circle r="72" fill="none" stroke={ring} strokeWidth="11" />
-        {Array.from({ length: STATIONS }, (_, i) => {
-          const a = (i / STATIONS) * Math.PI * 2;
-          return <circle key={i} cx={Math.cos(a) * 72} cy={Math.sin(a) * 72} r={i % 5 ? 3.2 : 6} fill={base} stroke={ring} strokeWidth="2.5" />;
-        })}
-        <text y="-2" textAnchor="middle" fill={ink} fontFamily={DISPLAY} fontWeight="900" fontSize="25" style={{ fontStretch: '125%' }}>LINE 2</text>
-        <text y="20" textAnchor="middle" fill={ink} fontFamily={MONO} fontSize="8.5" letterSpacing="1.5">51 STATIONS · LOOP</text>
-      </g>
-    );
-  },
-  o2: ({ ink }) => (
-    <g>
-      <text y="38" textAnchor="middle" fill={ink} fontFamily={DISPLAY} fontWeight="900" fontSize="132" letterSpacing="-6" style={{ fontStretch: '125%' }}>02</text>
-      <path d="M62 40c10 0 10 14 20 14s10-14 20-14 10 14 20 14" fill="none" stroke={GREEN} strokeWidth="5" strokeLinecap="round" transform="translate(-80 32)" />
-      <text y="88" textAnchor="middle" fill={ink} fontFamily={MONO} fontSize="12" letterSpacing="5">SEOUL CALLING</text>
-    </g>
-  ),
-  n26: ({ ink, base }) => (
-    <g>
-      <rect x="-92" y="-52" width="184" height="86" rx="10" fill={ink} />
-      <rect x="-80" y="-40" width="44" height="22" rx="4" fill={GREEN} />
-      <text x="-58" y="-24" textAnchor="middle" fill="#fff" fontFamily={MONO} fontSize="12" fontWeight="600">심야</text>
-      <text x="22" y="20" textAnchor="middle" fill={base} fontFamily={DISPLAY} fontWeight="900" fontSize="58" style={{ fontStretch: '110%' }}>N26</text>
-      <text y="62" textAnchor="middle" fill={ink} fontFamily={KR} fontWeight="600" fontSize="15">강서 → 신촌 → 종로 → 중랑</text>
-      <text y="82" textAnchor="middle" fill={ink} fontFamily={MONO} fontSize="10" letterSpacing="2">23:30 — 04:00 · LATE NIGHT ROUTE</text>
-    </g>
-  ),
-  receipt: ({ ink }) => {
-    const rows = [['즉석라면', '3,800'], ['삼각김밥', '1,500'], ['바나나우유', '1,700'], ['돗자리 대여', '0']];
-    return (
-      <g fontFamily={MONO} fill={ink}>
-        <path d="M-70 -96h140v176l-10 8-10-8-10 8-10-8-10 8-10-8-10 8-10-8-10 8-10-8-10 8-10-8-10 8-10-8Z" fill="#fff" stroke={ink} strokeWidth="2" />
-        <text y="-72" textAnchor="middle" fontSize="12" fontWeight="600" letterSpacing="2">HAN RIVER CVS</text>
-        <text y="-56" textAnchor="middle" fontSize="8">여의도 2호점 · 19:42</text>
-        <line x1="-58" x2="58" y1="-46" y2="-46" stroke={ink} strokeDasharray="3 3" />
-        {rows.map(([k, v], i) => (
-          <g key={k} fontSize="10">
-            <text x="-58" y={-28 + i * 16} fontFamily={KR}>{k}</text>
-            <text x="58" y={-28 + i * 16} textAnchor="end">{v}</text>
-          </g>
-        ))}
-        <line x1="-58" x2="58" y1="34" y2="34" stroke={ink} strokeDasharray="3 3" />
-        <text x="-58" y="50" fontSize="11" fontWeight="600">TOTAL</text>
-        <text x="58" y="50" fontSize="11" fontWeight="600" textAnchor="end">7,000</text>
-        {[...'1101001011011001010110'].map((b, i) => (
-          <rect key={i} x={-44 + i * 4} y="58" width={b === '1' ? 2.4 : 1.2} height="12" />
-        ))}
-      </g>
-    );
-  },
   wordmark: ({ ink }) => (
     <g transform="translate(-96 -20) scale(0.4)">
       <LogoMark ink={ink} ring={ink} />
@@ -103,20 +49,10 @@ const PRINTS = {
           <textPath href={`#${id}`} startOffset="50%" textAnchor="middle">UNION</textPath>
         </text>
         <circle cx="0" cy="30" r="9" fill={GREEN} />
-        <text y="66" textAnchor="middle" fill={ink} fontFamily={MONO} fontSize="12" letterSpacing="6">SEOUL · 02</text>
+        <text y="66" textAnchor="middle" fill={ink} fontFamily={MONO} fontSize="12" letterSpacing="6">EVERYDAY</text>
       </g>
     );
   },
-  static: ({ ink }) => (
-    <g fill="none" stroke={ink} strokeLinecap="round">
-      {[0, 1, 2, 3].map((i) => (
-        <path key={i} strokeWidth={i === 1 ? 4 : 2} stroke={i === 1 ? GREEN : ink}
-          d={`M-90 ${-40 + i * 18} ${Array.from({ length: 18 }, (_, k) => `L${-90 + k * 10.6} ${-40 + i * 18 + Math.sin(k * (1.3 + i * 0.7)) * (6 + i * 3)}`).join(' ')}`} />
-      ))}
-      <text y="58" textAnchor="middle" fill={ink} stroke="none" fontFamily={DISPLAY} fontWeight="900" fontSize="40" style={{ fontStretch: '125%' }}>98.1</text>
-      <text y="80" textAnchor="middle" fill={ink} stroke="none" fontFamily={MONO} fontSize="11" letterSpacing="5">MHz · SEOUL STATIC</text>
-    </g>
-  ),
   market: ({ ink }) => {
     const id = 'market-ring';
     return (
@@ -124,8 +60,8 @@ const PRINTS = {
         <circle r="82" fill="none" stroke={ink} strokeWidth="4" />
         <circle r="70" fill="none" stroke={ink} strokeWidth="1.5" />
         <defs><path id={id} d="M-58 0a58 58 0 1 1 116 0a58 58 0 1 1-116 0" /></defs>
-        <text fontFamily={MONO} fontSize="11" letterSpacing="4"><textPath href={`#${id}`}>UNION · SEOUL · FW26 · LOOP · </textPath></text>
-        <text y="12" textAnchor="middle" fontFamily={DISPLAY} fontWeight="900" fontSize="40" style={{ fontStretch: '125%' }}>02</text>
+        <text fontFamily={MONO} fontSize="11" letterSpacing="4"><textPath href={`#${id}`}>UNION · EVERYDAY · UNION · EVERYDAY · </textPath></text>
+        <text y="12" textAnchor="middle" fontFamily={DISPLAY} fontWeight="900" fontSize="40" style={{ fontStretch: '125%' }}>U</text>
         
       </g>
     );

@@ -4,14 +4,12 @@ import { articles, byId, looks, products } from '../data.js';
 import { Garment } from '../garments.jsx';
 import { Grid, LookArt, Rail, SectionHead } from '../components.jsx';
 import { Photo, ProductImage, Reveal } from '../media.jsx';
-import { photo } from '../photos.js';
 import { useStore } from '../store.jsx';
 import { forYou } from '../recommend.js';
 
-const STOPS = ['홍대입구', '신촌', '시청', '을지로입구', '성수', '잠실', '강남', '신림'];
-const MARQUEE = ['LINE 2 LOOP', 'SEOUL 02', 'N26 NIGHT ROUTE', 'HAN RIVER CVS', 'MANGWON MARKET', '98.1 STATIC'];
+const MARQUEE = ['UNION', 'FW26 COLLECTION', 'EVERYDAY BASICS', 'UNION', 'SYMBOL TEE', 'LOGO HOODIE'];
 
-function useSeoulWeather() {
+function useWeather() {
   const [w, setW] = useState(null);
   useEffect(() => {
     fetch('https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.978&current=temperature_2m,precipitation,weather_code&timezone=Asia%2FSeoul')
@@ -23,7 +21,7 @@ function useSeoulWeather() {
 }
 
 function Weather() {
-  const w = useSeoulWeather();
+  const w = useWeather();
   if (!w) return null;
   const t = Math.round(w.temperature_2m);
   const rain = w.precipitation > 0 || [61, 63, 65, 80, 81, 82].includes(w.weather_code);
@@ -37,7 +35,7 @@ function Weather() {
   return (
     <Reveal className="weather">
       <div className="weather-now">
-        <p className="kicker">Today in Seoul{w.offline && ' · 예시'}</p>
+        <p className="kicker">오늘 날씨{w.offline && ' · 예시'}</p>
         <p className="temp">{t}°C</p>
         <p className="weather-tip">{tip}</p>
       </div>
@@ -60,29 +58,24 @@ export default function Home() {
   return (
     <>
       <section className="hero">
-        <Photo name="look-l03" alt="새벽 1시 신촌오거리 정류장, N26 맨투맨을 입은 모델" className="hero-photo" eager fallback={
+        <Photo name="look-l03" alt="UNION FW26 캠페인" className="hero-photo" eager fallback={
           <div className="hero-fallback" aria-hidden="true">
             <svg viewBox="-300 -300 600 600" className="hf-ring">
               <circle r="236" className="hf-track" />
               <circle r="236" className="hf-line" pathLength="1" />
-              {Array.from({ length: 51 }, (_, i) => {
-                const a = (i / 51) * Math.PI * 2 - Math.PI / 2;
-                return <circle key={i} cx={Math.cos(a) * 236} cy={Math.sin(a) * 236} r={i % 10 ? 3 : 7} className="hf-stop" style={{ animationDelay: `${0.4 + i * 0.03}s` }} />;
-              })}
+              <circle cx="167" cy="-167" r="22" className="hf-dot" />
             </svg>
-            <div className="hf-meta"><span>LINE 2</span><span>51 STATIONS</span><span>48.8 KM</span><span>SEOUL 02</span></div>
           </div>
         } />
         <div className="hero-shade" />
         <div className="hero-copy">
-          <p className="kicker">FW26 — Loop Collection</p>
-          <h1>서울을 한 바퀴 입다</h1>
+          <p className="kicker">FW26 Collection</p>
+          <h1>매일 입는 옷에<br />심볼 하나</h1>
           <div className="hero-links">
             <Link to="/shop">컬렉션 보기</Link>
             <Link to="/lookbook">룩북 보기</Link>
           </div>
         </div>
-        {photo['look-l03'] && <p className="hero-cap">01:26 · N26 신촌오거리</p>}
       </section>
 
       <div className="marquee" aria-hidden="true">
@@ -111,24 +104,9 @@ export default function Home() {
 
         <Reveal as="section" className="statement">
           <p className="kicker">About UNION</p>
-          <p className="statement-text">서울에서 시작한 두 개의 라인. 로고가 주인공인 LOOP과, 원단과 실루엣으로 말하는 02. UNION은 이 둘을 섞어 입는 사람을 위해 옷을 만들어요.</p>
-          <Link to="/magazine/why-02" className="more">왜 서울인가</Link>
+          <p className="statement-text">남녀 누구나 편하게 입는 기본템에 심볼 하나. UNION은 매일 손이 가는 옷을 만들어요.</p>
+          <Link to="/magazine/three-piece" className="more">입는 법 보기</Link>
         </Reveal>
-
-        <section className="lines">
-          {[['LOOP', 'u02', '스트릿 라인', '링 로고와 루프 카모. 시즌마다 적게 만들고 다시 만들지 않아요.'],
-            ['02', 'u13', '컨템포러리 라인', '심지를 뺀 블레이저, 플리츠 트라우저, 메리노 니트. 로고 대신 원단으로.']].map(([line, id, t, d]) => (
-            <Reveal key={line} as={Link} to={`/shop?line=${line}`} className="line-tile">
-              <div className="line-img"><ProductImage p={byId[id]} /></div>
-              <div className="line-copy">
-                <p className="line-name">{line}</p>
-                <p className="kicker">{t}</p>
-                <p>{d}</p>
-                <span className="more">{line} 보기</span>
-              </div>
-            </Reveal>
-          ))}
-        </section>
 
         <Weather />
 
