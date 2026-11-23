@@ -172,7 +172,7 @@ export default function App() {
         </Routes>
       </main>
       <CartDrawer />
-      <Footer />
+      {pathname !== '/' && <Footer />}
     </>
   );
 }
