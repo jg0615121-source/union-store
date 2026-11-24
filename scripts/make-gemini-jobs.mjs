@@ -17,7 +17,7 @@ const CAT = 'cat character (exactly the attached face drawing)';
 const MARK = {
   label: ['ref-label.png', 'The attached image is the UNION woven label. Reproduce it exactly as a real woven label sewn on the garment; do not change the letters or colors. '],
   word: ['ref-wordmark.png', `${WORD} `],
-  sig: ['결과/sig-signature.png', 'The attached image is our brush signature logo. Reproduce exactly this handwriting on the garment; do not rewrite it or change the letters. '],
+  sig: ['결과/sig-signature.png', 'The attached image is our brush signature logo. Reproduce exactly this handwriting on the garment; do not rewrite it or change the letters. The print is ONLY this handwritten "Union." signature with its green dot: never block capital letters, never the word UNION in a typeface. '],
   cat: ['결과/sig-cat-face.png', 'The attached image is our cat character. Reproduce exactly this drawing on the garment; do not redraw or change it. '],
 };
 const MARK_OF = { u01: 'sig', u02: 'word', u03: 'label', u05: 'sig', u10: 'label', u12: 'sig' };
