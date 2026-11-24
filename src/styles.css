@@ -750,3 +750,7 @@ button.mb-choice:hover { background: rgba(0,0,0,.3); }
 .type-cover { width: 100%; height: 100%; display: grid; align-content: space-between; padding: clamp(20px, 4vw, 48px); }
 .type-cover span { font: 500 11px var(--mono); letter-spacing: .14em; opacity: .7; }
 .type-cover b { font-weight: 500; font-size: clamp(28px, 4vw, 64px); line-height: 1.1; letter-spacing: -0.05em; word-break: keep-all; }
+/* One lookbook photo right under the home hero, leading into the lookbook. */
+.home-look { position: relative; display: block; height: 88svh; overflow: hidden; background: var(--night); }
+.home-look img { width: 100%; height: 100%; object-fit: cover; }
+.home-look-cap { position: absolute; left: var(--gut); bottom: 28px; display: flex; gap: 12px; color: #F4F4F2; font: 500 12px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
