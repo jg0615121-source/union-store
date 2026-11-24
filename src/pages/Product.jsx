@@ -137,7 +137,8 @@ export default function Product() {
   const isAcc = GROUP[p.cat] === 'acc';
   const dt = DETAILS[p.id];
   const on = wish.includes(p.id);
-  const views = isAcc || GROUP[p.cat] === 'bottom' ? ['front', 'detail'] : ['front', 'back', 'detail'];
+  // With a real photo, show only photos; the drawn back/detail views are for products that have none yet.
+  const views = photo[`${p.id}-${c}`] ? ['front'] : isAcc || GROUP[p.cat] === 'bottom' ? ['front', 'detail'] : ['front', 'back', 'detail'];
   const add = () => (size ? addToCart(p.id, c, size) : setWarn(true));
 
   return (
@@ -190,7 +191,7 @@ export default function Product() {
 
           {dt && (
             <div className="pd">
-              <table className="pd-matrix">
+              {!isAcc && <table className="pd-matrix">
                 <tbody>
                   {INFO_SCALE.map(([label, levels], r) => (
                     <tr key={label}>
@@ -199,7 +200,7 @@ export default function Product() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table>}
               <dl className="specs">
                 <div><dt>소재</dt><dd>{dt.fabric}</dd></div>
                 <div><dt>계절</dt><dd>{dt.season}</dd></div>

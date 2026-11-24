@@ -37,8 +37,9 @@ function Header() {
   }, [loc.pathname]);
   const count = cart.reduce((a, x) => a + x.qty, 0);
   const home = loc.pathname === '/';
-  const over = home && heroIn > 0.1 && !open;
-  const hideBrand = home && heroIn > 0.88 && !open;
+  // The header is always the solid white bar; it no longer turns clear over the home hero.
+  const over = false;
+  const hideBrand = false;
 
   return (
     <>

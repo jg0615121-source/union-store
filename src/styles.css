@@ -114,7 +114,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .hero-fallback { position: absolute; inset: 0; background: var(--night); }
 .hf-label { position: absolute; left: 50%; top: 50%; width: min(52vw, 620px); transform: translate(-50%, -50%); overflow: visible; transition: transform .6s var(--ease); }
 .hm-thread { stroke: #00A84D; stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.6s var(--ease) 2s forwards; }
-.hero.home-hero { height: calc(100svh + var(--hdr)); min-height: 560px; }
+.hero.home-hero { margin-top: 0; height: calc(100svh - var(--hdr)); min-height: 520px; }
 .home-hero .hero-fallback { background: radial-gradient(90% 70% at 50% 50%, #242423 0%, #161616 70%); }
 .hh-corner { position: absolute; bottom: 36px; font: 500 11px var(--mono); letter-spacing: .16em; color: rgba(236,236,234,.7); opacity: 0; animation: fadeup .8s var(--ease) 2.4s forwards; }
 .hh-left { left: var(--gut); }
@@ -680,16 +680,6 @@ button.mb-choice:hover { background: rgba(0,0,0,.3); }
 .jr-cats button.on { color: var(--fg); }
 .jc { display: grid; gap: 10px; align-content: start; }
 .jc-img { aspect-ratio: 4 / 5; overflow: hidden; }
-/* Still-life cover made from cut-out product photos. */
-.still { position: relative; width: 100%; height: 100%; }
-.still-i { position: absolute; object-fit: contain; filter: drop-shadow(0 18px 24px rgba(0,0,0,.18)); transition: transform 1.2s var(--ease); }
-.still-1 .still-i0 { inset: 8% 14%; width: 72%; height: 84%; }
-.still-2 .still-i0 { left: 4%; top: 10%; width: 56%; height: 80%; transform: rotate(-4deg); }
-.still-2 .still-i1 { right: 4%; top: 14%; width: 52%; height: 76%; transform: rotate(3deg); }
-.still-3 .still-i0 { left: 2%; top: 12%; width: 46%; height: 72%; transform: rotate(-5deg); }
-.still-3 .still-i1 { left: 30%; top: 4%; width: 42%; height: 66%; z-index: 1; }
-.still-3 .still-i2 { right: 2%; bottom: 6%; width: 34%; height: 44%; transform: rotate(6deg); z-index: 2; }
-.jc:hover .still-i { transform: scale(1.03); }
 .jc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
 .jc:hover .jc-img img { transform: scale(1.03); }
 .jc-meta { font: 500 10px var(--mono); letter-spacing: .14em; text-transform: uppercase; margin-top: 6px; }
@@ -740,7 +730,9 @@ button.mb-choice:hover { background: rgba(0,0,0,.3); }
 .cup-theme:hover { transform: translateY(-4px); }
 .cup-theme-n { font: 800 clamp(48px, 6vw, 96px)/0.9 var(--display); font-stretch: 125%; letter-spacing: -0.05em; }
 .cup-theme-t { display: flex; justify-content: space-between; gap: 12px; font-size: clamp(18px, 1.8vw, 24px); letter-spacing: -0.03em; line-height: 1.3; }
-.cup-fig { aspect-ratio: 4 / 5; background: var(--cup-bg, #262625); display: grid; place-items: center; transition: box-shadow .2s; }
+.cup-fig { aspect-ratio: 4 / 5; background: var(--cup-bg, #262625); color: #1B1B1A; display: grid; place-items: center; overflow: hidden; transition: box-shadow .2s; }
+.cup-text { padding: 12%; font-size: clamp(22px, 2.8vw, 40px); line-height: 1.3; letter-spacing: -0.04em; text-align: center; word-break: keep-all; }
+.cup-photo { width: 100%; height: 100%; object-fit: cover; }
 .cup-card:hover .cup-fig { box-shadow: inset 0 0 0 2px #ECECEA; }
 .cup-card.won .cup-fig { box-shadow: inset 0 0 0 3px #00A84D; }
 .fig { width: 46%; height: auto; filter: drop-shadow(0 16px 20px rgba(0,0,0,.25)); }
@@ -752,11 +744,9 @@ button.mb-choice:hover { background: rgba(0,0,0,.3); }
 .cup-stage .cup-win .btn.ghost { color: inherit; border-color: currentColor; }
 @media (max-width: 900px) { .cup-themes { grid-template-columns: 1fr; } .cup-theme { aspect-ratio: 16 / 9; } }
 
-/* Lookbook flat lays: top upper-left, trousers lower-right, cap tucked in the top corner. */
-.look-set { position: relative; aspect-ratio: 1; width: 100%; }
-.ls-i { position: absolute; object-fit: contain; filter: drop-shadow(0 22px 28px rgba(0,0,0,.22)); }
-.look-set-2 .ls-i0 { left: 0; top: 2%; width: 58%; height: 72%; transform: rotate(-3deg); }
-.look-set-2 .ls-i1 { right: 2%; bottom: 0; width: 46%; height: 82%; transform: rotate(2deg); }
-.look-set-3 .ls-i0 { left: 0; top: 6%; width: 56%; height: 68%; transform: rotate(-3deg); }
-.look-set-3 .ls-i1 { right: 6%; bottom: 0; width: 44%; height: 80%; transform: rotate(2deg); }
-.look-set-3 .ls-i2 { right: 0; top: 0; width: 28%; height: 28%; transform: rotate(8deg); z-index: 1; }
+.chapter.no-photo .chapter-in { grid-template-columns: minmax(0, 1fr); }
+.chapter.no-photo .chapter-text { max-width: 28em; }
+/* Journal cover before a photo exists: the title set large on the story's colour. */
+.type-cover { width: 100%; height: 100%; display: grid; align-content: space-between; padding: clamp(20px, 4vw, 48px); }
+.type-cover span { font: 500 11px var(--mono); letter-spacing: .14em; opacity: .7; }
+.type-cover b { font-weight: 500; font-size: clamp(28px, 4vw, 64px); line-height: 1.1; letter-spacing: -0.05em; word-break: keep-all; }
