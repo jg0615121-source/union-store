@@ -11,19 +11,29 @@ const WORD = 'The attached image is the UNION lettering. Use exactly these lette
 const LABEL = 'small woven UNION label patch (exactly the attached label: black with off-white UNION letters and a green tab on the right end), 5 cm wide, sewn flat with fine edge stitching on all four sides, centered 9 cm below the shoulder seam and 10 cm left of center front';
 const EMB = 'UNION lettering (exactly the attached letter shapes)';
 const SYMBOL = LABEL;
+const SIG = 'brush signature logo (exactly the attached handwriting)';
+const CAT = 'cat character (exactly the attached face drawing)';
+// Which mark each product uses, and the sentence that tells Gemini what the attachment is.
+const MARK = {
+  label: ['ref-label.png', 'The attached image is the UNION woven label. Reproduce it exactly as a real woven label sewn on the garment; do not change the letters or colors. '],
+  word: ['ref-wordmark.png', `${WORD} `],
+  sig: ['결과/sig-signature.png', 'The attached image is our brush signature logo. Reproduce exactly this handwriting on the garment; do not rewrite it or change the letters. '],
+  cat: ['결과/sig-cat-face.png', 'The attached image is our cat character. Reproduce exactly this drawing on the garment; do not redraw or change it. '],
+};
+const MARK_OF = { u01: 'cat', u02: 'word', u03: 'label', u05: 'sig', u10: 'label', u12: 'sig' };
 const SPEC = {
-  u01: `boxy heavyweight 240gsm cotton jersey t-shirt, dropped shoulders, a clean 2.5 cm 1x1 rib neckband lying perfectly flat, twin-needle stitched sleeve and body hems, a ${LABEL} on the left chest`,
+  u01: `boxy heavyweight 240gsm cotton jersey t-shirt, dropped shoulders, a clean 2.5 cm 1x1 rib neckband lying perfectly flat, twin-needle stitched sleeve and body hems, the ${CAT} screen-printed in black ink on the left chest, 8 cm wide, centered 9 cm below the shoulder seam`,
   u02: 'oversized heavyweight 240gsm cotton jersey t-shirt, dropped shoulders, a clean 2.5 cm 1x1 rib neckband lying perfectly flat, the UNION lettering screen-printed across the chest in off-black ink, 26 cm wide (about 40 percent of the chest width), top of the letters 9 cm below the neckband, soft hand water-based print',
   u03: `heavyweight 450gsm brushed cotton fleece hoodie, double-layer hood with flat cotton drawcords and metal eyelets, kangaroo pocket, 7 cm 2x2 rib cuffs and hem knitted tight and even, a ${LABEL} on the left chest`,
   u04: 'heavyweight cotton hoodie, kangaroo pocket, large "UNION" wordmark printed across the chest',
-  u05: `heavyweight 420gsm cotton fleece crewneck sweatshirt with raglan sleeves, a 3 cm 2x2 rib neckband, 7 cm 2x2 rib cuffs and hem knitted tight and even, small tonal embroidered ${EMB} on the left chest, 7 cm wide, dense satin-stitch embroidery`,
+  u05: `heavyweight 420gsm cotton fleece crewneck sweatshirt with raglan sleeves, a 3 cm 2x2 rib neckband, 7 cm 2x2 rib cuffs and hem knitted tight and even, the ${SIG} embroidered across the chest in off-black chain-stitch embroidery, 20 cm wide, top of the signature 10 cm below the neckband, the small dot in green thread`,
   u06: 'cotton long-sleeve t-shirt with a small "UNION" wordmark printed on the left chest',
   u07: `lightweight nylon coach jacket, snap front, small ${SYMBOL} on the left chest, large arched "UNION" print across the upper back`,
   u08: `varsity jacket with wool body and faux-leather sleeves, ribbed collar, cuffs and hem with a thin green stripe, chenille ${SYMBOL} patch on the left chest`,
   u09: 'relaxed nylon track pants with elastic waistband, zip ankle cuffs, a single thin green piping line down each outer seam',
-  u10: 'wide-leg heavyweight cotton fleece sweatpants, 5 cm covered elastic waistband with flat drawcord, side seam pockets, straight wide hem with no cuffs, falling to the floor',
+  u10: `wide-leg heavyweight cotton fleece sweatpants, 5 cm covered elastic waistband with flat drawcord, side seam pockets, straight wide hem with no cuffs, falling to the floor, a ${LABEL.replace('5 cm wide', '4 cm wide').replace(/, centered 9 cm.*$/, '')} on the left leg 8 cm below the pocket opening`,
   u11: 'cotton fleece sweat shorts, above-knee length, small "UNION" print on the left leg',
-  u12: `six-panel washed cotton twill baseball cap, low unstructured crown, pre-curved brim with neat rows of stitching, off-white raised embroidered ${EMB} on the front, 8 cm wide`,
+  u12: `six-panel washed cotton twill baseball cap, low unstructured crown, pre-curved brim with neat rows of stitching, the ${SIG} embroidered on the front panels in off-white thread, 10 cm wide, the small dot in green thread`,
   u13: `ribbed knit beanie with fold-over cuff and a small woven ${SYMBOL} label`,
   u15: 'three pairs of ribbed cotton crew socks with a small knitted "UNION" logo',
   u16: 'heavyweight 230gsm plain cotton t-shirt, no logo, thick ribbed collar',
@@ -54,16 +64,15 @@ const refsFor = (pids) => [...(pids.some(usesWordmark) ? ['ref-wordmark.png'] : 
 // 0) brand graphics and signature garment concepts  1) product photos  2) two casting references  3) one model per product
 // 4) hero lookbook  5) second model  6) the other lookbooks.
 // Brand graphics chosen by the user: a brush signature (hand-signed streetwear energy) and one cat character for people in their 20s.
-job('sig-signature-final', 'Draw only the word "Union" as one fast, confident brush-marker signature, the hand-signed kind seen on classic surf and skate labels: thick-to-thin strokes, slight dry-brush texture at the stroke ends, a strong forward slant, a long flick under the word from the final n, and a small solid green (#00A84D) dot after the n. Black ink on plain white. Only this one signature, centered, large, with clean edges that work for screen printing and embroidery. Grown-up and stylish, not childish, not wedding calligraphy. No other text, no logo, no frame.');
+job('sig-signature', 'Draw only the word "Union" as one fast, confident brush-marker signature, the hand-signed kind seen on classic surf and skate labels: thick-to-thin strokes, slight dry-brush texture at the stroke ends, a strong forward slant, a long flick under the word from the final n, and a small solid green (#00A84D) dot after the n. Black ink on plain white. Only this one signature, centered, large, with clean edges that work for screen printing and embroidery. Grown-up and stylish, not childish, not wedding calligraphy. No other text, no logo, no frame.');
 job('sig-cat', 'Design a cat character for the graphic tees of a streetwear label for people in their 20s, drawn by a professional illustrator. A cool, deadpan, healthy short-haired street cat: sleek clean silhouette, bright eyes that are half-closed in a calm, unimpressed way (bored and confident, not sick or tired: no eye bags, no droopy features, no scraggly fur), small nose, a tiny green (#00A84D) notch in one ear. Confident clean ink line, simple bold shapes, witty and mature, the kind of graphic people in their 20s actually wear. Not cute kawaii, not childish, not a mascot. Black ink with the green accent only, plain off-white background. Show 4 variations in a 2x2 grid: face front, sitting seen from the side, walking away and looking back, lying flat looking unimpressed. No text, no logo.');
-job('concept-sig-tee', 'Use the attached brush signature exactly as it is. Product photo of a boxy heavyweight 240gsm cotton jersey t-shirt in washed black with a clean 2.5 cm rib neckband, shown front and back side by side, laid flat and shot from above. Front: the signature screen-printed small in off-white on the left chest, 9 cm wide. Back: the same signature printed large across the upper back, 28 cm wide, with a small green dot. Real garment, visible knit texture, crisp seams. Seamless warm light-grey backdrop, soft light. 3:2 horizontal. No other text, no other logos, no watermark.', ['결과/sig-signature-final.png']);
-job('concept-sig-hoodie', 'Use the attached brush signature exactly as it is. Product photo of a heavyweight 450gsm brushed cotton fleece hoodie in oat (#D6CDBB), double-layer hood, flat drawcords, kangaroo pocket, tight even 7 cm rib cuffs and hem. The signature embroidered on the chest in off-black chain-stitch embroidery, 18 cm wide, with the small dot in green thread. Ghost mannequin front view, real garment texture. Seamless warm light-grey backdrop, soft light. 4:5 vertical. No other text, no other logos, no watermark.', ['결과/sig-signature-final.png']);
+// After sig-cat: crop the chosen face (top-left of the 2x2 sheet) to 결과/sig-cat-face.png before the product photos.
 
 for (const p of products) {
   const c = p.colors[0];
   const tab = TAB_FOR[p.cat] || TAB;
-  const logo = usesSymbol(p.id) ? 'The attached image is the UNION woven label. Reproduce it exactly as a real woven label sewn on the garment; do not change the letters or colors. ' : usesWordmark(p.id) ? `${WORD} ` : '';
-  job(`${p.id}-0`, `${logo}Product photo of a ${SPEC[p.id]}, in ${c.name.toLowerCase()} (${c.hex}), with ${tab}. The garment color must be ${c.name.toLowerCase()} ${c.hex}. ${p.cat === 'pants' ? 'Front view, laid flat, shot from directly above.' : FLAT.has(p.cat) ? 'Laid flat, shot from directly above.' : TAILORED.has(p.cat) ? 'On a ghost mannequin, front view, buttoned.' : 'Ghost mannequin (invisible mannequin) front view.'} ${STUDIO}`, refsFor([p.id]));
+  const [ref, logo] = MARK[MARK_OF[p.id]];
+  job(`${p.id}-0`, `${logo}Product photo of a ${SPEC[p.id]}, in ${c.name.toLowerCase()} (${c.hex}), with ${tab}. The garment color must be ${c.name.toLowerCase()} ${c.hex}. ${p.cat === 'pants' ? 'Front view, laid flat, shot from directly above.' : FLAT.has(p.cat) ? 'Laid flat, shot from directly above.' : TAILORED.has(p.cat) ? 'On a ghost mannequin, front view, buttoned.' : 'Ghost mannequin (invisible mannequin) front view.'} ${STUDIO}`, [ref]);
 }
 
 const MODEL_SPEC = {
