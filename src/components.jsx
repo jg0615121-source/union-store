@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { byId, won, GROUP, SIZES } from './data.js';
 import { Photo, ProductImage } from './media.jsx';
-import { photo } from './photos.js';
+import { photo, shownColors } from './photos.js';
 import { useStore } from './store.jsx';
 
 export function Heart({ on }) {
@@ -19,7 +19,6 @@ export function ProductCard({ p, c = 0, rank }) {
   const [added, setAdded] = useState('');
   const on = wish.includes(p.id);
   const acc = GROUP[p.cat] === 'acc';
-  // Hover shows the second colourway when photographed, otherwise the back or the print.
   // Hover shows the second colour only when it is photographed; illustrations stay put.
   const alt = photo[`${p.id}-1`] ? <ProductImage p={p} c={1} /> : null;
   return (
@@ -37,8 +36,8 @@ export function ProductCard({ p, c = 0, rank }) {
         <span className="pcard-row">
           <span className="price">{won(p.price)}</span>
         </span>
-        <span className="swatches" aria-label={`${p.colors.length}가지 색상`}>
-          {p.colors.map((col) => <i key={col.name} style={{ background: col.hex }} title={col.name} />)}
+        <span className="swatches" aria-label={`${shownColors(p).length}가지 색상`}>
+          {shownColors(p).map((k) => <i key={k} style={{ background: p.colors[k].hex }} title={p.colors[k].name} />)}
         </span>
       </Link>
     </article>

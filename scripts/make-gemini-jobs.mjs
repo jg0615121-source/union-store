@@ -42,7 +42,7 @@ const SPEC = {
 const TOPLAY = 'Front view as a premium brand flat-lay product shot: the garment laid perfectly flat on the floor and shot from directly above, symmetrical, sleeves straight and relaxed along the sides, neckline lying flat, hem straight, smoothed by a professional stylist with only a few soft natural creases. No mannequin, no body volume, no hanger, no person.';
 const FLAT = new Set(['pants', 'shorts', 'cap', 'beanie', 'tote', 'socks']);
 const TAILORED = new Set(['blazer', 'coat']);
-const STUDIO = 'Shot like a real premium brand product page: medium format camera, f/8, one large softbox from the upper left, seamless warm light-grey paper backdrop, very soft contact shadow. Real garment, not a 3D render: visible cotton knit texture, crisp straight seams, no puckering, no wavy hems, a few natural soft folds. The ribbing must look clean, tight and even. No model, no hands, no text overlays, no watermark, no other brand logos. Centered with generous margin. 4:5 vertical.';
+const STUDIO = 'Shot like a real premium brand product page: medium format camera, f/8, one large softbox from the upper left, seamless warm light-grey paper backdrop, very soft contact shadow. Real luxury-brand garment, not a 3D render: premium dense heavyweight cotton with a smooth, slightly matte, expensive-looking surface and a heavy drape, visible fine knit texture, crisp straight seams, no puckering, no wavy hems, a few natural soft folds. The ribbing must look clean, tight and even. No model, no hands, no text overlays, no watermark, no other brand logos. Centered with generous margin. 4:5 vertical.';
 
 const out = 'assets/gemini';
 rmSync(out, { recursive: true, force: true });
@@ -67,7 +67,6 @@ const refsFor = (pids) => [...(pids.some(usesWordmark) ? ['ref-wordmark.png'] : 
 // 4) hero lookbook  5) second model  6) the other lookbooks.
 // Brand graphics chosen by the user: a brush signature (hand-signed streetwear energy) and one cat character for people in their 20s.
 job('sig-signature', 'Draw only the word "Union" as one fast, confident brush-marker signature, the hand-signed kind seen on classic surf and skate labels: thick-to-thin strokes, slight dry-brush texture at the stroke ends, a strong forward slant, a long flick under the word from the final n, and a small solid green (#00A84D) dot after the n. Black ink on plain white. Only this one signature, centered, large, with clean edges that work for screen printing and embroidery. Grown-up and stylish, not childish, not wedding calligraphy. No other text, no logo, no frame.');
-job('sig-cat', 'Design a cat character for the graphic tees of a streetwear label for people in their 20s, drawn by a professional illustrator. A cool, deadpan, healthy short-haired street cat: sleek clean silhouette, bright eyes that are half-closed in a calm, unimpressed way (bored and confident, not sick or tired: no eye bags, no droopy features, no scraggly fur), small nose, a tiny green (#00A84D) notch in one ear. Confident clean ink line, simple bold shapes, witty and mature, the kind of graphic people in their 20s actually wear. Not cute kawaii, not childish, not a mascot. Black ink with the green accent only, plain off-white background. Show 4 variations in a 2x2 grid: face front, sitting seen from the side, walking away and looking back, lying flat looking unimpressed. No text, no logo.');
 // After sig-cat: crop the chosen face (top-left of the 2x2 sheet) to 결과/sig-cat-face.png before the product photos.
 
 for (const p of products) {
@@ -110,10 +109,19 @@ const look = (id) => {
 look('l03');
 for (const p of products) if (p.cat !== 'cap') model(p, 2);
 for (const id of ['l01', 'l02', 'l04']) look(id);
+// Lookbook: generic editorial outfits matching the lookbook text. No UNION products, no logos.
+const LOOKBOOK = [
+  'early morning on a quiet street before work: a plain white t-shirt, grey wide trousers, a plain black cap, white sneakers, a thin watch',
+  'a lunchtime walk in a park: an oat crewneck sweatshirt, grey wide trousers, brown suede sneakers',
+  'after work in the evening by a cafe window: a black t-shirt with a large plain graphic, grey wide trousers, a plain black cap, black leather sneakers',
+  'the last train at night on an empty platform: a grey hoodie and matching grey sweatpants, white socks, slides',
+];
+LOOKBOOK.forEach((scene, i) => job(`lookbook-${i + 1}`, `Editorial fashion photograph for a lookbook, shot on 35mm film, natural grain, candid not posed: a Korean person in their early 20s, ${scene}. Plain garments with no logos or brand marks of any kind, natural hands. 4:5 vertical.`));
+
 // Journal photographs (added on main): one editorial image per story, magazine style rather than product shots. Lowest priority.
 const JOURNAL = {
   'three-piece': 'Three folded garments (a white t-shirt, grey sweatpants, a black cap) laid on a wooden bench by a window, morning light, quiet still life',
-  'logo-tee': 'A young Korean person seen from the side walking past a concrete wall, wearing a black oversized t-shirt with a large white "UNION" wordmark, candid street moment',
+  'logo-tee': 'A young Korean person seen from the side walking past a concrete wall, wearing a black oversized t-shirt with a large white graphic print that has no readable brand, candid street moment',
   'green-tab': 'Extreme close-up of the hem of a grey sweatshirt showing a small green woven tab at the side seam, shallow depth of field, fabric texture',
   'white-tee': 'A white heavyweight t-shirt hanging on a simple wooden hanger against a plain plaster wall, soft side light, minimal',
 };
