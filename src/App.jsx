@@ -17,7 +17,7 @@ import Checkout from './pages/Checkout.jsx';
 import Play from './pages/Play.jsx';
 
 const NAV = [['/shop', 'Shop'], ['/lookbook', 'Lookbook'], ['/magazine', 'Journal'], ['/play', 'Play']];
-const PLAY = [['/stylist', 'AI 스타일리스트'], ['/mbti', '패션 MBTI'], ['/worldcup', '코디 월드컵']];
+const PLAY = [['/stylist', 'AI 스타일리스트'], ['/mbti', '패션 MBTI'], ['/worldcup', '이상형 월드컵']];
 
 function Header() {
   const { cart, wish, setCartOpen } = useStore();
