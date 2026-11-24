@@ -2,7 +2,7 @@
 
 // Garment-dyed palette. ink = contrast print, tone = tonal embroidery a shade off the base.
 const C = {
-  white: { name: 'Bone', hex: '#E6E1D6', ink: '#2E2E2D', tone: '#C4BCAC' },
+  white: { name: 'White', hex: '#F2F1EC', ink: '#2E2E2D', tone: '#D2D0C8' },
   black: { name: 'Washed Black', hex: '#2E2E2D', ink: '#E6E3DC', tone: '#4D4D4A' },
   ash: { name: 'Concrete', hex: '#ACACA6', ink: '#2E2E2D', tone: '#8E8E88' },
   grey: { name: 'Concrete', hex: '#ACACA6', ink: '#2E2E2D', tone: '#8E8E88' },
