@@ -1,13 +1,12 @@
 import { Photo } from '../media.jsx';
 import { photo } from '../photos.js';
 
-// One day in four looks. Captions stay short, the way printed lookbooks run them.
-// Photos are optional: add src/assets/photos/lookbook-<n>.webp (n = 1..4) and each chapter shows it.
+// One day in three looks (막차 comes back later, see docs/TODO.md). Captions stay short, the way printed lookbooks run them.
+// Photos are optional: add src/assets/photos/lookbook-<n>.webp (n = 1..3) and each chapter shows it.
 const LOOKS = [
   { time: '08:10', place: '출근 전', bg: '#D9D7D0', fg: '#1B1B1A', note: '모자 하나 눌러쓰고 나간다.', with: 'White tee, grey trousers, black cap' },
   { time: '12:40', place: '점심', bg: '#E6E1D6', fg: '#1B1B1A', note: '볕이 좋아서 맨투맨 한 장.', with: 'UNION Sweatshirt Oat, Wide Sweatpants Concrete' },
   { time: '18:30', place: '퇴근길', bg: '#2D5E45', fg: '#ECECEA', note: '모자는 벗을까 하다 그냥 썼다.', with: 'UNION Signature Tee White, Wide Sweatpants Concrete, Cap Black' },
-  { time: '23:40', place: '막차', bg: '#1B1B1A', fg: '#ECECEA', note: '오늘은 여기까지.', with: 'Grey hoodie, grey sweatpants' },
 ];
 
 export default function Lookbook() {
