@@ -5,8 +5,8 @@ import { ProductImage, Reveal } from '../media.jsx';
 // One UNION piece per chapter, worn with what people already own.
 const CHAPTERS = [
   { time: '08:10', item: ['u01', 0], bg: '#D9D7D0', fg: '#1B1B1A', with: '가지고 있는 청바지, 흰 운동화', text: '작은 라벨 하나만 보이는 티. 무엇과 입어도 정돈돼 보여요.' },
-  { time: '15:40', item: ['u02', 1], bg: '#E6E1D6', fg: '#1B1B1A', with: '회색 반바지, 양말은 길게', text: '로고가 큰 날은 나머지를 덜어내요.' },
-  { time: '22:30', item: ['u08', 0], bg: '#2D5E45', fg: '#ECECEA', with: '검정 슬랙스, 로퍼', text: '바시티 하나로 밤 약속의 분위기가 바뀌어요.' },
+  { time: '15:40', item: ['u02', 1], bg: '#E6E1D6', fg: '#1B1B1A', with: '회색 반바지, 긴 양말', text: '로고가 큰 날은 나머지를 덜어내요.' },
+  { time: '22:30', item: ['u03', 1], bg: '#2D5E45', fg: '#ECECEA', with: '검정 슬랙스, 로퍼', text: '후디 하나로 밤 약속도 충분해요.' },
   { time: '01:20', item: ['u05', 1], bg: '#1B1B1A', fg: '#ECECEA', with: '편한 트레이닝 바지', text: '늦은 밤에도 대충 입은 것처럼 보이지 않게.' },
 ];
 

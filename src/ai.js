@@ -41,7 +41,7 @@ export function localSearch(query, limit = 8) {
 
 export function localChat(text) {
   const { productIds } = localSearch(text, 3);
-  const ids = productIds.length ? productIds : ['u05', 'u10', 'u06'];
+  const ids = productIds.length ? productIds : ['u01', 'u10', 'u12'];
   const names = ids.map((id) => byId[id].ko).join(', ');
   return {
     reply: `${names} 조합을 추천해요. 상의 하나만 그래픽으로 튀게 하고 나머지는 무채색으로 맞추면 실패가 없어요. 더 알려주시면 좁혀볼게요. 키, 평소 사이즈, 가는 곳 같은 거요.`,

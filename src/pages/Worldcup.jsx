@@ -49,7 +49,7 @@ export default function Worldcup() {
           <div>
             <p className="kicker">내 이상형 코디</p>
             <h1>{winner.name}</h1>
-            <p>고른 15번을 모아보면 <b>{top.map(([t]) => TAG_KO[t]).join(', ')}</b> 쪽으로 기울어 있어요.</p>
+            <p>고른 {picked.length}번을 모아보면 <b>{top.map(([t]) => TAG_KO[t]).join(', ')}</b> 쪽으로 기울어 있어요.</p>
             <ul className="cup-items">
               {winner.items.map(([id, c]) => <li key={id}><Link to={`/product/${id}`}>{byId[id].name}</Link><span>{byId[id].colors[c].name}</span></li>)}
             </ul>

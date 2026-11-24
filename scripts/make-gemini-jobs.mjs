@@ -45,7 +45,7 @@ const SCENES = {
   l03: ['hero', 'a city street at night, an empty bus stop, soft street lights, wet asphalt'],
   l01: ['', 'a quiet street in the morning, soft sunlight, brick walls'],
   l02: ['', 'a park lawn in the afternoon, a picnic mat, relaxed mood'],
-  l09: ['', 'a narrow alley at night, warm street lights'],
+  l04: ['', 'a campus walkway in the morning, soft light'],
 };
 for (const [id, [, scene]] of Object.entries(SCENES)) {
   const l = looks.find((x) => x.id === id);

@@ -5,7 +5,7 @@ import { ProductImage, Reveal } from '../media.jsx';
 
 const ITEMS = [
   ['/mbti', '패션 MBTI', 'ENFP', '#2D5E45'],
-  ['/worldcup', '코디 이상형 월드컵', '16→1', '#1B1B1A'],
+  ['/worldcup', '코디 이상형 월드컵', '8→1', '#1B1B1A'],
   ['/fit-check', 'AI 코디 체크', '87', '#E6E1D6'],
   ['/stylist', 'AI 스타일리스트', '뭐 입지?', '#ACACA6'],
 ];
