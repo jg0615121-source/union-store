@@ -48,7 +48,7 @@ const usesWordmark = (pid) => /UNION/.test(SPEC[pid]);
 const refsFor = (pids) => [...(pids.some(usesWordmark) ? ['ref-logo.png'] : []), ...(pids.some(usesSymbol) ? ['결과/sig-선택.png (고른 시그니처)'] : [])];
 
 // Order = priority, because the Gemini image quota is limited. Stop anywhere and the site still has the most important photos.
-// 1) signature concepts (needed before anything with the symbol)  2) product photos  3) one model per product
+// 1) signature concepts (needed before anything with the symbol)  2) product photos  3) two casting references  4) one model per product
 // 4) hero lookbook  5) second model  6) the other lookbooks.
 const ART = 'Signature graphic for a casual unisex label, drawn by a skilled illustrator: confident hand-drawn ink line with slight wobble, vintage screen-print texture with tiny ink breaks, two-color print (off-black #1B1B1A and green #00A84D) on off-white cotton, timeless rather than trendy, the kind of motif a brand repeats on tees, caps and tote bags for years. Simple enough to read at 3 cm, charming at 25 cm. No gradients, no 3D, no clip-art look, no other brand names. Show 4 variations side by side on one square canvas.';
 const SIGS = {
@@ -70,10 +70,17 @@ const MODEL_SPEC = {
   1: 'a Korean man in his early 20s, 181 cm, slim build',
   2: 'a Korean woman in her early 20s, 167 cm, slim build',
 };
+// Casting references: the same two people in every model shot and lookbook.
+const CAST = {
+  1: ['cast-man', 'a Korean man in his early 20s, 181 cm, slim build, short natural black hair with a soft fringe, clean-shaven, calm friendly face'],
+  2: ['cast-woman', 'a Korean woman in her early 20s, 167 cm, slim build, shoulder-length straight black hair tucked behind one ear, minimal makeup, calm friendly face'],
+};
+for (const [name, who] of Object.values(CAST)) job(name, `Model casting reference sheet for a fashion brand: ${who}. Three views side by side on one 3:2 horizontal canvas: close-up face portrait, front full body, side full body. Plain heather grey crewneck t-shirt with no logo, plain black trousers, white sneakers. Seamless light grey studio backdrop, soft even lighting, neutral relaxed expression, natural hands. Photorealistic, high-end, no text, no watermark.`);
+const SAME = (k) => `The person must be exactly the same person as in the attached ${CAST[k][0]} reference (same face, hair, body).`;
 const model = (p, k) => {
   const c = p.colors[0];
   const pants = p.cat === 'pants';
-  job(`${p.id}-model-${k}`, `Use the attached product photo as the exact garment: same color, fabric, fit, logo and logo position, nothing redrawn. E-commerce model photo for a fashion product page: ${MODEL_SPEC[k]} wearing exactly this ${c.name.toLowerCase()} ${p.cat === 'cap' ? 'cap' : 'garment'}, styled with plain neutral basics only (${pants ? 'a plain white heavyweight t-shirt' : 'straight black trousers'}, clean white sneakers, no logos on anything else). ${p.cat === 'cap' ? 'Upper-body shot.' : 'Full-body shot, head to toe.'} Seamless light grey studio backdrop, soft even lighting, natural relaxed standing pose, hands relaxed at the sides or in pockets, neutral face, sharp focus on the garment so fit and length are easy to judge. 3:4 vertical. Photorealistic, high-end, no text, no watermark.`, [`결과/${p.id}-0.png`]);
+  job(`${p.id}-model-${k}`, `${SAME(k)} Use the attached product photo as the exact garment: same color, fabric, fit, logo and logo position, nothing redrawn. E-commerce model photo for a fashion product page: ${MODEL_SPEC[k]} wearing exactly this ${c.name.toLowerCase()} ${p.cat === 'cap' ? 'cap' : 'garment'}, styled with plain neutral basics only (${pants ? 'a plain white heavyweight t-shirt' : 'straight black trousers'}, clean white sneakers, no logos on anything else). ${p.cat === 'cap' ? 'Upper-body shot.' : 'Full-body shot, head to toe.'} Seamless light grey studio backdrop, soft even lighting, natural relaxed standing pose, hands relaxed at the sides or in pockets, neutral face, sharp focus on the garment so fit and length are easy to judge. 3:4 vertical. Photorealistic, high-end, no text, no watermark.`, [`결과/${p.id}-0.png`, `결과/${CAST[k][0]}.png`]);
 };
 for (const p of products) model(p, 1);
 
@@ -87,7 +94,7 @@ const look = (id) => {
   const l = looks.find((x) => x.id === id);
   // Attach the product photo of the same garment; if the look uses another colour, say so in the text.
   const wear = l.items.map(([pid, ci]) => `${byId[pid].colors[ci].name.toLowerCase()} ${SPEC[pid].split('.')[0]}${ci ? ` (same design as the attached ${pid} photo, but in ${byId[pid].colors[ci].name.toLowerCase()})` : ''}`).join('; ');
-  job(`look-${id}`, `Use the attached product photos as the exact garments. Editorial fashion photograph on 35mm film, natural grain, candid not posed. Two Korean models in their early 20s, one man and one woman, both wearing: ${wear}. Setting: ${SCENES[id]}. No visible logos other than the garments' own small marks, no text overlays, natural hands. ${id === 'l03' ? '16:9 horizontal, subject on the left third, lots of negative space on the right.' : '4:5 vertical.'}`, l.items.map(([pid]) => `결과/${pid}-0.png`));
+  job(`look-${id}`, `Use the attached product photos as the exact garments. Editorial fashion photograph on 35mm film, natural grain, candid not posed. The two people are exactly the man and the woman in the attached cast-man and cast-woman references (same faces and hair), both wearing: ${wear}. Setting: ${SCENES[id]}. No visible logos other than the garments' own small marks, no text overlays, natural hands. ${id === 'l03' ? '16:9 horizontal, subject on the left third, lots of negative space on the right.' : '4:5 vertical.'}`, [...l.items.map(([pid]) => `결과/${pid}-0.png`), '결과/cast-man.png', '결과/cast-woman.png']);
 };
 look('l03');
 for (const p of products) if (p.cat !== 'cap') model(p, 2);
