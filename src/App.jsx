@@ -26,24 +26,27 @@ function Header() {
   const nav = useNavigate();
   const loc = useLocation();
   useEffect(() => { setOpen(false); }, [loc.pathname, loc.search]);
-  // On home the header stays clear while the hero is on screen.
-  const [heroIn, setHeroIn] = useState(0);
+  // The header slides away while scrolling down and comes back on any scroll up.
+  const [hide, setHide] = useState(false);
   useEffect(() => {
-    const hero = document.querySelector('.home-hero');
-    if (!hero) { setHeroIn(0); return; }
-    const io = new IntersectionObserver(([e]) => setHeroIn(e.intersectionRatio), { threshold: Array.from({ length: 21 }, (_, i) => i / 20) });
-    io.observe(hero);
-    return () => io.disconnect();
-  }, [loc.pathname]);
+    let last = window.scrollY;
+    const on = () => {
+      const y = window.scrollY;
+      if (Math.abs(y - last) < 6) return;
+      setHide(y > last && y > 80);
+      last = y;
+    };
+    window.addEventListener('scroll', on, { passive: true });
+    return () => window.removeEventListener('scroll', on);
+  }, []);
   const count = cart.reduce((a, x) => a + x.qty, 0);
-  const home = loc.pathname === '/';
   // The header is always the solid white bar; it no longer turns clear over the home hero.
   const over = false;
   const hideBrand = false;
 
   return (
     <>
-      <header className={`hdr ${over ? 'over' : ''}`}>
+      <header className={`hdr ${over ? 'over' : ''} ${hide && !open ? 'hide' : ''}`}>
         <div className="hdr-in">
           <button className="menu-btn" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="메뉴">
             <span /><span />
