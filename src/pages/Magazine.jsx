@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { articles, byId } from '../data.js';
-import { ProductImage } from '../media.jsx';
+import { Photo, ProductImage } from '../media.jsx';
 
 const no = (i) => `No.${String(i + 1).padStart(2, '0')}`;
 
@@ -43,7 +43,9 @@ export function Article() {
           <p className="art-k"><span>{no(i)}</span><span>{a.kicker}</span><span>{a.minutes} min</span></p>
           <h1>{a.title}</h1>
           <p className="art-lede">{a.lede}</p>
+          <p className="art-credit">{a.credit}</p>
         </div>
+        <Photo name={`journal-${a.id}`} alt={a.title} className="art-photo" fallback={null} />
       </header>
       <div className="art-body">
         {a.body.slice(0, mid).map(para)}

@@ -64,6 +64,15 @@ for (const p of products) {
   }
 }
 
+// Journal photographs: one editorial image per story, magazine style rather than product shots.
+const JOURNAL = {
+  'three-piece': 'Three folded garments (a bone t-shirt, grey sweatpants, a black cap) laid on a wooden bench by a window, morning light, quiet still life',
+  'logo-tee': 'A young Korean person seen from the side walking past a concrete wall, wearing a black oversized t-shirt with a large white "UNION" wordmark, candid street moment',
+  'green-tab': 'Extreme close-up of the hem of a grey sweatshirt showing a small green woven tab at the side seam, shallow depth of field, fabric texture',
+  'white-tee': 'A bone heavyweight t-shirt hanging on a simple wooden hanger against a plain plaster wall, soft side light, minimal',
+};
+for (const [id, scene] of Object.entries(JOURNAL)) job(`journal-${id}`, `Editorial magazine photograph for a fashion journal, in the spirit of independent print magazines: ${scene}. Shot on medium-format film, natural light, muted colours, generous negative space, no text, no other brand logos. 16:9 horizontal.`);
+
 // Signature graphic concepts: generated as artwork, not photos. Ask for 4 variations each.
 const ART = 'Signature graphic for a casual unisex label, drawn by a skilled illustrator: confident hand-drawn ink line with slight wobble, vintage screen-print texture with tiny ink breaks, two-color print (off-black #1B1B1A and green #00A84D) on off-white cotton, timeless rather than trendy, the kind of motif a brand repeats on tees, caps and tote bags for years. Simple enough to read at 3 cm, charming at 25 cm. No gradients, no 3D, no clip-art look. Show 4 variations side by side, square.';
 const SIGS = {
