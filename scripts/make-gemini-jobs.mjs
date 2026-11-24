@@ -114,7 +114,7 @@ for (const id of ['l01', 'l02', 'l04']) look(id);
 // Lookbook: the brand's own pieces (attached product photos) styled by a stylist, shot like real film photos.
 const LOOKBOOK = [
   ['early morning on a quiet street before work: a plain white t-shirt, grey wide trousers, a plain black cap, white sneakers, a thin watch', []],
-  ['a lunchtime walk in front of a warm greige plaster wall that matches the outfit's tone: the attached oat crewneck sweatshirt and the attached grey wide sweatpants, brown suede sneakers, a canvas tote; sweatshirt hem sitting just at the hip, trousers breaking once on the shoes', ['u05-0', 'u10-0']],
+  ['a lunchtime walk in front of a warm greige plaster wall that matches the outfit tone: the attached oat crewneck sweatshirt and the attached grey wide sweatpants, brown suede sneakers, a canvas tote; sweatshirt hem sitting just at the hip, trousers breaking once on the shoes', ['u05-0', 'u10-0']],
   ['early evening against a pale concrete wall in soft overcast light: the attached white signature t-shirt tucked loosely at the front, the attached grey wide sweatpants, the attached black cap, black leather sneakers, a silver ring', ['u01-0', 'u10-0', 'u12-0']],
   ['an empty concrete subway platform in muted grey light: the attached grey hoodie with the attached grey wide sweatpants as a tonal set, white socks, black slides, a small crossbody bag', ['u03-0', 'u10-0']],
 ];
