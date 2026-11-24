@@ -37,6 +37,7 @@ function Header() {
   }, []);
   const count = cart.reduce((a, x) => a + x.qty, 0);
   const over = loc.pathname === '/' && top && !open;
+  const home = loc.pathname === '/';
 
   return (
     <>
@@ -51,7 +52,7 @@ function Header() {
               {NAV.map(([to, l]) => <NavLink key={l} to={to} end>{l}</NavLink>)}
             </div>
           </nav>
-          <Link to="/" className="brand" aria-label="UNION 홈"><Logo height={24} ink={over ? '#F4F4F2' : 'currentColor'} paper={over ? '#1B1B1A' : 'var(--bg)'} /></Link>
+          <Link to="/" className={`brand ${home ? 'brand-hide' : ''}`} aria-label="UNION 홈"><Logo height={24} ink={over ? '#F4F4F2' : 'currentColor'} paper={over ? '#1B1B1A' : 'var(--bg)'} /></Link>
           <div className="hdr-right">
             <form className="hsearch" role="search" onSubmit={(e) => { e.preventDefault(); if (q.trim()) nav(`/shop?q=${encodeURIComponent(q.trim())}`); }}>
               <label htmlFor="hq" className="sr">상품 검색</label>

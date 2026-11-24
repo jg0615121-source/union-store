@@ -1,15 +1,14 @@
 import { Link, useParams } from 'react-router-dom';
 import { articles, byId, won } from '../data.js';
-import { Garment } from '../garments.jsx';
 import { ProductImage, Reveal } from '../media.jsx';
 
-// Cover art for a story: the first featured garment's print, enlarged on the story's colour.
+// Typographic cover: the story's title set large on its colour.
 function Cover({ a, className = '' }) {
-  const p = byId[a.shop[0]];
   return (
     <div className={`mag-cover ${className}`} style={{ background: a.tone, color: a.fg }}>
-      <div className="mag-cover-art"><Garment product={p} c={0} view="detail" /></div>
       <span className="mag-cover-k">{a.kicker}</span>
+      <span className="mag-cover-t">{a.title}</span>
+      <span className="mag-cover-n">UNION JOURNAL</span>
     </div>
   );
 }
