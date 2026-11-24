@@ -20,13 +20,13 @@ const MARK = {
   sig: ['결과/sig-signature.png', 'The attached image is our brush signature logo. Reproduce exactly this handwriting on the garment; do not rewrite it or change the letters. The print is ONLY this handwritten "Union." signature with its green dot: never block capital letters, never the word UNION in a typeface. '],
   cat: ['결과/sig-cat-face.png', 'The attached image is our cat character. Reproduce exactly this drawing on the garment; do not redraw or change it. '],
 };
-const MARK_OF = { u01: 'sig', u02: 'word', u03: 'label', u05: 'sig', u10: 'label', u12: 'sig' };
+const MARK_OF = { u01: 'sig', u02: 'word', u03: 'label', u05: 'word', u10: 'label', u12: 'sig' };
 const SPEC = {
   u01: `boxy heavyweight 240gsm cotton jersey t-shirt, dropped shoulders, a clean 2.5 cm 1x1 rib neckband lying perfectly flat, twin-needle stitched sleeve and body hems, the ${SIG} screen-printed in black ink across the chest, 22 cm wide, slightly cracked water-based ink, top of the signature 9 cm below the neckband`,
   u02: 'oversized heavyweight 240gsm cotton jersey t-shirt, dropped shoulders, a clean 2.5 cm 1x1 rib neckband lying perfectly flat, the UNION lettering screen-printed across the chest in off-black ink, 26 cm wide (about 40 percent of the chest width), top of the letters 9 cm below the neckband, soft hand water-based print',
   u03: `heavyweight 450gsm brushed cotton fleece hoodie, double-layer hood with flat cotton drawcords and metal eyelets, kangaroo pocket, 7 cm 2x2 rib cuffs and hem knitted tight and even, a ${LABEL} on the left chest`,
   u04: 'heavyweight cotton hoodie, kangaroo pocket, large "UNION" wordmark printed across the chest',
-  u05: `heavyweight 420gsm cotton fleece crewneck sweatshirt with raglan sleeves, a 3 cm 2x2 rib neckband, 7 cm 2x2 rib cuffs and hem knitted tight and even, the ${SIG} embroidered across the chest in off-black chain-stitch embroidery, 20 cm wide, top of the signature 10 cm below the neckband, the small dot in green thread`,
+  u05: `heavyweight 500gsm double-faced cotton loopback fleece crewneck sweatshirt with set-in sleeves, flat clean flatlock seams, a small V-stitch insert at the front neck, 2x2 rib side panels, a 3 cm 2x2 rib neckband and 7 cm 2x2 rib cuffs and hem knitted tight and even, a small tonal embroidered ${EMB} on the upper chest on the RIGHT side of the photo as you look at it (the wearer's left chest), 6 cm wide, clearly readable tone-on-tone, dense satin-stitch embroidery, quiet luxury-brand detailing`,
   u06: 'cotton long-sleeve t-shirt with a small "UNION" wordmark printed on the left chest',
   u07: `lightweight nylon coach jacket, snap front, small ${SYMBOL} on the left chest, large arched "UNION" print across the upper back`,
   u08: `varsity jacket with wool body and faux-leather sleeves, ribbed collar, cuffs and hem with a thin green stripe, chenille ${SYMBOL} patch on the left chest`,
@@ -85,6 +85,8 @@ const CAST = {
   1: ['cast-man', 'a Korean man in his early 20s, 181 cm, slim build, short natural black hair with a soft fringe, clean-shaven, calm friendly face'],
   2: ['cast-woman', 'a Korean woman in her early 20s, 167 cm, slim build, shoulder-length straight black hair tucked behind one ear, minimal makeup, calm friendly face'],
 };
+// Casting is mostly Korean (the people who wear it) with a European model mixed in for campaign shots, like global streetwear lookbooks.
+const MIXED_PAIR = 'Two models in their early 20s, one Korean and one European, one man and one woman';
 for (const [name, who] of Object.values(CAST)) job(name, `Model casting reference sheet for a fashion brand: ${who}. Three views side by side on one 3:2 horizontal canvas: close-up face portrait, front full body, side full body. Plain heather grey crewneck t-shirt with no logo, plain black trousers, white sneakers. Seamless light grey studio backdrop, soft even lighting, neutral relaxed expression, natural hands. Photorealistic, high-end, no text, no watermark.`);
 const SAME = (k) => `The person must be exactly the same person as in the attached ${CAST[k][0]} reference (same face, hair, body).`;
 const model = (p, k) => {
@@ -104,7 +106,7 @@ const look = (id) => {
   const l = looks.find((x) => x.id === id);
   // Attach the product photo of the same garment; if the look uses another colour, say so in the text.
   const wear = l.items.map(([pid, ci]) => `${byId[pid].colors[ci].name.toLowerCase()} ${SPEC[pid].split('.')[0]}${ci ? ` (same design as the attached ${pid} photo, but in ${byId[pid].colors[ci].name.toLowerCase()})` : ''}`).join('; ');
-  job(`look-${id}`, `Use the attached product photos as the exact garments. Editorial fashion photograph on 35mm film, natural grain, candid not posed. The two people are exactly the man and the woman in the attached cast-man and cast-woman references (same faces and hair), both wearing: ${wear}. Setting: ${SCENES[id]}. No visible logos other than the garments' own small marks, no text overlays, natural hands. ${id === 'l03' ? '16:9 horizontal, subject on the left third, lots of negative space on the right.' : '4:5 vertical.'}`, [...l.items.map(([pid]) => `결과/${pid}-0.png`), '결과/cast-man.png', '결과/cast-woman.png']);
+  job(`look-${id}`, `Use the attached product photos as the exact garments. Editorial fashion photograph on 35mm film, natural grain, candid not posed. ${MIXED_PAIR}, both wearing: ${wear}. Setting: ${SCENES[id]}. No visible logos other than the garments' own small marks, no text overlays, natural hands. ${id === 'l03' ? '16:9 horizontal, subject on the left third, lots of negative space on the right.' : '4:5 vertical.'}`, l.items.map(([pid]) => `결과/${pid}-0.png`));
 };
 look('l03');
 for (const p of products) if (p.cat !== 'cap') model(p, 2);
@@ -116,7 +118,7 @@ const LOOKBOOK = [
   'after work in the evening by a cafe window: a black t-shirt with a large plain graphic, grey wide trousers, a plain black cap, black leather sneakers',
   'the last train at night on an empty platform: a grey hoodie and matching grey sweatpants, white socks, slides',
 ];
-LOOKBOOK.forEach((scene, i) => job(`lookbook-${i + 1}`, `Editorial fashion photograph for a lookbook, shot on 35mm film, natural grain, candid not posed: a Korean person in their early 20s, ${scene}. Plain garments with no logos or brand marks of any kind, natural hands. 4:5 vertical.`));
+LOOKBOOK.forEach((scene, i) => job(`lookbook-${i + 1}`, `Editorial fashion photograph for a lookbook, shot on 35mm film, natural grain, candid not posed: a Korean person in their early 20s, ${scene}. Plain garments with no logos or brand marks of any kind, natural hands. It must look like a real unretouched film photo, not AI: real skin texture, slightly imperfect framing, natural light falloff, no plastic smoothness. 4:5 vertical.`));
 
 // Journal photographs (added on main): one editorial image per story, magazine style rather than product shots. Lowest priority.
 const JOURNAL = {

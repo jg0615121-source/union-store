@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Photo } from '../media.jsx';
+import { photo } from '../photos.js';
 
 // Wordmark letters split out so they can rise in one by one.
 const LETTERS = [
@@ -22,6 +23,7 @@ export default function Home() {
     label.current?.style.setProperty('transform', `translate(-50%, -50%) perspective(1200px) rotateY(${x * 10}deg) rotateX(${-y * 8}deg)`);
   };
   return (
+    <>
     <section className="hero home-hero" onPointerMove={tilt}>
       <Photo name="look-l03" alt="UNION FW26 캠페인" className="hero-photo" eager fallback={
         <div className="hero-fallback" aria-hidden="true">
@@ -46,5 +48,12 @@ export default function Home() {
         <Link to="/lookbook">Lookbook</Link>
       </nav>
     </section>
+    {photo['lookbook-1'] && (
+      <Link to="/lookbook" className="home-look" aria-label="룩북 보기">
+        <Photo name="lookbook-1" alt="Lookbook FW26" />
+        <span className="home-look-cap">Lookbook · FW26<span aria-hidden="true">→</span></span>
+      </Link>
+    )}
+    </>
   );
 }
