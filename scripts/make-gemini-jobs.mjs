@@ -51,6 +51,19 @@ for (const [id, [, scene]] of Object.entries(SCENES)) {
   const wear = l.items.map(([pid, ci]) => `a ${byId[pid].colors[ci].name.toLowerCase()} ${SPEC[pid].split('.')[0]}`).join('; ');
   job(`look-${id}`, `Attach the product photos ${l.items.map(([pid, ci]) => `${pid}-${ci}`).join(', ')} from the 결과 folder if they exist. Editorial fashion photograph on 35mm film, natural grain, candid not posed. Two Korean models in their early 20s, one man and one woman, both wearing: ${wear}. Setting: ${scene}. No visible logos other than the garments' own small marks, no text overlays. ${id === 'l03' ? '16:9 horizontal, subject on the left third, lots of negative space on the right.' : '4:5 vertical.'}`);
 }
+// Model shots for the product page, in the style of large Korean fashion platforms: plain studio, full body, one UNION piece.
+const MODEL_SPEC = [
+  ['1', 'a Korean man in his early 20s, 181 cm, slim build'],
+  ['2', 'a Korean woman in her early 20s, 167 cm, slim build'],
+];
+for (const p of products) {
+  const c = p.colors[0];
+  for (const [k, who] of MODEL_SPEC) {
+    if (p.cat === 'cap' && k === '2') continue;
+    job(`${p.id}-model-${k}`, `Attach the saved product photo ${p.id}-0 from the 결과 folder as the reference garment. E-commerce model photo for a Korean fashion platform product page: ${who} wearing exactly this ${c.name.toLowerCase()} ${p.cat === 'cap' ? 'cap' : 'garment'} (${SPEC[p.id].split('.')[0]}), styled with plain neutral basics only (straight blue jeans or black trousers, clean white sneakers, no other logos). ${p.cat === 'cap' ? 'Upper-body shot.' : 'Full-body shot, head to toe.'} Seamless light grey studio backdrop, soft even lighting, natural relaxed standing pose, slight smile or neutral face, sharp focus on the garment so fit and length are easy to judge. 3:4 vertical. Photorealistic, high-end, no text, no watermark.`);
+  }
+}
+
 // Signature graphic concepts: generated as artwork, not photos. Ask for 4 variations each.
 const ART = 'Signature graphic for a casual unisex label, drawn by a skilled illustrator: confident hand-drawn ink line with slight wobble, vintage screen-print texture with tiny ink breaks, two-color print (off-black #1B1B1A and green #00A84D) on off-white cotton, timeless rather than trendy, the kind of motif a brand repeats on tees, caps and tote bags for years. Simple enough to read at 3 cm, charming at 25 cm. No gradients, no 3D, no clip-art look. Show 4 variations side by side, square.';
 const SIGS = {

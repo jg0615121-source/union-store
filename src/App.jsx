@@ -25,19 +25,22 @@ function Header() {
   const { cart, wish, setCartOpen } = useStore();
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
-  const [top, setTop] = useState(true);
   const nav = useNavigate();
   const loc = useLocation();
   useEffect(() => { setOpen(false); }, [loc.pathname, loc.search]);
+  // On home the header stays clear while the hero is on screen.
+  const [heroIn, setHeroIn] = useState(0);
   useEffect(() => {
-    const on = () => setTop(window.scrollY < 40);
-    on();
-    window.addEventListener('scroll', on, { passive: true });
-    return () => window.removeEventListener('scroll', on);
-  }, []);
+    const hero = document.querySelector('.home-hero');
+    if (!hero) { setHeroIn(0); return; }
+    const io = new IntersectionObserver(([e]) => setHeroIn(e.intersectionRatio), { threshold: Array.from({ length: 21 }, (_, i) => i / 20) });
+    io.observe(hero);
+    return () => io.disconnect();
+  }, [loc.pathname]);
   const count = cart.reduce((a, x) => a + x.qty, 0);
-  const over = loc.pathname === '/' && top && !open;
   const home = loc.pathname === '/';
+  const over = home && heroIn > 0.1 && !open;
+  const hideBrand = home && heroIn > 0.88 && !open;
 
   return (
     <>
@@ -51,7 +54,7 @@ function Header() {
               {NAV.map(([to, l]) => <NavLink key={l} to={to} end>{l}</NavLink>)}
             </div>
           </nav>
-          <Link to="/" className={`brand ${over ? 'brand-hide' : ''}`} aria-label="UNION 홈"><Logo height={24} ink={over ? '#F4F4F2' : 'currentColor'} paper={over ? '#1B1B1A' : 'var(--bg)'} /></Link>
+          <Link to="/" className={`brand ${hideBrand ? 'brand-hide' : ''}`} aria-label="UNION 홈"><Logo height={24} ink={over ? '#F4F4F2' : 'currentColor'} paper={over ? '#1B1B1A' : 'var(--bg)'} /></Link>
           <div className="hdr-right">
             <form className="hsearch" role="search" onSubmit={(e) => { e.preventDefault(); if (q.trim()) nav(`/shop?q=${encodeURIComponent(q.trim())}`); }}>
               <label htmlFor="hq" className="sr">상품 검색</label>

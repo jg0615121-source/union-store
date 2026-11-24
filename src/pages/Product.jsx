@@ -1,21 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { CATS, GROUP, SIZES, byId, looks, won } from '../data.js';
-import { ProductImage } from '../media.jsx';
+import { CATS, DETAILS, GROUP, SIZES, byId, looks, won } from '../data.js';
+import { Photo, ProductImage } from '../media.jsx';
+import { photo } from '../photos.js';
 import { Grid, Heart, LookArt } from '../components.jsx';
 import { useStore } from '../store.jsx';
 import { recommendSize } from '../sizing.js';
 import { askAI } from '../ai.js';
 import { similar } from '../recommend.js';
 
-const FIT_WORDS = { oversize: '넉넉하게 떨어져요. 어깨선이 내 어깨보다 살짝 아래.', fitted: '몸에 맞게 떨어져요. 평소 사이즈 그대로.' };
-const FABRIC = {
-  tee: ['면 100%, 230g 두께', '찬물 세탁기 OK · 건조기는 줄어요'], longsleeve: ['면 100%, 210g', '찬물 세탁기 OK'],
-  hoodie: ['면 80 / 폴리 20, 루프백', '뒤집어서 세탁기 OK'], crew: ['면 80 / 폴리 20, 루프백', '뒤집어서 세탁기 OK'],
-  jacket: ['나일론 100%, 생활방수', '손세탁 권장'], varsity: ['울 혼방 몸판 / 인조가죽 소매', '드라이클리닝'],
-  pants: ['면 98 / 스판 2', '세탁기 OK'], shorts: ['면 100% 스웨트', '세탁기 OK'], cap: ['면 트윌', '손세탁'],
-  beanie: ['아크릴 100%', '손세탁'], tote: ['캔버스 16수', '손세탁'], socks: ['면 80 / 나일론 18 / 스판 2', '세탁기 OK'],
-};
 
 function SizeFinder({ p, onPick }) {
   const [h, setH] = useState('');
@@ -142,6 +135,7 @@ export default function Product() {
   if (!p) return <div className="wrap page"><h1>없는 상품이에요</h1><Link to="/shop" className="btn">상품 보기</Link></div>;
 
   const isAcc = GROUP[p.cat] === 'acc';
+  const dt = DETAILS[p.id];
   const look = looks.find((l) => l.items.some(([x]) => x === p.id));
   const on = wish.includes(p.id);
   const views = isAcc || GROUP[p.cat] === 'bottom' ? ['front', 'detail'] : ['front', 'back', 'detail'];
@@ -157,6 +151,9 @@ export default function Product() {
               <ProductImage p={p} c={c} view={v} eager={v === 'front'} />
             </button>
           ))}
+          {dt?.models.map(([who, body, wear], k) => (
+            <Photo key={who} name={`${p.id}-model-${k + 1}`} alt={`${who} ${body} ${wear}`} className="shot-model" fallback={null} />
+          )).filter(Boolean)}
           {look && <div className="shot look-shot"><LookArt look={look} /></div>}
         </div>
 
@@ -193,12 +190,25 @@ export default function Product() {
             <button className={`btn ghost sq ${on ? 'on' : ''}`} onClick={() => toggleWish(p.id)} aria-pressed={on} aria-label="찜하기"><Heart on={on} /></button>
           </div>
 
-          <dl className="specs">
-            <div><dt>핏</dt><dd>{FIT_WORDS[p.tags.includes('fitted') ? 'fitted' : 'oversize']}</dd></div>
-            <div><dt>소재</dt><dd>{FABRIC[p.cat][0]}</dd></div>
-            <div><dt>세탁</dt><dd>{FABRIC[p.cat][1]}</dd></div>
-            <div><dt>배송</dt><dd>평일 14시 전 주문 시 당일 출고</dd></div>
-          </dl>
+          {dt && (
+            <div className="pd">
+              <dl className="specs">
+                <div><dt>핏</dt><dd>{dt.fit}</dd></div>
+                <div><dt>소재</dt><dd>{dt.fabric}</dd></div>
+                <div><dt>디테일</dt><dd><ul className="pd-points">{dt.points.map((x) => <li key={x}>{x}</li>)}</ul></dd></div>
+                {photo[`${p.id}-model-1`] && <div><dt>모델</dt><dd>{dt.models.map(([who, body, wear]) => <p key={who}>{who} {body} · {wear}</p>)}</dd></div>}
+              </dl>
+              <details className="pd-size">
+                <summary>실측 사이즈 (cm)</summary>
+                <div className="pd-table">
+                  <table>
+                    <thead><tr>{dt.size.head.map((h) => <th key={h}>{h}</th>)}</tr></thead>
+                    <tbody>{dt.size.rows.map((r) => <tr key={r[0]}>{r.map((v, k) => <td key={k}>{v}</td>)}</tr>)}</tbody>
+                  </table>
+                </div>
+              </details>
+            </div>
+          )}
         </div>
       </div>
 
