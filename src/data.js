@@ -69,35 +69,6 @@ export const GROUP = {
 export const byId = Object.fromEntries(products.map((p) => [p.id, p]));
 export const won = (n) => `${n.toLocaleString('ko-KR')}원`;
 
-// Example reviews, grouped by how a category fits. Shown with an "예시 후기" label.
-const REVIEW_POOL = {
-  loose: [
-    { user: 'jiho***', body: '178 / 70', size: 'L', rating: 5, text: '어깨가 살짝 떨어지게 넉넉해요. 평소 L 입는데 L이 딱 원하던 핏이에요. 프린트가 생각보다 커서 존재감 있어요.' },
-    { user: 'seoa***', body: '163 / 50', size: 'S', rating: 5, text: '여자인데 S 사서 원피스처럼 길게 입어요. 두께감 있어서 비치지 않고 세탁해도 목이 안 늘어났어요.' },
-    { user: 'mink***', body: '172 / 68', size: 'M', rating: 4, text: '색이 화면보다 아주 약간 진해요. 핏은 좋아요. 총장이 길어서 키 작으면 한 치수 내려도 될 것 같아요.' },
-    { user: 'yuna***', body: '168 / 55', size: 'M', rating: 5, text: '친구들이 어디 거냐고 계속 물어봐요. 그래픽 얘기하다 보면 대화가 길어짐.' },
-  ],
-  fitted: [
-    { user: 'dowo***', body: '175 / 66', size: 'M', rating: 5, text: '정사이즈예요. 셔츠 안에 받쳐 입기 좋은 두께. 흰색인데 안 비쳐요.' },
-    { user: 'haer***', body: '160 / 48', size: 'S', rating: 4, text: 'S가 살짝 크지만 그게 예뻐요. 세탁 후 아주 조금 줄었어요. 찬물 세탁 추천.' },
-    { user: 'tae_***', body: '183 / 80', size: 'XL', rating: 5, text: '평소 L인데 몸에 붙는 게 싫어서 XL 갔어요. 딱 좋아요.' },
-  ],
-  bottom: [
-    { user: 'sion***', body: '176 / 72', size: 'L', rating: 5, text: '허리 밴딩이라 편하고 기장이 운동화 위에 살짝 쌓여요. 앉아도 안 끼어요.' },
-    { user: 'gaeu***', body: '165 / 52', size: 'S', rating: 4, text: '기장이 좀 길어서 한 번 접어 입어요. 접었을 때 더 예쁨.' },
-    { user: 'woo_***', body: '181 / 77', size: 'L', rating: 5, text: '허벅지 두꺼운 편인데 여유 있어요. 색 조합 쉬워서 매일 입게 돼요.' },
-  ],
-  acc: [
-    { user: 'nara***', body: '-', size: 'FREE', rating: 5, text: '머리 큰 편인데 스트랩 조절하니 맞아요. 마감이 깔끔해요.' },
-    { user: 'jun_***', body: '-', size: 'FREE', rating: 5, text: '색이 사진이랑 거의 같아요. 선물용으로 하나 더 샀어요.' },
-    { user: 'bomi***', body: '-', size: 'FREE', rating: 4, text: '생각보다 크고 튼튼해요. 각 잡히는 건 아니라 흐물한 맛이 있어요.' },
-  ],
-};
-export const reviewsFor = (p) =>
-  p.tags.includes('fitted') ? REVIEW_POOL.fitted
-    : GROUP[p.cat] === 'bottom' ? REVIEW_POOL.bottom
-      : GROUP[p.cat] === 'acc' ? REVIEW_POOL.acc
-        : REVIEW_POOL.loose;
 
 // A look = top + bottom (+ optional extra). c = color index into each product's colors.
 export const looks = [

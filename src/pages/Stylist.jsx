@@ -34,19 +34,20 @@ export default function Stylist() {
   return (
     <div className="wrap page stylist">
       <header className="page-head">
-        <p className="kicker">AI STYLIST</p>
-        <h1>뭐 입을지 물어보세요</h1>
+        <p className="kicker">Play · AI 스타일리스트</p>
+        <h1>뭐 입지?</h1>
       </header>
       <div className="chat" aria-live="polite">
         {msgs.map((m, i) => (
           <div key={i} className={`bubble ${m.role}`}>
+            {m.role === 'model' && <span className="who">UNION</span>}
             <p>{m.text}</p>
             {m.ids?.length > 0 && (
               <div className="chat-products">
                 {m.ids.map((id) => (
                   <Link key={id} to={`/product/${id}`} className="mini">
                     <ProductImage p={byId[id]} />
-                    <span>{byId[id].ko}</span>
+                    <span>{byId[id].name}</span>
                     <b>{won(byId[id].price)}</b>
                   </Link>
                 ))}
@@ -58,7 +59,7 @@ export default function Stylist() {
         <div ref={end} />
       </div>
       {msgs.length < 3 && (
-        <div className="chips">{STARTERS.map((s) => <button key={s} className="chip" onClick={() => send(s)}>{s}</button>)}</div>
+        <div className="starters">{STARTERS.map((s) => <button key={s} onClick={() => send(s)}>{s}<span aria-hidden="true">→</span></button>)}</div>
       )}
       <form className="chat-input" onSubmit={(e) => { e.preventDefault(); send(input); }}>
         <label htmlFor="chat-q" className="sr">메시지</label>

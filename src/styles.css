@@ -618,3 +618,63 @@ button.mb-choice:hover { background: rgba(0,0,0,.3); }
   .play-tiles, .mb-choices { grid-template-columns: 1fr; }
   .mb-choice-n { font-size: 80px; }
 }
+
+/* reviews */
+.rv-head { display: flex; justify-content: space-between; align-items: center; }
+.rv-head h2 span { font: 500 14px var(--mono); margin-left: 8px; }
+.rv-form { display: grid; gap: 16px; padding: 28px; background: var(--card); }
+.rv-stars { display: flex; gap: 4px; }
+.rv-stars button { font-size: 28px; line-height: 1; color: var(--line); transition: color .15s; }
+.rv-stars button.on { color: var(--fg); }
+.rv-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.rv-form label { display: grid; gap: 6px; font-size: 12px; }
+.rv-form select, .rv-form input, .rv-form textarea { height: 46px; border: 1px solid var(--line); background: var(--bg); padding: 0 12px; font-size: 14px; }
+.rv-form textarea { height: auto; padding: 12px; resize: vertical; font: inherit; }
+.rv-form .btn { justify-self: start; }
+.rv-empty { padding-block: 32px; border-top: 1px solid var(--line); }
+
+/* lookbook: one piece per chapter */
+.chapter-piece { display: grid; place-items: center; aspect-ratio: 1; max-width: 100%; }
+.chapter-piece > svg { width: 82%; height: auto; filter: drop-shadow(0 30px 40px rgba(0,0,0,.18)); }
+.chapter-piece > img { width: 100%; height: 100%; object-fit: cover; }
+.chapter-text { font-size: clamp(20px, 2vw, 28px); line-height: 1.4; letter-spacing: -0.035em; max-width: 18em; margin-top: 12px; }
+.chapter-outfit { margin: 24px 0 0; display: grid; gap: 0; max-width: 460px; }
+.chapter-outfit div { display: grid; grid-template-columns: 72px 1fr; gap: 12px; padding-block: 12px; border-top: 1px solid color-mix(in srgb, currentColor 22%, transparent); font-size: 13px; }
+.chapter-outfit dt { font: 500 11px var(--mono); letter-spacing: .14em; opacity: .7; padding-top: 2px; }
+.chapter-outfit dd { margin: 0; }
+.chapter-outfit a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* worldcup stage */
+.cup-stage { background: var(--night); color: #ECECEA; min-height: calc(100svh - 30px - var(--hdr)); }
+.cup { padding-block: 48px 72px; }
+.cup-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 32px; }
+.cup-round { font: 800 clamp(64px, 9vw, 140px)/0.85 var(--display); font-stretch: 125%; letter-spacing: -0.05em; }
+.cup-meta { display: grid; gap: 12px; justify-items: end; }
+.cup-meta .kicker { color: rgba(236,236,234,.6); }
+.cup-dots { display: flex; gap: 6px; }
+.cup-dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(236,236,234,.18); }
+.cup-dots i.done { background: rgba(236,236,234,.6); }
+.cup-dots i.now { background: #00A84D; }
+.cup-stage .cup-card .lookart { background: #262625 !important; }
+.cup-stage .cup-card:hover .lookart { box-shadow: inset 0 0 0 2px #ECECEA; }
+.cup-stage .cup-card span { color: rgba(236,236,234,.55); }
+.cup-stage .vs { background: #00A84D; color: #fff; border-radius: 50%; width: 64px; height: 64px; display: grid; place-items: center; padding: 0; font-size: 14px; top: 46%; }
+/* fit check */
+.drop-cta { display: grid; justify-items: center; gap: 10px; font-size: 15px; color: var(--fg); }
+.drop-cta b { font: 300 64px/1 var(--body); }
+.fit-res { background: var(--night); color: #ECECEA; }
+.fit-res .kicker { color: #00A84D; }
+.gauge { position: relative; width: 168px; aspect-ratio: 1; }
+.gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.g-track { fill: none; stroke: rgba(236,236,234,.12); stroke-width: 8; }
+.g-val { fill: none; stroke: #00A84D; stroke-width: 8; stroke-linecap: round; animation: gauge 1.2s var(--ease); }
+@keyframes gauge { from { stroke-dasharray: 0 100; } }
+.gauge .score { position: absolute; inset: 0; display: grid; place-items: center; font-size: 56px; }
+/* stylist */
+.who { font: 500 10px var(--mono); letter-spacing: .16em; opacity: .6; }
+.bubble.model p { background: transparent; padding: 0; font-size: 17px; line-height: 1.7; }
+.bubble.user p { border-radius: 18px 18px 4px 18px; }
+.starters { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.starters button { display: flex; justify-content: space-between; gap: 12px; text-align: left; padding: 20px 22px; background: var(--card); font-size: 15px; transition: background .2s, color .2s; }
+.starters button:hover { background: var(--fg); color: var(--bg); }
+@media (max-width: 900px) { .starters { grid-template-columns: 1fr; } .cup-head { flex-direction: column; align-items: start; } .cup-meta { justify-items: start; } }

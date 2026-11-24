@@ -51,7 +51,7 @@ export default function Worldcup() {
             <h1>{winner.name}</h1>
             <p>고른 15번을 모아보면 <b>{top.map(([t]) => TAG_KO[t]).join(', ')}</b> 쪽으로 기울어 있어요.</p>
             <ul className="cup-items">
-              {winner.items.map(([id, c]) => <li key={id}><Link to={`/product/${id}`}>{byId[id].ko}</Link><span>{byId[id].colors[c].name}</span></li>)}
+              {winner.items.map(([id, c]) => <li key={id}><Link to={`/product/${id}`}>{byId[id].name}</Link><span>{byId[id].colors[c].name}</span></li>)}
             </ul>
             <div className="hero-cta">
               <button className="btn" onClick={() => winner.items.forEach(([id, c]) => addToCart(id, c, GROUP[byId[id].cat] === 'acc' ? 'FREE' : 'M'))}>
@@ -70,21 +70,26 @@ export default function Worldcup() {
   const match = (roundSize - pool.length) / 2 + 1;
   const [a, b] = pool;
   return (
-    <div className="wrap page cup">
-      <header className="page-head">
-        <p className="kicker">코디 이상형 월드컵 · {round} {roundSize > 2 && `${match} / ${roundSize / 2}`}</p>
-        <h1>둘 중에 더 끌리는 코디는?</h1>
+    <div className="cup-stage">
+      <div className="wrap cup">
+      <header className="cup-head">
+        <p className="cup-round">{round}</p>
+        <div className="cup-meta">
+          <span className="kicker">코디 이상형 월드컵</span>
+          {roundSize > 2 && <span className="cup-dots">{Array.from({ length: roundSize / 2 }, (_, k) => <i key={k} className={k < match - 1 ? 'done' : k === match - 1 ? 'now' : ''} />)}</span>}
+        </div>
       </header>
       <div className="cup-pair">
         {[a, b].map((l) => (
           <button key={l.id} className={`cup-card ${pick === l.id ? 'won' : pick ? 'lost' : ''}`} onClick={() => !pick && choose(l)}>
             <LookArt look={l} />
             <strong>{l.name}</strong>
-            <span>{l.items.map(([id]) => byId[id].ko).join(' + ')}</span>
+            <span>{l.items.map(([id]) => byId[id].name).join(' + ')}</span>
           </button>
         ))}
       </div>
       <p className="vs" aria-hidden="true">VS</p>
+      </div>
     </div>
   );
 }

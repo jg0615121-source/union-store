@@ -1,4 +1,4 @@
-import { products, byId, reviewsFor } from './data.js';
+import { products, byId } from './data.js';
 
 // Calls the Gemini function; returns null when it is not configured or fails so callers use the local fallback.
 export async function askAI(task, payload) {
@@ -46,17 +46,5 @@ export function localChat(text) {
   return {
     reply: `${names} 조합을 추천해요. 상의 하나만 그래픽으로 튀게 하고 나머지는 무채색으로 맞추면 실패가 없어요. 더 알려주시면 좁혀볼게요. 키, 평소 사이즈, 가는 곳 같은 거요.`,
     productIds: ids,
-  };
-}
-
-export function localReviewSummary(p) {
-  const rs = reviewsFor(p);
-  const avg = rs.reduce((a, r) => a + r.rating, 0) / rs.length;
-  const big = rs.filter((r) => /크|넉넉|길/.test(r.text)).length;
-  return {
-    summary: `평점 ${avg.toFixed(1)}. ${big >= rs.length / 2 ? '넉넉하게 나왔다는 후기가 많아요.' : '대체로 정사이즈라는 후기예요.'}`,
-    pros: ['두께감이 있어 비치지 않아요', '색과 그래픽이 사진과 비슷해요'],
-    cons: [big ? '키가 작으면 한 치수 내려도 돼요' : '세탁 후 아주 약간 줄 수 있어요'],
-    sizeTip: big ? '평소 사이즈 또는 한 치수 작게' : '평소 사이즈 그대로',
   };
 }

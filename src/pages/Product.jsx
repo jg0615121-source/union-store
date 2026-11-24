@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { CATS, GROUP, SIZES, byId, looks, reviewsFor, won } from '../data.js';
+import { CATS, GROUP, SIZES, byId, looks, won } from '../data.js';
 import { ProductImage } from '../media.jsx';
 import { Grid, Heart, LookArt } from '../components.jsx';
 import { useStore } from '../store.jsx';
 import { recommendSize } from '../sizing.js';
-import { askAI, localReviewSummary } from '../ai.js';
+import { askAI } from '../ai.js';
 import { similar } from '../recommend.js';
 
 const FIT_WORDS = { oversize: '넉넉하게 떨어져요. 어깨선이 내 어깨보다 살짝 아래.', fitted: '몸에 맞게 떨어져요. 평소 사이즈 그대로.' };
@@ -40,34 +40,75 @@ function SizeFinder({ p, onPick }) {
   );
 }
 
+// Reviews written by shoppers. shortcut: stored in this browser only, move to a shared store when the shop goes live.
+function useReviews(id) {
+  const key = `union.reviews.${id}`;
+  const [list, setList] = useState(() => { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; } });
+  useEffect(() => { try { setList(JSON.parse(localStorage.getItem(key) || '[]')); } catch { setList([]); } }, [key]);
+  const add = (r) => setList((xs) => { const next = [r, ...xs]; try { localStorage.setItem(key, JSON.stringify(next)); } catch { /* keep in memory */ } return next; });
+  return [list, add];
+}
+
 function Reviews({ p }) {
-  const rs = reviewsFor(p);
+  const [rs, add] = useReviews(p.id);
+  const [open, setOpen] = useState(false);
+  const [f, setF] = useState({ rating: 5, size: GROUP[p.cat] === 'acc' ? 'FREE' : 'M', body: '', text: '' });
   const [sum, setSum] = useState(null);
   useEffect(() => {
-    let live = true;
     setSum(null);
-    askAI('reviews', { reviews: rs.map((r) => `[${r.body}, ${r.size}, ${r.rating}점] ${r.text}`).join('\n') })
-      .then((r) => live && setSum(r?.summary ? { ...r, by: 'ai' } : { ...localReviewSummary(p), by: 'local' }));
+    if (rs.length < 3) return;
+    let live = true;
+    askAI('reviews', { reviews: rs.map((r) => `[${r.body || '-'}, ${r.size}, ${r.rating}점] ${r.text}`).join('\n') }).then((r) => live && r?.summary && setSum(r));
     return () => { live = false; };
-  }, [p.id]);
+  }, [p.id, rs.length]);
+  const submit = (e) => {
+    e.preventDefault();
+    if (f.text.trim().length < 5) return;
+    add({ ...f, text: f.text.trim(), date: new Date().toISOString().slice(0, 10) });
+    setF({ ...f, text: '', body: '' });
+    setOpen(false);
+  };
   return (
     <section className="reviews">
-      <h2>후기 <span className="muted">{rs.length} · 예시 후기</span></h2>
+      <header className="rv-head">
+        <h2>후기 {rs.length > 0 && <span>{rs.length}</span>}</h2>
+        <button className="btn ghost small" onClick={() => setOpen(!open)}>{open ? '닫기' : '후기 쓰기'}</button>
+      </header>
+      {open && (
+        <form className="rv-form" onSubmit={submit}>
+          <div className="rv-stars" role="radiogroup" aria-label="별점">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <button type="button" key={n} role="radio" aria-checked={f.rating === n} className={n <= f.rating ? 'on' : ''} onClick={() => setF({ ...f, rating: n })}>★</button>
+            ))}
+          </div>
+          <div className="rv-row">
+            <label>구매 사이즈
+              <select id="rv-size" value={f.size} onChange={(e) => setF({ ...f, size: e.target.value })}>
+                {(GROUP[p.cat] === 'acc' ? ['FREE'] : SIZES).map((s) => <option key={s}>{s}</option>)}
+              </select>
+            </label>
+            <label>키 / 몸무게 (선택)
+              <input id="rv-body" value={f.body} onChange={(e) => setF({ ...f, body: e.target.value })} placeholder="170 / 60" maxLength={20} />
+            </label>
+          </div>
+          <label className="rv-text">후기
+            <textarea id="rv-text" value={f.text} onChange={(e) => setF({ ...f, text: e.target.value })} rows={4} maxLength={500} placeholder="핏, 두께, 색감은 어땠나요?" />
+          </label>
+          <button className="btn" disabled={f.text.trim().length < 5}>후기 남기기</button>
+        </form>
+      )}
       {sum && (
         <div className="rsum">
-          <p className="kicker">{sum.by === 'ai' ? 'AI 후기 요약' : '후기 요약'}</p>
+          <p className="kicker">AI 후기 요약</p>
           <p className="rsum-main">{sum.summary}</p>
-          <div className="rsum-cols">
-            <ul>{sum.pros?.map((x) => <li key={x}>+ {x}</li>)}</ul>
-            <ul>{sum.cons?.map((x) => <li key={x}>− {x}</li>)}</ul>
-          </div>
           {sum.sizeTip && <p><b>사이즈 팁</b> {sum.sizeTip}</p>}
         </div>
       )}
+      {rs.length === 0 && !open && <p className="rv-empty">아직 후기가 없어요. 첫 후기를 남겨주세요.</p>}
       <ul className="rlist">
-        {rs.map((r) => (
-          <li key={r.user}>
-            <div className="rmeta"><span aria-label={`별점 ${r.rating}점`}>{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</span><span>{r.user}</span><span>{r.body} · {r.size}</span></div>
+        {rs.map((r, i) => (
+          <li key={i}>
+            <div className="rmeta"><span aria-label={`별점 ${r.rating}점`}>{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</span><span>{r.size}{r.body && ` · ${r.body}`}</span><span>{r.date}</span></div>
             <p>{r.text}</p>
           </li>
         ))}

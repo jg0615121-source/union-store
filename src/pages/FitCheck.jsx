@@ -65,14 +65,14 @@ export default function FitCheck() {
   };
 
   return (
-    <div className="wrap page">
+    <div className="wrap page fitpage">
       <header className="page-head">
-        <p className="kicker">AI FIT CHECK</p>
+        <p className="kicker">Play · AI 코디 체크</p>
         <h1>오늘 코디, 몇 점?</h1>
       </header>
       <div className="fit">
         <label className={`drop ${img ? 'has' : ''}`} onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); pick(e.dataTransfer.files[0]); }}>
-          {img ? <img src={img.url} alt="올린 코디 사진" /> : <span>사진을 끌어놓거나 눌러서 고르기</span>}
+          {img ? <img src={img.url} alt="올린 코디 사진" /> : <span className="drop-cta"><b>+</b>전신 사진 올리기</span>}
           <input id="fit-file" type="file" accept="image/*" onChange={(e) => pick(e.target.files[0])} />
         </label>
         <div className="fit-side">
@@ -83,7 +83,10 @@ export default function FitCheck() {
           {res && (
             <div className="fit-res">
               <p className="kicker">{res.by === 'ai' ? 'AI 분석' : '색 분석'} · {res.style}</p>
-              <p className="score">{res.score}<span>/100</span></p>
+              <div className="gauge">
+                <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" className="g-track" /><circle cx="60" cy="60" r="52" className="g-val" pathLength="100" style={{ strokeDasharray: `${res.score} 100` }} /></svg>
+                <p className="score">{res.score}</p>
+              </div>
               <h3>좋은 점</h3>
               <ul>{res.good?.map((x) => <li key={x}>{x}</li>)}</ul>
               <h3>바꿔보면</h3>
