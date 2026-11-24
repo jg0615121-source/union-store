@@ -20,9 +20,9 @@ const MARK = {
   sig: ['결과/sig-signature.png', 'The attached image is our brush signature logo. Reproduce exactly this handwriting on the garment; do not rewrite it or change the letters. '],
   cat: ['결과/sig-cat-face.png', 'The attached image is our cat character. Reproduce exactly this drawing on the garment; do not redraw or change it. '],
 };
-const MARK_OF = { u01: 'cat', u02: 'word', u03: 'label', u05: 'sig', u10: 'label', u12: 'sig' };
+const MARK_OF = { u01: 'sig', u02: 'word', u03: 'label', u05: 'sig', u10: 'label', u12: 'sig' };
 const SPEC = {
-  u01: `boxy heavyweight 240gsm cotton jersey t-shirt, dropped shoulders, a clean 2.5 cm 1x1 rib neckband lying perfectly flat, twin-needle stitched sleeve and body hems, the ${CAT} screen-printed in black ink on the left chest, 8 cm wide, centered 9 cm below the shoulder seam`,
+  u01: `boxy heavyweight 240gsm cotton jersey t-shirt, dropped shoulders, a clean 2.5 cm 1x1 rib neckband lying perfectly flat, twin-needle stitched sleeve and body hems, the ${SIG} screen-printed in black ink across the chest, 22 cm wide, slightly cracked water-based ink, top of the signature 9 cm below the neckband`,
   u02: 'oversized heavyweight 240gsm cotton jersey t-shirt, dropped shoulders, a clean 2.5 cm 1x1 rib neckband lying perfectly flat, the UNION lettering screen-printed across the chest in off-black ink, 26 cm wide (about 40 percent of the chest width), top of the letters 9 cm below the neckband, soft hand water-based print',
   u03: `heavyweight 450gsm brushed cotton fleece hoodie, double-layer hood with flat cotton drawcords and metal eyelets, kangaroo pocket, 7 cm 2x2 rib cuffs and hem knitted tight and even, a ${LABEL} on the left chest`,
   u04: 'heavyweight cotton hoodie, kangaroo pocket, large "UNION" wordmark printed across the chest',

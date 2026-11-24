@@ -1,7 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { byId, won } from '../data.js';
-import { ProductImage } from '../media.jsx';
 import { askAI, localAdvice } from '../ai.js';
 
 const STARTERS = ['어깨가 좁은데 오버핏 입어도 돼요?', '회색 맨투맨엔 무슨 색 바지가 맞아요?', '흰 티 안 비치게 고르는 법', '키 작으면 와이드팬츠는 안 돼요?'];
@@ -24,7 +21,7 @@ export default function Stylist() {
     setBusy(true);
     const r = await askAI('chat', { messages: next.slice(1) });
     const out = r?.reply ? r : localAdvice(t);
-    setMsgs((m) => [...m, { role: 'model', text: out.reply, ids: out.productIds || [] }]);
+    setMsgs((m) => [...m, { role: 'model', text: out.reply }]);
     setBusy(false);
   };
 
@@ -39,17 +36,6 @@ export default function Stylist() {
           <div key={i} className={`bubble ${m.role}`}>
             {m.role === 'model' && <span className="who">UNION</span>}
             {m.text.split('\n').filter(Boolean).map((line, k) => <p key={k}>{line}</p>)}
-            {m.ids?.length > 0 && (
-              <div className="chat-products">
-                {m.ids.map((id) => (
-                  <Link key={id} to={`/product/${id}`} className="mini">
-                    <ProductImage p={byId[id]} />
-                    <span>{byId[id].name}</span>
-                    <b>{won(byId[id].price)}</b>
-                  </Link>
-                ))}
-              </div>
-            )}
           </div>
         ))}
         {busy && <div className="bubble model"><p className="typing">생각하는 중…</p></div>}

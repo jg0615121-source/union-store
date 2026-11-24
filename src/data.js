@@ -21,17 +21,17 @@ export const SIZES = ['S', 'M', 'L', 'XL'];
 
 export const products = [
   { id: 'u01', name: 'SYMBOL TEE', ko: '심볼 티셔츠', cat: 'tee', price: 35000, print: 'blank', colors: [C.white, C.black, C.grey], tags: ['clean', 'mono', 'essential', 'fitted'], scenes: ['데일리', '출근', '데이트', '여름'], isNew: true, rank: 1,
-    story: '가슴에 작은 심볼 하나. 230g 두께라 비치지 않고, 목이 늘어나지 않게 촘촘한 립을 썼어요.' },
+    story: '230g 두께라 흰색도 비치지 않는 반팔. 넥 립이 촘촘해서 빨아도 목이 늘어나지 않아요.' },
   { id: 'u02', name: 'BIG LOGO TEE', ko: '빅 로고 티셔츠', cat: 'tee', price: 39000, print: 'wordmark-big', colors: [C.white, C.black], tags: ['street', 'bold', 'oversize', 'trend'], scenes: ['캠퍼스', '여름', '데일리', '여행'], isNew: true, rank: 2,
     story: '가슴을 가로지르는 UNION 로고. 수성 잉크라 빨수록 자연스럽게 바래요. 어깨가 살짝 떨어지는 넉넉한 핏.' },
   { id: 'u03', name: 'SYMBOL HOODIE', ko: '심볼 후디', cat: 'hoodie', price: 69000, print: 'blank', colors: [C.grey, C.black], tags: ['street', 'mono', 'oversize', 'essential'], scenes: ['가을', '겨울', '캠퍼스', '추위'], isNew: true, rank: 3,
-    story: '왼쪽 가슴에 작은 심볼 자수. 기모 없는 쫀쫀한 원단이라 봄가을까지 입어요.' },
+    story: '기모 없는 쫀쫀한 루프백 원단이라 봄가을까지 입어요. 2겹 후드라 모양이 쉽게 무너지지 않아요.' },
   { id: 'u05', name: 'SYMBOL SWEATSHIRT', ko: '심볼 맨투맨', cat: 'crew', price: 59000, print: 'blank', colors: [C.oat, C.navy], tags: ['clean', 'mono', 'essential', 'oversize'], scenes: ['가을', '봄', '데이트', '캠퍼스'], rank: 4,
-    story: '작은 심볼 자수에 래글런 소매. 셔츠 위에 겹쳐 입기 좋아요.' },
+    story: '래글런 소매라 어깨선이 부드럽게 떨어져요. 셔츠 위에 겹쳐 입기 좋아요.' },
   { id: 'u10', name: 'WIDE SWEATPANTS', ko: '와이드 스웨트팬츠', cat: 'pants', price: 55000, print: 'none', colors: [C.grey, C.black], tags: ['clean', 'mono', 'essential', 'oversize'], scenes: ['데일리', '캠퍼스', '여행'], rank: 5,
     story: '바닥까지 떨어지는 와이드 핏. 허리 밴딩이라 하루 종일 편해요.' },
   { id: 'u12', name: 'SYMBOL CAP', ko: '심볼 볼캡', cat: 'cap', price: 35000, print: 'blank', colors: [C.black, C.stone], tags: ['street', 'essential', 'mono'], scenes: ['여행', '데일리', '더위'], rank: 6,
-    story: '정면에 심볼 자수. 챙이 살짝 휘어 있어서 처음 써도 어색하지 않아요.' },
+    story: '챙이 살짝 휘어 있어서 처음 써도 어색하지 않아요. 뒤 버클로 크기를 맞춰요.' },
 ];
 
 export const CATS = {
@@ -166,10 +166,10 @@ export const INFO_SCALE = [
 const TEE_SIZE = { head: ['', '총장', '어깨', '가슴', '소매'], rows: [['S', 68, 50, 54, 21], ['M', 71, 53, 57, 22], ['L', 74, 56, 60, 23], ['XL', 77, 59, 63, 24]] };
 const MODELS = [['남성 모델', '181cm · 68kg', 'L 착용'], ['여성 모델', '167cm · 49kg', 'M 착용']];
 export const DETAILS = {
-  u01: { info: [2, 1, 1, 0, 0], season: '봄 · 여름 · 가을', fabric: '면 100%', spec: ['싱글 저지 230g', '넥 립 2.5cm', '가슴 직조 라벨', '밑단 초록 탭'], size: TEE_SIZE, models: MODELS },
+  u01: { info: [2, 1, 1, 0, 0], season: '봄 · 여름 · 가을', fabric: '면 100%', spec: ['싱글 저지 230g', '넥 립 2.5cm', '트윈 니들 밑단', '밑단 초록 탭'], size: TEE_SIZE, models: MODELS },
   u02: { info: [3, 1, 1, 0, 0], season: '봄 · 여름 · 가을', fabric: '면 100%', spec: ['싱글 저지 230g', '수성 실크스크린', '어깨 테이핑', '밑단 초록 탭'], size: { head: TEE_SIZE.head, rows: [['S', 70, 52, 57, 22], ['M', 73, 55, 60, 23], ['L', 76, 58, 63, 24], ['XL', 79, 61, 66, 25]] }, models: MODELS },
-  u03: { info: [3, 2, 1, 0, 1], season: '봄 · 가을 · 겨울', fabric: '면 80% · 폴리에스터 20%', spec: ['루프백 420g, 기모 없음', '2겹 후드', '소매·밑단 2x2 립', '가슴 직조 라벨'], size: { head: ['', '총장', '어깨', '가슴', '소매'], rows: [['S', 68, 54, 60, 58], ['M', 71, 57, 63, 59], ['L', 74, 60, 66, 60], ['XL', 77, 63, 69, 61]] }, models: MODELS },
+  u03: { info: [3, 2, 1, 0, 1], season: '봄 · 가을 · 겨울', fabric: '면 80% · 폴리에스터 20%', spec: ['루프백 420g, 기모 없음', '2겹 후드', '소매·밑단 2x2 립', '평면 면 끈'], size: { head: ['', '총장', '어깨', '가슴', '소매'], rows: [['S', 68, 54, 60, 58], ['M', 71, 57, 63, 59], ['L', 74, 60, 66, 60], ['XL', 77, 63, 69, 61]] }, models: MODELS },
   u05: { info: [1, 2, 1, 0, 1], season: '봄 · 가을', fabric: '면 80% · 폴리에스터 20%', spec: ['루프백 380g', '래글런 소매', '넥 V 스티치', '밑단 초록 탭'], size: { head: ['', '총장', '가슴', '화장'], rows: [['S', 66, 56, 80], ['M', 69, 59, 82], ['L', 72, 62, 84], ['XL', 75, 65, 86]] }, models: MODELS },
   u10: { info: [3, 2, 1, 0, 1], season: '봄 · 가을 · 겨울', fabric: '면 80% · 폴리에스터 20%', spec: ['루프백 380g', '밴딩 + 내부 스트링', '옆주머니 깊이 18cm', '후디·맨투맨과 동일 원단'], size: { head: ['', '총장', '허리', '허벅지', '밑단'], rows: [['S', 100, 33, 33, 25], ['M', 103, 35, 35, 26], ['L', 106, 37, 37, 27], ['XL', 109, 39, 39, 28]] }, models: MODELS },
-  u12: { info: [1, 1, 0, 0, 1], season: '사계절', fabric: '면 100%', spec: ['워싱 트윌', '정면 라벨 자수', '황동 버클 조절', '내부 땀받이 테이프'], size: { head: ['', '머리 둘레', '챙', '깊이'], rows: [['FREE', '56–60', 7, 12]] }, models: [['모델', '머리 둘레 57cm', 'FREE 착용']] },
+  u12: { info: [1, 1, 0, 0, 1], season: '사계절', fabric: '면 100%', spec: ['워싱 트윌', '언스트럭처드 6패널', '황동 버클 조절', '내부 땀받이 테이프'], size: { head: ['', '머리 둘레', '챙', '깊이'], rows: [['FREE', '56–60', 7, 12]] }, models: [['모델', '머리 둘레 57cm', 'FREE 착용']] },
 };

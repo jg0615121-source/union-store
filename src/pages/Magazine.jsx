@@ -1,22 +1,16 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { articles, byId } from '../data.js';
-import { Photo, ProductImage } from '../media.jsx';
+import { articles } from '../data.js';
+import { Photo } from '../media.jsx';
 import { photo } from '../photos.js';
 
 const ISSUE = 'Issue 01';
 const CATS = ['All', ...new Set(articles.map((a) => a.kicker))];
 
-// Until a story has its own photograph, its cover is a still life of the clothes it talks about,
-// cut-out product photos arranged on the story's colour like a magazine opener.
+// A story's photograph goes in src/assets/photos/journal-<id>.webp; until then the cover is type on the story's colour.
 function Cover({ a, eager }) {
   if (photo[`journal-${a.id}`]) return <Photo name={`journal-${a.id}`} alt={a.title} eager={eager} />;
-  const ids = a.shop.filter((pid) => photo[`${pid}-0`]).slice(0, 3);
-  return (
-    <div className={`still still-${ids.length}`} aria-hidden="true">
-      {ids.map((pid, k) => <img key={pid} src={photo[`${pid}-0`]} alt="" className={`still-i still-i${k}`} loading={eager ? 'eager' : 'lazy'} decoding="async" />)}
-    </div>
-  );
+  return <div className="type-cover" style={{ color: a.fg }} aria-hidden="true"><span>{a.kicker}</span><b>{a.title}</b></div>;
 }
 
 // Story card, modelled on print-magazine indexes: picture, category and issue, title, one-line dek.
@@ -58,7 +52,7 @@ export function Article() {
   const related = articles.filter((x) => x.id !== a.id).slice(0, 3);
   const mid = Math.ceil(a.body.length / 2);
   const para = (t, k) => (t.startsWith('## ') ? <h2 key={k}>{t.slice(3)}</h2> : <p key={k}>{t}</p>);
-  const credits = [['Words', 'UNION Editorial'], ['Photography', 'UNION Studio'], ['Clothing', 'UNION FW26']];
+  const credits = [['Words', 'UNION Editorial'], ['Photography', 'UNION Studio']];
 
   return (
     <article className="article">
@@ -77,14 +71,6 @@ export function Article() {
       </header>
       <div className="art-body">
         {a.body.slice(0, mid).map(para)}
-      </div>
-      <div className="art-figs">
-        {a.shop.slice(0, 2).map((pid) => (
-          <figure key={pid}>
-            <Link to={`/product/${pid}`} className="art-fig-img"><ProductImage p={byId[pid]} eager /></Link>
-            <figcaption>{byId[pid].ko} — UNION {byId[pid].name}</figcaption>
-          </figure>
-        ))}
       </div>
       <div className="art-body">
         <blockquote className="art-quote">{a.quote}</blockquote>
