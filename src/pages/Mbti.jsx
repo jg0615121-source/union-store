@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MBTI_Q, MBTI_TYPES, axisTags } from '../data.js';
-import { Grid } from '../components.jsx';
 import { useStore } from '../store.jsx';
-import { scoreByTags } from '../recommend.js';
 
 const AXES = [['E', 'I', '주목', '담백'], ['S', 'N', '실용', '감각'], ['T', 'F', '기준', '눈치'], ['J', 'P', '계획', '즉흥']];
 
@@ -41,13 +39,9 @@ function Result({ code, ans, onReset }) {
           <div className="hero-cta">
             <button className="btn" onClick={() => navigator.clipboard?.writeText(`나는 ${code} "${name}" · UNION 패션 MBTI`).then(() => setCopied(true), () => {})}>{copied ? '복사했어요' : '결과 복사하기'}</button>
             <button className="btn ghost" onClick={onReset}>다시 하기</button>
-            <Link to="/worldcup" className="btn ghost">코디 월드컵</Link>
+            <Link to="/worldcup" className="btn ghost">이상형 월드컵</Link>
           </div>
         </div>
-      </section>
-      <section className="wrap mb-picks">
-        <h2 className="h2">{code}에게 어울리는 옷</h2>
-        <Grid ids={scoreByTags(axisTags(code)).slice(0, 4)} />
       </section>
     </div>
   );
