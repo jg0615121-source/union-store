@@ -10,7 +10,6 @@ import Product from './pages/Product.jsx';
 import Lookbook from './pages/Lookbook.jsx';
 import Magazine, { Article } from './pages/Magazine.jsx';
 import Stylist from './pages/Stylist.jsx';
-import FitCheck from './pages/FitCheck.jsx';
 import Mbti from './pages/Mbti.jsx';
 import Worldcup from './pages/Worldcup.jsx';
 import Me from './pages/Me.jsx';
@@ -18,7 +17,7 @@ import Checkout from './pages/Checkout.jsx';
 import Play from './pages/Play.jsx';
 
 const NAV = [['/shop', 'Shop'], ['/lookbook', 'Lookbook'], ['/magazine', 'Journal'], ['/play', 'Play']];
-const PLAY = [['/stylist', 'AI 스타일리스트'], ['/fit-check', 'AI 코디 체크'], ['/mbti', '패션 MBTI'], ['/worldcup', '코디 월드컵']];
+const PLAY = [['/stylist', 'AI 스타일리스트'], ['/mbti', '패션 MBTI'], ['/worldcup', '코디 월드컵']];
 
 function Header() {
   const { cart, wish, setCartOpen } = useStore();
@@ -165,7 +164,7 @@ export default function App() {
           <Route path="/magazine/:id" element={<Article />} />
           <Route path="/play" element={<Play />} />
           <Route path="/stylist" element={<Stylist />} />
-          <Route path="/fit-check" element={<FitCheck />} />
+          <Route path="/fit-check" element={<Navigate to="/play" replace />} />
           <Route path="/mbti" element={<Mbti />} />
           <Route path="/worldcup" element={<Worldcup />} />
           <Route path="/me" element={<Me />} />

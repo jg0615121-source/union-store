@@ -547,6 +547,7 @@ legend span { color: var(--muted); }
 
 /* play hub */
 .play-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 96px; }
+.play-tile.wide { grid-column: 1 / -1; aspect-ratio: 21 / 8; }
 .play-tile { aspect-ratio: 4 / 3; display: grid; align-content: space-between; padding: clamp(20px, 3vw, 40px); overflow: hidden; }
 .pt-big { font: 800 clamp(64px, 10vw, 150px)/0.9 var(--display); font-stretch: 125%; letter-spacing: -0.05em; transition: transform .8s var(--ease); transform-origin: left top; }
 .play-tile:hover .pt-big { transform: scale(1.04); }
@@ -582,6 +583,7 @@ button.mb-choice:hover { background: rgba(0,0,0,.3); }
 .mb-picks { padding-bottom: 96px; }
 @media (max-width: 900px) {
   .play-tiles, .mb-choices { grid-template-columns: 1fr; }
+  .play-tile.wide { aspect-ratio: 4 / 3; }
   .mb-choice-n { font-size: 80px; }
 }
 
