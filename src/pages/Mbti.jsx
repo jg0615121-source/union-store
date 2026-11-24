@@ -99,7 +99,6 @@ export default function Mbti() {
       <div className="wrap mb-intro-in">
         <p className="kicker">Play · 패션 MBTI</p>
         <h1>내 성격이 고르는 옷</h1>
-        <p className="mb-sub">옷 앞에서의 자신감, 눈치, 고르는 방식. 12개 질문이면 돼요.</p>
         <div className="hero-cta"><button className="btn" onClick={() => setMode('quiz')}>시작하기</button></div>
       </div>
     </div>
