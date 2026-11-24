@@ -4,7 +4,7 @@ import { mkdirSync, writeFileSync, rmSync, copyFileSync } from 'node:fs';
 import { products, looks, byId } from '../src/data.js';
 
 const TAB = 'a small green woven tab (Pantone 354 green, 1 cm wide) sewn into the left side seam at the hem';
-const TAB_FOR = { pants: 'a small green woven tab (Pantone 354 green, 1 cm wide) sewn into the right back pocket seam', cap: 'a small green woven tab (Pantone 354 green) sewn into the back strap seam' };
+const TAB_FOR = { pants: 'a small green woven tab (Pantone 354 green, 1 cm wide) sewn into the left side seam just below the waistband', cap: 'a small green woven tab (Pantone 354 green) sewn into the back strap seam' };
 // The real lettering. Gemini copies whatever is attached into the picture, so attach only what should appear, and say it plainly.
 const WORD = 'The attached image is the UNION lettering. Use exactly these letter shapes (thick geometric capitals, round O ring). Do not change the font or the spelling.';
 // Real logo only (no separate symbol). LABEL = the woven label with the green tab, WORDMARK = the letters.
@@ -13,7 +13,7 @@ const EMB = 'UNION lettering (exactly the attached letter shapes)';
 const SYMBOL = LABEL;
 const SPEC = {
   u01: `boxy 230gsm cotton t-shirt, thick ribbed collar, a ${LABEL} sewn flat on the left chest`,
-  u02: 'oversized 230gsm cotton t-shirt with the UNION lettering printed large across the chest, 24 cm wide, slightly cracked water-based ink',
+  u02: 'oversized 230gsm cotton t-shirt with the UNION lettering printed large across the chest in off-black ink, 24 cm wide, slightly cracked water-based ink',
   u03: `heavyweight cotton hoodie, kangaroo pocket, a ${LABEL} sewn flat on the left chest`,
   u04: 'heavyweight cotton hoodie, kangaroo pocket, large "UNION" wordmark printed across the chest',
   u05: `cotton crewneck sweatshirt with raglan sleeves, small tonal embroidered ${EMB} on the left chest, 7 cm wide`,
@@ -59,7 +59,7 @@ for (const p of products) {
   const c = p.colors[0];
   const tab = TAB_FOR[p.cat] || TAB;
   const logo = usesSymbol(p.id) ? 'The attached image is the UNION woven label. Reproduce it exactly as a real woven label sewn on the garment; do not change the letters or colors. ' : usesWordmark(p.id) ? `${WORD} ` : '';
-  job(`${p.id}-0`, `${logo}Product photo of a ${SPEC[p.id]}, in ${c.name.toLowerCase()} (${c.hex}), with ${tab}. ${FLAT.has(p.cat) ? 'Laid flat, shot from directly above.' : TAILORED.has(p.cat) ? 'On a ghost mannequin, front view, buttoned.' : 'Ghost mannequin (invisible mannequin) front view.'} ${STUDIO}`, refsFor([p.id]));
+  job(`${p.id}-0`, `${logo}Product photo of a ${SPEC[p.id]}, in ${c.name.toLowerCase()} (${c.hex}), with ${tab}. The garment color must be ${c.name.toLowerCase()} ${c.hex}. ${p.cat === 'pants' ? 'Front view, laid flat, shot from directly above.' : FLAT.has(p.cat) ? 'Laid flat, shot from directly above.' : TAILORED.has(p.cat) ? 'On a ghost mannequin, front view, buttoned.' : 'Ghost mannequin (invisible mannequin) front view.'} ${STUDIO}`, refsFor([p.id]));
 }
 
 const MODEL_SPEC = {
