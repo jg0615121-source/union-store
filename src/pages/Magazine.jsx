@@ -1,40 +1,28 @@
 import { Link, useParams } from 'react-router-dom';
-import { articles, byId, won } from '../data.js';
-import { ProductImage, Reveal } from '../media.jsx';
+import { articles, byId } from '../data.js';
+import { ProductImage } from '../media.jsx';
 
-// Typographic cover: the story's title set large on its colour.
-function Cover({ a, className = '' }) {
-  return (
-    <div className={`mag-cover ${className}`} style={{ background: a.tone, color: a.fg }}>
-      <span className="mag-cover-k">{a.kicker}</span>
-      <span className="mag-cover-t">{a.title}</span>
-      <span className="mag-cover-n">UNION JOURNAL</span>
-    </div>
-  );
-}
+const no = (i) => `No.${String(i + 1).padStart(2, '0')}`;
 
+// Journal index: set like a magazine contents page, one story per row.
 export default function Magazine() {
-  const [lead, ...rest] = articles;
   return (
-    <div className="wrap page">
-      <header className="page-head"><p className="kicker">Journal</p><h1>읽을거리</h1></header>
-      <Link to={`/magazine/${lead.id}`} className="mag-lead">
-        <Cover a={lead} />
-        <div className="mag-lead-copy">
-          <p className="kicker">{lead.kicker} · {lead.minutes}분</p>
-          <h2>{lead.title}</h2>
-          <span className="more">읽기</span>
-        </div>
-      </Link>
-      <div className="mag-grid">
-        {rest.map((a) => (
-          <Reveal key={a.id} as={Link} to={`/magazine/${a.id}`} className="mag-item">
-            <Cover a={a} />
-            <p className="kicker">{a.kicker} · {a.minutes}분</p>
-            <h3>{a.title}</h3>
-          </Reveal>
+    <div className="journal">
+      <header className="wrap jr-head">
+        <p className="jr-mast">UNION JOURNAL</p>
+        <p className="jr-issue">FW26 · {articles.length} stories</p>
+      </header>
+      <ol className="wrap jr-list">
+        {articles.map((a, i) => (
+          <li key={a.id}>
+            <Link to={`/magazine/${a.id}`} className="jr-row" style={{ '--tone': a.tone, '--tfg': a.fg }}>
+              <span className="jr-no">{no(i)}</span>
+              <span className="jr-title">{a.title}</span>
+              <span className="jr-meta">{a.kicker} · {a.minutes} min</span>
+            </Link>
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
   );
 }
@@ -43,16 +31,16 @@ export function Article() {
   const { id } = useParams();
   const i = articles.findIndex((x) => x.id === id);
   const a = articles[i];
-  if (!a) return <div className="wrap page"><h1>없는 글이에요</h1><Link to="/magazine" className="btn">매거진으로</Link></div>;
+  if (!a) return <div className="wrap page"><h1>없는 글이에요</h1><Link to="/magazine" className="btn">저널로</Link></div>;
   const next = articles[(i + 1) % articles.length];
   const mid = Math.ceil(a.body.length / 2);
   const para = (t, k) => (t.startsWith('## ') ? <h2 key={k}>{t.slice(3)}</h2> : <p key={k}>{t}</p>);
 
   return (
     <article className="article">
-      <header className="art-head" style={{ background: a.tone, color: a.fg }}>
+      <header className="art-head">
         <div className="art-head-in">
-          <p className="art-k">{a.kicker} · {a.minutes}분 읽기 · UNION Journal</p>
+          <p className="art-k"><span>{no(i)}</span><span>{a.kicker}</span><span>{a.minutes} min</span></p>
           <h1>{a.title}</h1>
           <p className="art-lede">{a.lede}</p>
         </div>
@@ -62,20 +50,16 @@ export function Article() {
         <blockquote className="art-quote">{a.quote}</blockquote>
         {a.body.slice(mid).map((t, k) => para(t, k + mid))}
       </div>
-      <section className="art-shop">
-        <p className="kicker">Shop the story</p>
-        <div className="art-shop-row">
-          {a.shop.map((pid) => (
-            <Link key={pid} to={`/product/${pid}`} className="art-prod">
-              <div className="art-prod-img"><ProductImage p={byId[pid]} /></div>
-              <span>{byId[pid].name}</span>
-              <span className="muted">{won(byId[pid].price)}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-      <Link to={`/magazine/${next.id}`} className="art-next" style={{ background: next.tone, color: next.fg }}>
-        <span className="kicker" style={{ color: 'inherit', opacity: 0.7 }}>다음 글</span>
+      <aside className="art-shop">
+        {a.shop.map((pid) => (
+          <Link key={pid} to={`/product/${pid}`} className="art-prod">
+            <div className="art-prod-img"><ProductImage p={byId[pid]} /></div>
+            <span>{byId[pid].name}</span>
+          </Link>
+        ))}
+      </aside>
+      <Link to={`/magazine/${next.id}`} className="art-next">
+        <span className="jr-no">{no((i + 1) % articles.length)}</span>
         <span className="art-next-t">{next.title}</span>
       </Link>
     </article>

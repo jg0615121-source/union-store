@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { CATS, DETAILS, GROUP, SIZES, byId, looks, won } from '../data.js';
+import { CATS, DETAILS, GROUP, SIZES, byId, won } from '../data.js';
 import { Photo, ProductImage } from '../media.jsx';
 import { photo } from '../photos.js';
-import { Grid, Heart, LookArt } from '../components.jsx';
+import { Grid, Heart } from '../components.jsx';
 import { useStore } from '../store.jsx';
 import { recommendSize } from '../sizing.js';
 import { askAI } from '../ai.js';
@@ -136,7 +136,6 @@ export default function Product() {
 
   const isAcc = GROUP[p.cat] === 'acc';
   const dt = DETAILS[p.id];
-  const look = looks.find((l) => l.items.some(([x]) => x === p.id));
   const on = wish.includes(p.id);
   const views = isAcc || GROUP[p.cat] === 'bottom' ? ['front', 'detail'] : ['front', 'back', 'detail'];
   const add = () => (size ? addToCart(p.id, c, size) : setWarn(true));
@@ -154,7 +153,6 @@ export default function Product() {
           {dt?.models.map(([who, body, wear], k) => (
             <Photo key={who} name={`${p.id}-model-${k + 1}`} alt={`${who} ${body} ${wear}`} className="shot-model" fallback={null} />
           )).filter(Boolean)}
-          {look && <div className="shot look-shot"><LookArt look={look} /></div>}
         </div>
 
         <div className="pinfo">
@@ -220,23 +218,6 @@ export default function Product() {
         </div>
       )}
 
-      {look && (
-        <section className="complete">
-          <div className="complete-art"><LookArt look={look} /></div>
-          <div>
-            <p className="kicker">이렇게 입어요</p>
-            <h2>{look.name}</h2>
-            <ul>
-              {look.items.map(([x, ci]) => (
-                <li key={x}><Link to={`/product/${x}`}>{byId[x].ko}</Link><span>{byId[x].colors[ci].name}</span><span>{won(byId[x].price)}</span></li>
-              ))}
-            </ul>
-            <button className="btn" onClick={() => look.items.forEach(([x, ci]) => addToCart(x, ci, GROUP[byId[x].cat] === 'acc' ? 'FREE' : size || 'M'))}>
-              세트 한 번에 담기 · {won(look.items.reduce((a, [x]) => a + byId[x].price, 0))}
-            </button>
-          </div>
-        </section>
-      )}
 
       <Reviews p={p} />
 

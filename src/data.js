@@ -104,7 +104,7 @@ export const MBTI_TYPES = {
 
 // Journal. body: paragraphs, '## ' starts a subheading. quote: pull quote. shop: products shown inside the story.
 export const articles = [
-  { id: 'three-piece', kicker: 'HOW TO', title: '옷 몰라도 되는 세 벌 공식', minutes: 3, tone: '#1B1B1A', fg: '#ECECEA',
+  { id: 'three-piece', kicker: 'STYLE', title: '세 벌이면 충분하다', minutes: 3, tone: '#1B1B1A', fg: '#ECECEA',
     lede: '로고 한 벌, 무채색 한 벌, 모자 하나. 이 셋이면 일주일이 굴러가요.',
     quote: '튀는 건 한 벌이면 충분해요.',
     shop: ['u02', 'u10', 'u12'],
@@ -117,7 +117,7 @@ export const articles = [
       '볼캡이나 비니는 머리 손질이 안 된 날을 가려주고, 사진의 위쪽을 채워줘요.',
       '헷갈리면 상품 페이지의 "이렇게 입어요" 세트를 그대로 담으면 돼요. 미리 맞춰뒀어요.',
     ] },
-  { id: 'logo-tee', kicker: 'GUIDE', title: '로고 티, 촌스럽지 않게 입는 법', minutes: 4, tone: '#E6E1D6', fg: '#1B1B1A',
+  { id: 'logo-tee', kicker: 'ESSAY', title: '로고를 크게 입는 날', minutes: 4, tone: '#E6E1D6', fg: '#1B1B1A',
     lede: '로고가 크다고 촌스러운 게 아니에요. 나머지를 얼마나 덜어내느냐의 문제예요.',
     quote: '로고가 크면, 나머지는 조용하게.',
     shop: ['u02', 'u01'],
@@ -129,7 +129,7 @@ export const articles = [
       '## 핏으로 분위기 바꾸기',
       '한 치수 크게 입으면 캐주얼하고, 딱 맞게 입으면 단정해요. 같은 티로 두 가지 분위기를 낼 수 있어요.',
     ] },
-  { id: 'green-tab', kicker: 'DETAIL', title: '초록 탭 하나에 담은 것', minutes: 3, tone: '#2D5E45', fg: '#ECECEA',
+  { id: 'green-tab', kicker: 'DETAIL', title: '1센티미터의 초록', minutes: 3, tone: '#2D5E45', fg: '#ECECEA',
     lede: '모든 UNION 옷의 밑단에는 작은 초록 탭이 달려 있어요. 로고가 없는 옷에도요.',
     quote: '멀리서 봐도 알아볼 수 있는 가장 작은 표시.',
     shop: ['u01', 'u03'],
@@ -140,7 +140,7 @@ export const articles = [
       '## 로고 없는 옷에도',
       '심볼 티셔츠의 라벨은 아주 작아요. 대신 밑단에 탭이 있어요. 아무것도 쓰지 않아도 어디 옷인지 아는 정도의 존재감이에요.',
     ] },
-  { id: 'white-tee', kicker: 'GUIDE', title: '흰 티 하나 제대로 고르는 법', minutes: 4, tone: '#F4F4F2', fg: '#1B1B1A',
+  { id: 'white-tee', kicker: 'NOTES', title: '흰 티의 조건', minutes: 4, tone: '#F4F4F2', fg: '#1B1B1A',
     lede: '비치는지, 목이 늘어나는지, 어깨선이 어디 떨어지는지. 이 세 가지만 보면 돼요.',
     quote: '200g을 넘으면 비치지 않아요.',
     shop: ['u01'],

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { byId, won } from './data.js';
 import { Logo } from './garments.jsx';
 import { ProductImage } from './media.jsx';
@@ -8,7 +8,6 @@ import Home from './pages/Home.jsx';
 import Shop from './pages/Shop.jsx';
 import Product from './pages/Product.jsx';
 import Lookbook from './pages/Lookbook.jsx';
-import Snap from './pages/Snap.jsx';
 import Magazine, { Article } from './pages/Magazine.jsx';
 import Stylist from './pages/Stylist.jsx';
 import FitCheck from './pages/FitCheck.jsx';
@@ -18,7 +17,7 @@ import Me from './pages/Me.jsx';
 import Checkout from './pages/Checkout.jsx';
 import Play from './pages/Play.jsx';
 
-const NAV = [['/shop', 'Shop'], ['/lookbook', 'Lookbook'], ['/snap', 'Snap'], ['/magazine', 'Journal'], ['/play', 'Play']];
+const NAV = [['/shop', 'Shop'], ['/lookbook', 'Lookbook'], ['/magazine', 'Journal'], ['/play', 'Play']];
 const PLAY = [['/stylist', 'AI 스타일리스트'], ['/fit-check', 'AI 코디 체크'], ['/mbti', '패션 MBTI'], ['/worldcup', '코디 월드컵']];
 
 function Header() {
@@ -161,7 +160,7 @@ export default function App() {
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:id" element={<Product />} />
           <Route path="/lookbook" element={<Lookbook />} />
-          <Route path="/snap" element={<Snap />} />
+          <Route path="/snap" element={<Navigate to="/lookbook" replace />} />
           <Route path="/magazine" element={<Magazine />} />
           <Route path="/magazine/:id" element={<Article />} />
           <Route path="/play" element={<Play />} />
