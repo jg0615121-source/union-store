@@ -108,4 +108,12 @@ const look = (id) => {
 look('l03');
 for (const p of products) if (p.cat !== 'cap') model(p, 2);
 for (const id of ['l01', 'l02', 'l04']) look(id);
+// Journal photographs (added on main): one editorial image per story, magazine style rather than product shots. Lowest priority.
+const JOURNAL = {
+  'three-piece': 'Three folded garments (a white t-shirt, grey sweatpants, a black cap) laid on a wooden bench by a window, morning light, quiet still life',
+  'logo-tee': 'A young Korean person seen from the side walking past a concrete wall, wearing a black oversized t-shirt with a large white "UNION" wordmark, candid street moment',
+  'green-tab': 'Extreme close-up of the hem of a grey sweatshirt showing a small green woven tab at the side seam, shallow depth of field, fabric texture',
+  'white-tee': 'A white heavyweight t-shirt hanging on a simple wooden hanger against a plain plaster wall, soft side light, minimal',
+};
+for (const [id, scene] of Object.entries(JOURNAL)) job(`journal-${id}`, `Editorial magazine photograph for a fashion journal, in the spirit of independent print magazines: ${scene}. Shot on medium-format film, natural light, muted colours, generous negative space, no text, no other brand logos. 16:9 horizontal.`);
 console.log(n, 'jobs');

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { CATS, DETAILS, GROUP, SIZES, byId, won } from '../data.js';
+import { CATS, DETAILS, GROUP, INFO_SCALE, SIZES, byId, won } from '../data.js';
 import { Photo, ProductImage } from '../media.jsx';
 import { photo } from '../photos.js';
 import { Grid, Heart } from '../components.jsx';
@@ -190,10 +190,20 @@ export default function Product() {
 
           {dt && (
             <div className="pd">
+              <table className="pd-matrix">
+                <tbody>
+                  {INFO_SCALE.map(([label, levels], r) => (
+                    <tr key={label}>
+                      <th>{label}</th>
+                      {levels.map((l, k) => <td key={l} className={dt.info[r] === k ? 'on' : ''}>{l}</td>)}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
               <dl className="specs">
-                <div><dt>핏</dt><dd>{dt.fit}</dd></div>
                 <div><dt>소재</dt><dd>{dt.fabric}</dd></div>
-                <div><dt>디테일</dt><dd><ul className="pd-points">{dt.points.map((x) => <li key={x}>{x}</li>)}</ul></dd></div>
+                <div><dt>계절</dt><dd>{dt.season}</dd></div>
+                <div><dt>디테일</dt><dd>{dt.spec.join(' / ')}</dd></div>
                 {photo[`${p.id}-model-1`] && <div><dt>모델</dt><dd>{dt.models.map(([who, body, wear]) => <p key={who}>{who} {body} · {wear}</p>)}</dd></div>}
               </dl>
               <details className="pd-size">
