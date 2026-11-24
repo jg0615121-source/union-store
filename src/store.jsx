@@ -1,12 +1,22 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { byId } from './data.js';
 
 const Ctx = createContext(null);
+
+// Saved data can name products that no longer exist (the catalogue changed); rendering them crashed whole pages.
+const known = (id) => Boolean(byId[id]);
+const CLEAN = {
+  'union.cart': (xs) => xs.filter((x) => known(x.id) && byId[x.id].colors[x.c]),
+  'union.wish': (xs) => xs.filter(known),
+  'union.viewed': (xs) => xs.filter(known),
+};
 
 function usePersisted(key, initial) {
   const [v, setV] = useState(() => {
     try {
       const s = localStorage.getItem(key);
-      return s ? JSON.parse(s) : initial;
+      const data = s ? JSON.parse(s) : initial;
+      return CLEAN[key] && Array.isArray(data) ? CLEAN[key](data) : data;
     } catch {
       return initial;
     }
