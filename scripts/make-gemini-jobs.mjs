@@ -5,12 +5,12 @@ import { products, looks, byId } from '../src/data.js';
 
 const TAB = 'a small green woven tab (Pantone 354 green, 1 cm wide) sewn into the left side seam at the hem';
 const TAB_FOR = { pants: 'a small green woven tab (Pantone 354 green, 1 cm wide) sewn into the right back pocket seam', cap: 'a small green woven tab (Pantone 354 green) sewn into the back strap seam' };
-// The real logo, in words. Always sent together with the attached ref-logo.png.
-const LOGO = 'The UNION logo is exactly the attached image: the word UNION in heavy geometric sans-serif capitals (the O is a perfect thick ring, the U has a round bottom, no serifs), set on a horizontal dark rounded-rectangle woven label with a solid green (#00A84D) tab on the right end. Copy its letter shapes exactly; do not redraw, restyle or misspell it.';
+// The real lettering. Gemini copies whatever is attached into the picture, so attach only what should appear, and say it plainly.
+const WORD = 'The attached image is the UNION lettering. Use exactly these letter shapes (thick geometric capitals, round O ring). Do not change the font or the spelling.';
 const SYMBOL = 'brand symbol (exactly as in the attached image)';
 const SPEC = {
   u01: `boxy 230gsm cotton t-shirt, thick ribbed collar, small embroidered ${SYMBOL} on the left chest, 4 cm wide`,
-  u02: 'oversized 230gsm cotton t-shirt with the UNION wordmark from the attached logo image (letters only, no label) printed large across the chest, 24 cm wide, slightly cracked water-based ink',
+  u02: 'oversized 230gsm cotton t-shirt with the UNION lettering printed large across the chest, 24 cm wide, slightly cracked water-based ink',
   u03: `heavyweight cotton hoodie, kangaroo pocket, small embroidered ${SYMBOL} on the left chest`,
   u04: 'heavyweight cotton hoodie, kangaroo pocket, large "UNION" wordmark printed across the chest',
   u05: `cotton crewneck sweatshirt with raglan sleeves, small embroidered ${SYMBOL} on the left chest`,
@@ -45,24 +45,25 @@ const job = (name, text, attach = []) => {
 };
 const usesSymbol = (pid) => SPEC[pid].includes(SYMBOL);
 const usesWordmark = (pid) => /UNION/.test(SPEC[pid]);
-const refsFor = (pids) => [...(pids.some(usesWordmark) ? ['ref-logo.png'] : []), ...(pids.some(usesSymbol) ? ['결과/sig-선택.png (고른 시그니처)'] : [])];
+const refsFor = (pids) => [...(pids.some(usesWordmark) ? ['ref-wordmark.png'] : []), ...(pids.some(usesSymbol) ? ['결과/sig-선택.png (고른 시그니처)'] : [])];
 
 // Order = priority, because the Gemini image quota is limited. Stop anywhere and the site still has the most important photos.
 // 1) signature concepts (needed before anything with the symbol)  2) product photos  3) two casting references  4) one model per product
 // 4) hero lookbook  5) second model  6) the other lookbooks.
-const ART = 'Signature graphic for a casual unisex label, drawn by a skilled illustrator: confident hand-drawn ink line with slight wobble, vintage screen-print texture with tiny ink breaks, two-color print (off-black #1B1B1A and green #00A84D) on off-white cotton, timeless rather than trendy, the kind of motif a brand repeats on tees, caps and tote bags for years. Simple enough to read at 3 cm, charming at 25 cm. No gradients, no 3D, no clip-art look, no other brand names. Show 4 variations side by side on one square canvas.';
-const SIGS = {
-  'sig-emblem': 'A vintage emblem: a simple hand-drawn rope knot in green, with the slogan "TIED TOGETHER" in retro lettering arched around it and the UNION wordmark from the attached image (same letter shapes, small) beneath, the feel of an old souvenir patch.',
-  'sig-signature': 'The word "Union" written as a loose, fast brush-pen signature by hand, confident and slightly messy like an artist signing their work, with a small green dot after the n. One single word, no other text. It should sit well next to the attached UNION label logo.',
-  'sig-animal': 'A small cat face icon: a calm, slightly unimpressed street cat seen from the front, drawn with very few bold lines, one ear with a tiny green notch, iconic enough to be recognised as a silhouette at 3 cm and to repeat as an all-over pattern. Line weight matched to the attached UNION logo.',
-  'sig-character': 'A small mascot character based on the green tab at the right end of the attached UNION label logo (a small upright rounded rectangle, solid green #00A84D), with simple dot eyes, tiny arms and legs, friendly and slightly cheeky expression, in poses: waving, walking, sitting, peeking from behind the dark UNION label. Few lines, big personality.',
-};
-for (const [name, brief] of Object.entries(SIGS)) job(name, `${LOGO} ${brief} ${ART}`, ['ref-logo.png']);
+const ART = 'Style: hand-drawn ink line with slight wobble, vintage screen-print texture, only two colors (black #1B1B1A and green #00A84D) on off-white cotton. Simple enough to read at 3 cm. No gradients, no 3D. No captions, no extra words, no other brand logos. Show 4 variations in a 2x2 grid on one square image.';
+// [name, brief, attachment]
+const SIGS = [
+  ['sig-emblem', `${WORD} Draw a vintage patch emblem: a green rope knot in the middle, the words "TIED TOGETHER" arched above it in retro lettering, and the UNION lettering small at the bottom.`, 'ref-wordmark.png'],
+  ['sig-signature', 'Draw only the word "Union" as a fast, loose brush-pen handwritten signature, with a small green dot after the n. Nothing else in the image: no logo, no label, no other text.', null],
+  ['sig-animal', 'Draw only a small cat face icon: a calm, slightly unimpressed street cat seen from the front, very few bold lines, one ear with a small green notch. Nothing else in the image: no text, no logo, no label.', null],
+  ['sig-character', 'Look at the green block on the right end of the attached label. Turn that green block into a small mascot character: an upright green rounded rectangle with dot eyes, a small smile, thin black arms and legs. Four poses: waving, walking, sitting, peeking over the edge of the attached black UNION label. Do not write any words under the poses.', 'ref-label.png'],
+];
+for (const [name, brief, ref] of SIGS) job(name, `${brief} ${ART}`, ref ? [ref] : []);
 
 for (const p of products) {
   const c = p.colors[0];
   const tab = TAB_FOR[p.cat] || TAB;
-  const logo = usesWordmark(p.id) ? `${LOGO} ` : '';
+  const logo = usesWordmark(p.id) ? `${WORD} ` : '';
   job(`${p.id}-0`, `${logo}Product photo of a ${SPEC[p.id]}, in ${c.name.toLowerCase()} (${c.hex}), with ${tab}. ${FLAT.has(p.cat) ? 'Laid flat, shot from directly above.' : TAILORED.has(p.cat) ? 'On a ghost mannequin, front view, buttoned.' : 'Ghost mannequin (invisible mannequin) front view.'} ${STUDIO}`, refsFor([p.id]));
 }
 
