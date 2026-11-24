@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { byId, won, GROUP, SIZES } from './data.js';
-import { Garment } from './garments.jsx';
 import { Photo, ProductImage } from './media.jsx';
 import { photo } from './photos.js';
 import { useStore } from './store.jsx';
@@ -14,7 +13,6 @@ export function Heart({ on }) {
   );
 }
 
-const TOP = new Set(['tee', 'hoodie', 'crew', 'longsleeve', 'jacket', 'varsity']);
 
 export function ProductCard({ p, c = 0, rank }) {
   const { wish, toggleWish, addToCart } = useStore();
@@ -22,13 +20,14 @@ export function ProductCard({ p, c = 0, rank }) {
   const on = wish.includes(p.id);
   const acc = GROUP[p.cat] === 'acc';
   // Hover shows the second colourway when photographed, otherwise the back or the print.
-  const alt = photo[`${p.id}-1`] ? <ProductImage p={p} c={1} /> : <Garment product={p} c={c} view={TOP.has(p.cat) ? 'back' : 'detail'} />;
+  // Hover shows the second colour only when it is photographed; illustrations stay put.
+  const alt = photo[`${p.id}-1`] ? <ProductImage p={p} c={1} /> : null;
   return (
     <article className="pcard">
       <div className="pcard-media">
         <Link to={`/product/${p.id}`} className="pcard-img" aria-label={`${p.ko} 보기`}>
           <div className="pcard-a"><ProductImage p={p} c={c} /></div>
-          <div className="pcard-b">{alt}</div>
+          {alt && <div className="pcard-b">{alt}</div>}
         </Link>
         {rank && <span className="pcard-rank">{String(rank).padStart(2, '0')}</span>}
         <button className={`wish ${on ? 'on' : ''}`} onClick={() => toggleWish(p.id)} aria-pressed={on} aria-label={on ? '찜 해제' : '찜하기'}><Heart on={on} /></button>

@@ -169,7 +169,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .pcard-a, .pcard-b { position: absolute; inset: 0; display: grid; place-items: center; transition: opacity .6s var(--ease), transform 1.2s var(--ease); }
 .pcard-a > svg, .pcard-b > svg { width: 82%; height: auto; }
 .pcard-b { opacity: 0; }
-.pcard-media:hover .pcard-a { opacity: 0; }
+.pcard-media:hover .pcard-b ~ .pcard-a, .pcard-img:has(.pcard-b):hover .pcard-a { opacity: 0; }
 .pcard-media:hover .pcard-b { opacity: 1; transform: scale(1.02); }
 .pcard-rank { position: absolute; top: 14px; left: 14px; font: 500 11px var(--mono); letter-spacing: .1em; }
 .wish { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; display: grid; place-items: center; }
