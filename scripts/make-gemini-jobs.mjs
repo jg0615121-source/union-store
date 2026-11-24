@@ -20,13 +20,13 @@ const MARK = {
   sig: ['결과/sig-signature.png', 'The attached image is our brush signature logo. Reproduce exactly this handwriting on the garment; do not rewrite it or change the letters. The print is ONLY this handwritten "Union." signature with its green dot: never block capital letters, never the word UNION in a typeface. '],
   cat: ['결과/sig-cat-face.png', 'The attached image is our cat character. Reproduce exactly this drawing on the garment; do not redraw or change it. '],
 };
-const MARK_OF = { u01: 'sig', u02: 'word', u03: 'label', u05: 'sig', u10: 'label', u12: 'sig' };
+const MARK_OF = { u01: 'sig', u02: 'word', u03: 'label', u05: 'word', u10: 'label', u12: 'sig' };
 const SPEC = {
   u01: `boxy heavyweight 240gsm cotton jersey t-shirt, dropped shoulders, a clean 2.5 cm 1x1 rib neckband lying perfectly flat, twin-needle stitched sleeve and body hems, the ${SIG} screen-printed in black ink across the chest, 22 cm wide, slightly cracked water-based ink, top of the signature 9 cm below the neckband`,
   u02: 'oversized heavyweight 240gsm cotton jersey t-shirt, dropped shoulders, a clean 2.5 cm 1x1 rib neckband lying perfectly flat, the UNION lettering screen-printed across the chest in off-black ink, 26 cm wide (about 40 percent of the chest width), top of the letters 9 cm below the neckband, soft hand water-based print',
   u03: `heavyweight 450gsm brushed cotton fleece hoodie, double-layer hood with flat cotton drawcords and metal eyelets, kangaroo pocket, 7 cm 2x2 rib cuffs and hem knitted tight and even, a ${LABEL} on the left chest`,
   u04: 'heavyweight cotton hoodie, kangaroo pocket, large "UNION" wordmark printed across the chest',
-  u05: `heavyweight 420gsm cotton fleece crewneck sweatshirt with raglan sleeves, a 3 cm 2x2 rib neckband, 7 cm 2x2 rib cuffs and hem knitted tight and even, the ${SIG} embroidered across the chest in off-black chain-stitch embroidery, 20 cm wide, top of the signature 10 cm below the neckband, the small dot in green thread`,
+  u05: `heavyweight 500gsm double-faced cotton loopback fleece crewneck sweatshirt with set-in sleeves, flat clean flatlock seams, a small V-stitch insert at the front neck, 2x2 rib side panels, a 3 cm 2x2 rib neckband and 7 cm 2x2 rib cuffs and hem knitted tight and even, a small tonal embroidered ${EMB} on the upper right chest from the viewer's side (the wearer's left chest), 6 cm wide, dense satin-stitch embroidery, quiet luxury-brand detailing`,
   u06: 'cotton long-sleeve t-shirt with a small "UNION" wordmark printed on the left chest',
   u07: `lightweight nylon coach jacket, snap front, small ${SYMBOL} on the left chest, large arched "UNION" print across the upper back`,
   u08: `varsity jacket with wool body and faux-leather sleeves, ribbed collar, cuffs and hem with a thin green stripe, chenille ${SYMBOL} patch on the left chest`,
