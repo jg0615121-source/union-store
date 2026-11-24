@@ -4,10 +4,9 @@ import { products } from '../data.js';
 import { ProductImage, Reveal } from '../media.jsx';
 
 const ITEMS = [
+  ['/stylist', 'AI 스타일리스트', '옷, 물어보세요', '#ACACA6', 'wide'],
   ['/mbti', '패션 MBTI', 'ENFP', '#2D5E45'],
   ['/worldcup', '코디 이상형 월드컵', '8→1', '#1B1B1A'],
-  ['/fit-check', 'AI 코디 체크', '87', '#E6E1D6'],
-  ['/stylist', 'AI 스타일리스트', '뭐 입지?', '#ACACA6'],
 ];
 
 function useWeather() {
@@ -59,8 +58,8 @@ export default function Play() {
         <h1>Play</h1>
       </header>
       <div className="play-tiles">
-        {ITEMS.map(([to, t, big, bg]) => (
-          <Link key={to} to={to} className="play-tile" style={{ background: bg, color: bg === '#E6E1D6' || bg === '#ACACA6' ? '#1B1B1A' : '#ECECEA' }}>
+        {ITEMS.map(([to, t, big, bg, size]) => (
+          <Link key={to} to={to} className={`play-tile ${size || ''}`} style={{ background: bg, color: bg === '#E6E1D6' || bg === '#ACACA6' ? '#1B1B1A' : '#ECECEA' }}>
             <span className="pt-big">{big}</span>
             <span className="pt-t">{t}<span aria-hidden="true">→</span></span>
           </Link>
