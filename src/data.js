@@ -32,8 +32,6 @@ export const products = [
     story: '바닥까지 떨어지는 와이드 핏. 허리 밴딩이라 하루 종일 편해요.' },
   { id: 'u12', name: 'SYMBOL CAP', ko: '심볼 볼캡', cat: 'cap', price: 35000, print: 'blank', colors: [C.black, C.stone], tags: ['street', 'essential', 'mono'], scenes: ['여행', '데일리', '더위'], rank: 6,
     story: '정면에 심볼 자수. 챙이 살짝 휘어 있어서 처음 써도 어색하지 않아요.' },
-  { id: 'u14', name: 'CANVAS TOTE', ko: '캔버스 토트백', cat: 'tote', price: 29000, print: 'market', colors: [C.natural], tags: ['clean', 'trend', 'essential'], scenes: ['캠퍼스', '여행', '데일리'], rank: 7,
-    story: '두꺼운 캔버스 가방. 15인치 노트북이 들어가고 안쪽에 작은 주머니가 있어요.' },
 ];
 
 export const CATS = {
@@ -41,7 +39,7 @@ export const CATS = {
   pants: '팬츠', shorts: '쇼츠', cap: '모자', beanie: '모자', tote: '가방', socks: '양말', blazer: '재킷', coat: '코트', knit: '니트',
 };
 export const SHOP_FILTERS = [
-  ['all', '전체'], ['top', '상의'], ['bottom', '하의'], ['acc', '모자·가방'],
+  ['all', '전체'], ['top', '상의'], ['bottom', '하의'], ['acc', '모자'],
 ];
 export const GROUP = {
   tee: 'top', longsleeve: 'top', hoodie: 'top', crew: 'top', jacket: 'outer', varsity: 'outer',
@@ -57,11 +55,11 @@ export const looks = [
   { id: 'l01', name: '월요일 아침', who: '@monday.fit', items: [['u01', 0], ['u10', 1], ['u12', 0]], tags: ['clean', 'mono', 'essential'] },
   { id: 'l02', name: '주말 피크닉', who: '@picnic.day', items: [['u02', 0], ['u10', 0], ['u12', 1]], tags: ['street', 'bold', 'trend'] },
   { id: 'l03', name: '막차 놓친 밤', who: '@late.night', items: [['u05', 1], ['u10', 1], ['u12', 0]], tags: ['street', 'mono', 'trend'] },
-  { id: 'l04', name: '9시 수업', who: '@first.class', items: [['u03', 0], ['u10', 0], ['u14', 0]], tags: ['street', 'oversize', 'essential'] },
-  { id: 'l05', name: '첫 데이트 무난하게', who: '@soft.date', items: [['u01', 0], ['u10', 0], ['u14', 0]], tags: ['clean', 'mono', 'fitted'] },
+  { id: 'l04', name: '9시 수업', who: '@first.class', items: [['u03', 0], ['u10', 0], ['u12', 1]], tags: ['street', 'oversize', 'essential'] },
+  { id: 'l05', name: '첫 데이트 무난하게', who: '@soft.date', items: [['u01', 0], ['u10', 0], ['u12', 1]], tags: ['clean', 'mono', 'fitted'] },
   { id: 'l06', name: '올블랙 셋업', who: '@all.black', items: [['u03', 1], ['u10', 1], ['u12', 0]], tags: ['street', 'mono', 'trend'] },
   { id: 'l07', name: '오트밀 산책', who: '@slow.walk', items: [['u05', 0], ['u10', 0], ['u12', 1]], tags: ['clean', 'mono', 'essential'] },
-  { id: 'l08', name: '로고 하나로', who: '@one.logo', items: [['u02', 1], ['u10', 0], ['u14', 0]], tags: ['street', 'bold', 'trend'] },
+  { id: 'l08', name: '로고 하나로', who: '@one.logo', items: [['u02', 1], ['u10', 0], ['u12', 1]], tags: ['street', 'bold', 'trend'] },
 ];
 
 // Fashion MBTI uses the real 16 types. Each question nudges one axis.
@@ -94,12 +92,12 @@ export const MBTI_TYPES = {
   ISFP: ['감성 빈티지러', '자기만의 취향이 분명해요. 바랜 색감과 손맛 있는 프린트가 잘 맞아요.', '빅 로고 티를 한 치수 크게.'],
   INFP: ['몽글한 오버핏 낭만파', '이상과 감성이 풍부해요. 넉넉한 핏 속에서 편안함을 느껴요.', '오버핏 후디에 와이드 팬츠.'],
   INTP: ['대충 입은 듯 계산된 사람', '관심 없는 척하지만 기준은 확실해요. 무지 티 하나도 핏을 따져요.', '심볼 티에 와이드 팬츠, 아무렇지 않게.'],
-  ESTP: ['스포티 액티브', '몸이 먼저 움직이는 타입. 활동적인 스포츠 무드가 잘 어울려요.', '후디에 볼캡, 가방은 토트백.'],
+  ESTP: ['스포티 액티브', '몸이 먼저 움직이는 타입. 활동적인 스포츠 무드가 잘 어울려요.', '후디에 볼캡, 셋업 바지까지.'],
   ESFP: ['포인트 컬러 파티룩', '어디서든 분위기를 띄워요. 시선을 끄는 색 하나를 과감하게.', '블랙 빅 로고 티로 한 방에.'],
   ENFP: ['컬러 믹스 자유인', '호기심이 많고 하루에도 기분이 바뀌어요. 다양한 색을 섞어 입는 게 즐거워요.', '빅 로고 티에 색 다른 볼캡.'],
   ENTP: ['실험적 레이어링', '새로운 조합을 시도하는 걸 좋아해요. 겹쳐 입기로 늘 다르게.', '맨투맨 아래로 티셔츠 밑단이 보이게.'],
   ESTJ: ['깔끔한 셋업 리더', '정리정돈과 결과를 중시해요. 위아래 톤을 맞춘 단정한 셋업이 잘 맞아요.', '같은 색 맨투맨과 스웨트팬츠 셋업.'],
-  ESFJ: ['누구에게나 호감 데일리룩', '사람을 좋아하고 분위기를 맞춰요. 어디 가도 무난하게 예쁜 옷이 강점이에요.', '심볼 티에 와이드 팬츠, 토트백.'],
+  ESFJ: ['누구에게나 호감 데일리룩', '사람을 좋아하고 분위기를 맞춰요. 어디 가도 무난하게 예쁜 옷이 강점이에요.', '심볼 티에 와이드 팬츠, 볼캡.'],
   ENFJ: ['따뜻한 컬러 리더', '사람을 이끌고 챙겨요. 밝은 톤에 포인트 하나로 친근한 인상을.', '오트 맨투맨에 스톤 볼캡.'],
   ENTJ: ['카리스마 블랙 셋업', '목표가 분명하고 주도적이에요. 어둡고 각 잡힌 실루엣이 힘을 실어줘요.', '블랙 후디 셋업.'],
 };

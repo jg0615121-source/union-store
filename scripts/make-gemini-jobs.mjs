@@ -19,7 +19,6 @@ const SPEC = {
   u11: 'cotton fleece sweat shorts, above-knee length, small "UNION" print on the left leg',
   u12: `six-panel cotton baseball cap, curved brim, embroidered ${SYMBOL} on the front`,
   u13: `ribbed knit beanie with fold-over cuff and a small woven ${SYMBOL} label`,
-  u14: 'heavy natural canvas tote bag with long handles and a small round "UNION" stamp print',
   u15: 'three pairs of ribbed cotton crew socks with a small knitted "UNION" logo',
   u16: 'heavyweight 230gsm plain cotton t-shirt, no logo, thick ribbed collar',
 };
