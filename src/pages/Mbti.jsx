@@ -5,8 +5,7 @@ import { Grid } from '../components.jsx';
 import { useStore } from '../store.jsx';
 import { scoreByTags } from '../recommend.js';
 
-const AXES = [['E', 'I', '외향', '내향'], ['S', 'N', '감각', '직관'], ['T', 'F', '사고', '감정'], ['J', 'P', '계획', '즉흥']];
-const CODES = Object.keys(MBTI_TYPES);
+const AXES = [['E', 'I', '주목', '담백'], ['S', 'N', '실용', '감각'], ['T', 'F', '기준', '눈치'], ['J', 'P', '계획', '즉흥']];
 
 export function codeFrom(answers) {
   return AXES.map(([a, b]) => (answers.filter((x) => x === a).length >= answers.filter((x) => x === b).length ? a : b)).join('');
@@ -23,7 +22,7 @@ function Result({ code, ans, onReset }) {
           <p className="mb-code">{code}</p>
           <h1>{name}</h1>
           <p className="mb-desc">{desc}</p>
-          {ans && (
+          {ans.length > 0 && (
             <dl className="axes">
               {AXES.map(([a, b, la, lb]) => {
                 const n = ans.filter((x) => x === a).length;
@@ -68,7 +67,7 @@ export default function Mbti() {
   };
   const reset = () => { setAns([]); setCode(null); setMode('intro'); };
 
-  if (mode === 'result') return <Result code={code} ans={ans.length ? ans : null} onReset={reset} />;
+  if (mode === 'result') return <Result code={code} ans={ans} onReset={reset} />;
 
   if (mode === 'quiz') {
     const i = ans.length;
@@ -100,18 +99,8 @@ export default function Mbti() {
       <div className="wrap mb-intro-in">
         <p className="kicker">Play · 패션 MBTI</p>
         <h1>내 성격이 고르는 옷</h1>
-        <div className="mb-choices">
-          <button className="mb-choice" onClick={() => setMode('quiz')}>
-            <span className="mb-choice-n">12</span>
-            <span className="mb-choice-t">질문으로 알아보기</span>
-          </button>
-          <div className="mb-choice mb-known">
-            <span className="mb-choice-t">내 MBTI 바로 고르기</span>
-            <div className="mb-grid">
-              {CODES.map((c) => <button key={c} onClick={() => finish(c, [])}>{c}</button>)}
-            </div>
-          </div>
-        </div>
+        <p className="mb-sub">옷 앞에서의 자신감, 눈치, 고르는 방식. 12개 질문이면 돼요.</p>
+        <div className="hero-cta"><button className="btn" onClick={() => setMode('quiz')}>시작하기</button></div>
       </div>
     </div>
   );

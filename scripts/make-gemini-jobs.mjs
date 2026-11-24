@@ -38,9 +38,11 @@ const SPEC = {
   u15: 'three pairs of ribbed cotton crew socks with a small knitted "UNION" logo',
   u16: 'heavyweight 230gsm plain cotton t-shirt, no logo, thick ribbed collar',
 };
+// Tops are shot as a neat flat lay: a ghost mannequin made the tees look like an awkward invisible person.
+const TOPLAY = 'Front view as a premium brand flat-lay product shot: the garment laid perfectly flat on the floor and shot from directly above, symmetrical, sleeves straight and relaxed along the sides, neckline lying flat, hem straight, smoothed by a professional stylist with only a few soft natural creases. No mannequin, no body volume, no hanger, no person.';
 const FLAT = new Set(['pants', 'shorts', 'cap', 'beanie', 'tote', 'socks']);
 const TAILORED = new Set(['blazer', 'coat']);
-const STUDIO = 'Shot like a real premium brand product page: medium format camera, f/8, one large softbox from the upper left, seamless warm light-grey paper backdrop, gentle contact shadow. Real garment, not a 3D render: visible cotton knit texture, crisp straight seams, no puckering, no wavy hems, a few natural soft folds. The ribbing must look clean, tight and even. No model, no hands, no text overlays, no watermark, no other brand logos. Centered with generous margin. 4:5 vertical.';
+const STUDIO = 'Shot like a real premium brand product page: medium format camera, f/8, one large softbox from the upper left, seamless warm light-grey paper backdrop, very soft contact shadow. Real garment, not a 3D render: visible cotton knit texture, crisp straight seams, no puckering, no wavy hems, a few natural soft folds. The ribbing must look clean, tight and even. No model, no hands, no text overlays, no watermark, no other brand logos. Centered with generous margin. 4:5 vertical.';
 
 const out = 'assets/gemini';
 rmSync(out, { recursive: true, force: true });
@@ -72,7 +74,7 @@ for (const p of products) {
   const c = p.colors[0];
   const tab = TAB_FOR[p.cat] || TAB;
   const [ref, logo] = MARK[MARK_OF[p.id]];
-  job(`${p.id}-0`, `${logo}Product photo of a ${SPEC[p.id]}, in ${c.name.toLowerCase()} (${c.hex}), with ${tab}. The garment color must be ${c.name.toLowerCase()} ${c.hex}. ${p.cat === 'pants' ? 'Front view, laid flat, shot from directly above.' : FLAT.has(p.cat) ? 'Laid flat, shot from directly above.' : TAILORED.has(p.cat) ? 'On a ghost mannequin, front view, buttoned.' : 'Ghost mannequin (invisible mannequin) front view.'} ${STUDIO}`, [ref]);
+  job(`${p.id}-0`, `${logo}Product photo of a ${SPEC[p.id]}, in ${c.name.toLowerCase()} (${c.hex}), with ${tab}. The garment color must be ${c.name.toLowerCase()} ${c.hex}. ${p.cat === 'pants' ? 'Front view, laid flat, shot from directly above.' : FLAT.has(p.cat) ? 'Laid flat, shot from directly above.' : TAILORED.has(p.cat) ? 'On a ghost mannequin, front view, buttoned.' : TOPLAY} ${STUDIO}`, [ref]);
 }
 
 const MODEL_SPEC = {

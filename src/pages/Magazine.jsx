@@ -2,16 +2,29 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { articles, byId } from '../data.js';
 import { Photo, ProductImage } from '../media.jsx';
+import { photo } from '../photos.js';
 
 const ISSUE = 'Issue 01';
 const CATS = ['All', ...new Set(articles.map((a) => a.kicker))];
+
+// Until a story has its own photograph, its cover is a still life of the clothes it talks about,
+// cut-out product photos arranged on the story's colour like a magazine opener.
+function Cover({ a, eager }) {
+  if (photo[`journal-${a.id}`]) return <Photo name={`journal-${a.id}`} alt={a.title} eager={eager} />;
+  const ids = a.shop.filter((pid) => photo[`${pid}-0`]).slice(0, 3);
+  return (
+    <div className={`still still-${ids.length}`} aria-hidden="true">
+      {ids.map((pid, k) => <img key={pid} src={photo[`${pid}-0`]} alt="" className={`still-i still-i${k}`} loading={eager ? 'eager' : 'lazy'} decoding="async" />)}
+    </div>
+  );
+}
 
 // Story card, modelled on print-magazine indexes: picture, category and issue, title, one-line dek.
 function Card({ a, lead }) {
   return (
     <Link to={`/magazine/${a.id}`} className={`jc ${lead ? 'jc-lead' : ''}`}>
       <div className="jc-img" style={{ background: a.tone }}>
-        <Photo name={`journal-${a.id}`} alt={a.title} fallback={null} />
+        <Cover a={a} />
       </div>
       <p className="jc-meta">{a.kicker} · {ISSUE}</p>
       <h2 className="jc-title">{a.title}</h2>
@@ -51,7 +64,7 @@ export function Article() {
     <article className="article">
       <figure className="art-hero">
         <div className="art-hero-img" style={{ background: a.tone }}>
-          <Photo name={`journal-${a.id}`} alt={a.title} eager fallback={null} />
+          <Cover a={a} eager />
         </div>
       </figure>
       <header className="art-head-in">
@@ -68,7 +81,7 @@ export function Article() {
       <div className="art-figs">
         {a.shop.slice(0, 2).map((pid) => (
           <figure key={pid}>
-            <Link to={`/product/${pid}`} className="art-fig-img"><ProductImage p={byId[pid]} /></Link>
+            <Link to={`/product/${pid}`} className="art-fig-img"><ProductImage p={byId[pid]} eager /></Link>
             <figcaption>{byId[pid].ko} — UNION {byId[pid].name}</figcaption>
           </figure>
         ))}
