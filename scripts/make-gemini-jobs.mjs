@@ -42,7 +42,7 @@ const SPEC = {
 const TOPLAY = 'Front view as a premium brand flat-lay product shot: the garment laid perfectly flat on the floor and shot from directly above, symmetrical, sleeves straight and relaxed along the sides, neckline lying flat, hem straight, smoothed by a professional stylist with only a few soft natural creases. No mannequin, no body volume, no hanger, no person.';
 const FLAT = new Set(['pants', 'shorts', 'cap', 'beanie', 'tote', 'socks']);
 const TAILORED = new Set(['blazer', 'coat']);
-const STUDIO = 'Shot like a real premium brand product page: medium format camera, f/8, one large softbox from the upper left, seamless warm light-grey paper backdrop, very soft contact shadow. Real garment, not a 3D render: visible cotton knit texture, crisp straight seams, no puckering, no wavy hems, a few natural soft folds. The ribbing must look clean, tight and even. No model, no hands, no text overlays, no watermark, no other brand logos. Centered with generous margin. 4:5 vertical.';
+const STUDIO = 'Shot like a real premium brand product page: medium format camera, f/8, one large softbox from the upper left, seamless warm light-grey paper backdrop, very soft contact shadow. Real luxury-brand garment, not a 3D render: premium dense heavyweight cotton with a smooth, slightly matte, expensive-looking surface and a heavy drape, visible fine knit texture, crisp straight seams, no puckering, no wavy hems, a few natural soft folds. The ribbing must look clean, tight and even. No model, no hands, no text overlays, no watermark, no other brand logos. Centered with generous margin. 4:5 vertical.';
 
 const out = 'assets/gemini';
 rmSync(out, { recursive: true, force: true });
