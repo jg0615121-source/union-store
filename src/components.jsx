@@ -23,7 +23,6 @@ export function ProductCard({ p, c = 0, rank }) {
   const acc = GROUP[p.cat] === 'acc';
   // Hover shows the second colourway when photographed, otherwise the back or the print.
   const alt = photo[`${p.id}-1`] ? <ProductImage p={p} c={1} /> : <Garment product={p} c={c} view={TOP.has(p.cat) ? 'back' : 'detail'} />;
-  const quick = (s) => { addToCart(p.id, c, s); setAdded(s); };
   return (
     <article className="pcard">
       <div className="pcard-media">
@@ -32,12 +31,7 @@ export function ProductCard({ p, c = 0, rank }) {
           <div className="pcard-b">{alt}</div>
         </Link>
         {rank && <span className="pcard-rank">{String(rank).padStart(2, '0')}</span>}
-        {p.isNew && !rank && <span className="tag">New</span>}
         <button className={`wish ${on ? 'on' : ''}`} onClick={() => toggleWish(p.id)} aria-pressed={on} aria-label={on ? '찜 해제' : '찜하기'}><Heart on={on} /></button>
-        <div className="quick" aria-label="바로 담기">
-          {acc ? <button onClick={() => quick('FREE')}>{added ? '담았어요' : '바로 담기'}</button>
-            : SIZES.map((s) => <button key={s} onClick={() => quick(s)} className={added === s ? 'on' : ''}>{s}</button>)}
-        </div>
       </div>
       <Link to={`/product/${p.id}`} className="pcard-meta">
         <span className="pcard-name">{p.name}</span>

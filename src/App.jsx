@@ -41,7 +41,6 @@ function Header() {
 
   return (
     <>
-      <div className="notice">5만원 이상 무료배송 · 첫 구매 10% 할인</div>
       <header className={`hdr ${over ? 'over' : ''}`}>
         <div className="hdr-in">
           <button className="menu-btn" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="메뉴">
@@ -132,7 +131,7 @@ function Footer() {
         </div>
         <nav aria-label="쇼핑">
           <h3>SHOP</h3>
-          <Link to="/shop">전체 상품</Link><Link to="/shop?sort=new">최신순</Link><Link to="/shop?sort=rank">랭킹</Link><Link to="/lookbook">룩북</Link>
+          <Link to="/shop">전체 상품</Link><Link to="/lookbook">룩북</Link>
         </nav>
         <nav aria-label="놀이">
           <h3>PLAY</h3>

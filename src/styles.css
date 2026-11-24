@@ -114,7 +114,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .hero-fallback { position: absolute; inset: 0; background: var(--night); }
 .hf-label { position: absolute; left: 50%; top: 50%; width: min(52vw, 620px); transform: translate(-50%, -50%); overflow: visible; transition: transform .6s var(--ease); }
 .hm-thread { stroke: #00A84D; stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.6s var(--ease) 2s forwards; }
-.hero.home-hero { height: calc(100svh - 30px + var(--hdr)); min-height: 560px; }
+.hero.home-hero { height: calc(100svh + var(--hdr)); min-height: 560px; }
 .home-hero .hero-fallback { background: radial-gradient(90% 70% at 50% 50%, #242423 0%, #161616 70%); }
 .hh-corner { position: absolute; bottom: 36px; font: 500 11px var(--mono); letter-spacing: .16em; color: rgba(236,236,234,.7); opacity: 0; animation: fadeup .8s var(--ease) 2.4s forwards; }
 .hh-left { left: var(--gut); }
@@ -586,7 +586,7 @@ legend span { color: var(--muted); }
 .play-tile:hover .pt-big { transform: scale(1.04); }
 .pt-t { display: flex; justify-content: space-between; font-size: clamp(16px, 1.4vw, 20px); letter-spacing: -0.02em; }
 /* fashion mbti */
-.mb-intro { background: #2D5E45; color: #ECECEA; min-height: calc(100svh - 30px - var(--hdr)); display: grid; align-items: center; }
+.mb-intro { background: #2D5E45; color: #ECECEA; min-height: calc(100svh - var(--hdr)); display: grid; align-items: center; }
 .mb-intro-in { padding-block: 72px; display: grid; gap: 28px; }
 .mb-intro .kicker { color: rgba(236,236,234,.7); }
 .mb-intro h1 { font-size: clamp(40px, 6vw, 88px); letter-spacing: -0.055em; }
@@ -645,7 +645,7 @@ button.mb-choice:hover { background: rgba(0,0,0,.3); }
 .chapter-outfit a { text-decoration: underline; text-underline-offset: 3px; }
 
 /* worldcup stage */
-.cup-stage { background: var(--night); color: #ECECEA; min-height: calc(100svh - 30px - var(--hdr)); }
+.cup-stage { background: var(--night); color: #ECECEA; min-height: calc(100svh - var(--hdr)); }
 .cup { padding-block: 48px 72px; }
 .cup-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 32px; }
 .cup-round { font: 800 clamp(64px, 9vw, 140px)/0.85 var(--display); font-stretch: 125%; letter-spacing: -0.05em; }

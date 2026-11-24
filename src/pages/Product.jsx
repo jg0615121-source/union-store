@@ -161,7 +161,6 @@ export default function Product() {
         </div>
 
         <div className="pinfo">
-          {p.isNew && <span className="tag static">NEW</span>}
           <h1>{p.name}</h1>
           <p className="pinfo-ko">{p.ko}</p>
           <p className="pinfo-price">{won(p.price)}</p>
