@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { CATS, DETAILS, GROUP, INFO_SCALE, SIZES, byId, won } from '../data.js';
 import { Photo, ProductImage } from '../media.jsx';
-import { photo } from '../photos.js';
+import { photo, shownColors } from '../photos.js';
 import { Grid, Heart } from '../components.jsx';
 import { useStore } from '../store.jsx';
 import { recommendSize } from '../sizing.js';
@@ -160,14 +160,13 @@ export default function Product() {
           <h1>{p.name}</h1>
           <p className="pinfo-ko">{p.ko}</p>
           <p className="pinfo-price">{won(p.price)}</p>
-          <p className="pinfo-story">{p.story}</p>
 
           <fieldset>
             <legend>색상 <span>{p.colors[c].name}</span></legend>
             <div className="colors">
-              {p.colors.map((col, i) => (
+              {shownColors(p).map((i) => p.colors[i]).map((col, k) => { const i = shownColors(p)[k]; return (
                 <button key={col.name} className={i === c ? 'on' : ''} style={{ '--sw': col.hex }} onClick={() => setC(i)} aria-label={col.name} aria-pressed={i === c} />
-              ))}
+              ); })}
             </div>
           </fieldset>
 
@@ -204,7 +203,6 @@ export default function Product() {
               <dl className="specs">
                 <div><dt>소재</dt><dd>{dt.fabric}</dd></div>
                 <div><dt>계절</dt><dd>{dt.season}</dd></div>
-                <div><dt>디테일</dt><dd>{dt.spec.join(' / ')}</dd></div>
                 {photo[`${p.id}-model-1`] && <div><dt>모델</dt><dd>{dt.models.map(([who, body, wear]) => <p key={who}>{who} {body} · {wear}</p>)}</dd></div>}
               </dl>
               <details className="pd-size">
