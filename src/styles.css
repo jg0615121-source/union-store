@@ -758,3 +758,9 @@ button.mb-choice:hover { background: rgba(0,0,0,.3); }
 .home-look { position: relative; display: block; height: 88svh; overflow: hidden; background: var(--night); }
 .home-look img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; }
 .home-look-cap { position: absolute; left: var(--gut); bottom: 28px; display: flex; gap: 12px; color: #F4F4F2; font: 500 12px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+/* Wide screens: show the portrait photo whole instead of blowing it up to full width. */
+@media (min-width: 900px) {
+  .home-look { height: auto; padding: 56px var(--gut); background: var(--bg); }
+  .home-look img { display: block; width: auto; max-width: 100%; height: 86svh; margin: 0 auto; }
+  .home-look-cap { color: var(--fg); bottom: 56px; }
+}
